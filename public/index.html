@@ -345,6 +345,71 @@
     }
     .rating-badge .stars { color: var(--spotlight-gold); }
 
+    .android-waitlist {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .android-waitlist-label {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+    .android-waitlist-form {
+      display: flex;
+      gap: 0.5rem;
+      max-width: 320px;
+    }
+    .android-waitlist-form input[type="email"] {
+      flex: 1;
+      padding: 0.6rem 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      font-size: 0.85rem;
+      font-family: inherit;
+      border-radius: 0;
+      min-width: 180px;
+    }
+    .android-waitlist-form input[type="email"]::placeholder {
+      color: var(--text-dim);
+    }
+    .android-waitlist-form input[type="email"]:focus {
+      outline: none;
+      border-color: var(--spotlight-gold);
+    }
+    .android-waitlist-form button {
+      padding: 0.6rem 1rem;
+      background: var(--spotlight-gold);
+      border: none;
+      color: var(--bg-deep);
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: inherit;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: background 0.3s;
+      white-space: nowrap;
+    }
+    .android-waitlist-form button:hover {
+      background: var(--spotlight-amber);
+    }
+    .android-waitlist-success {
+      font-size: 0.85rem;
+      color: var(--spotlight-gold);
+      display: none;
+    }
+    @media (max-width: 480px) {
+      .android-waitlist-form {
+        flex-direction: column;
+        width: 100%;
+      }
+      .android-waitlist-form input[type="email"] {
+        min-width: 100%;
+      }
+    }
+
     .hero-secondary {
       font-size: 0.85rem;
       color: var(--text-dim);
@@ -1144,7 +1209,14 @@
         <span class="stars">★★★★★</span>
         <span>4.8 · 47 reviews</span>
       </div>
-      <span class="hero-secondary">iOS only · Android coming soon</span>
+      <div class="android-waitlist">
+        <span class="android-waitlist-label">On Android? Join the waitlist:</span>
+        <form class="android-waitlist-form" id="android-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <input type="email" name="email" placeholder="your@email.com" required>
+          <button type="submit">Notify Me</button>
+        </form>
+        <span class="android-waitlist-success" id="android-success">You're on the list!</span>
+      </div>
     </div>
     <div class="scroll-indicator">
       <span>Scroll</span>
@@ -1566,6 +1638,28 @@
           selectTab(tabs[newIndex]);
         }
       });
+    });
+
+    // Android waitlist form handler
+    const androidForm = document.getElementById('android-form');
+    const androidSuccess = document.getElementById('android-success');
+    
+    androidForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(androidForm);
+      
+      try {
+        await fetch(androidForm.action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+        androidForm.style.display = 'none';
+        androidSuccess.style.display = 'block';
+      } catch (error) {
+        // Fallback: submit normally
+        androidForm.submit();
+      }
     });
   </script>
 
