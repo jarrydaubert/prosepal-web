@@ -7,6 +7,11 @@ const { SITE_URL } = require("./lib/metadata");
 const ROOT_DIR = path.join(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT_DIR, "public");
 
+/**
+ * Recursively collect all HTML files under the given directory.
+ * @param {string} dir
+ * @returns {string[]}
+ */
 function getHtmlFiles(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   const files = [];
@@ -26,10 +31,20 @@ function getHtmlFiles(dir) {
   return files;
 }
 
+/**
+ * Convert an absolute file path to a path relative to `public/`.
+ * @param {string} filePath
+ * @returns {string}
+ */
 function relativeToPublic(filePath) {
   return filePath.replace(`${PUBLIC_DIR}${path.sep}`, "").split(path.sep).join("/");
 }
 
+/**
+ * Normalize an HTML file path to a canonical URL pathname.
+ * @param {string} relativePath
+ * @returns {string}
+ */
 function htmlToUrlPath(relativePath) {
   if (relativePath === "index.html") return "/";
   if (relativePath.endsWith("/index.html")) {
@@ -38,11 +53,22 @@ function htmlToUrlPath(relativePath) {
   return `/${relativePath}`;
 }
 
+/**
+ * Count regex matches in a string.
+ * @param {string} text
+ * @param {RegExp} regex
+ * @returns {number}
+ */
 function countMatches(text, regex) {
   const matches = text.match(regex);
   return matches ? matches.length : 0;
 }
 
+/**
+ * Check whether a URL path maps to an existing static file or index route.
+ * @param {string} webPath
+ * @returns {boolean}
+ */
 function pathExistsFromWebPath(webPath) {
   const clean = webPath.split("?")[0].split("#")[0];
   const asPath = clean.startsWith("/") ? clean.slice(1) : clean;
@@ -52,6 +78,13 @@ function pathExistsFromWebPath(webPath) {
   return candidates.some((candidate) => fs.existsSync(candidate));
 }
 
+/**
+ * Validate title, description, and canonical tags per page.
+ * @param {string} filePath
+ * @param {string} html
+ * @param {string[]} errors
+ * @returns {void}
+ */
 function validatePageMeta(filePath, html, errors) {
   const rel = relativeToPublic(filePath);
   const titleCount = countMatches(html, /<title>/gi);
@@ -74,6 +107,13 @@ function validatePageMeta(filePath, html, errors) {
   }
 }
 
+/**
+ * Validate Open Graph/Twitter image metadata points to existing files.
+ * @param {string} filePath
+ * @param {string} html
+ * @param {string[]} errors
+ * @returns {void}
+ */
 function validateImageMeta(filePath, html, errors) {
   const rel = relativeToPublic(filePath);
   const imageMetaMatches = [
@@ -94,6 +134,13 @@ function validateImageMeta(filePath, html, errors) {
   }
 }
 
+/**
+ * Validate local link and asset references resolve within the static site.
+ * @param {string} filePath
+ * @param {string} html
+ * @param {string[]} errors
+ * @returns {void}
+ */
 function validateLinks(filePath, html, errors) {
   const rel = relativeToPublic(filePath);
   const matches = [...html.matchAll(/(?:href|src)="([^"]+)"/gi)];
@@ -124,6 +171,13 @@ function validateLinks(filePath, html, errors) {
   }
 }
 
+/**
+ * Validate pages avoid executable inline JS/CSS and inline style attributes.
+ * @param {string} filePath
+ * @param {string} html
+ * @param {string[]} errors
+ * @returns {void}
+ */
 function validateInlineCode(filePath, html, errors) {
   const rel = relativeToPublic(filePath);
 
@@ -145,6 +199,10 @@ function validateInlineCode(filePath, html, errors) {
   }
 }
 
+/**
+ * Read URL list from generated sitemap.
+ * @returns {string[]}
+ */
 function parseSitemap() {
   const sitemapPath = path.join(PUBLIC_DIR, "sitemap.xml");
   if (!fs.existsSync(sitemapPath)) {
@@ -155,6 +213,12 @@ function parseSitemap() {
   return [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 }
 
+/**
+ * Determine whether an HTML file should be indexable in sitemap.
+ * @param {string} html
+ * @param {string} relativePath
+ * @returns {boolean}
+ */
 function isIndexable(html, relativePath) {
   if (relativePath === "404.html") {
     return false;
@@ -163,6 +227,12 @@ function isIndexable(html, relativePath) {
   return !/<meta\s+name="robots"\s+content="[^">]*noindex/i.test(html);
 }
 
+/**
+ * Validate sitemap contains all indexable pages and no non-indexable pages.
+ * @param {string[]} htmlFiles
+ * @param {string[]} errors
+ * @returns {void}
+ */
 function validateSitemapCoverage(htmlFiles, errors) {
   const sitemapUrls = new Set(parseSitemap());
   const expectedUrls = new Set();
@@ -192,6 +262,10 @@ function validateSitemapCoverage(htmlFiles, errors) {
   }
 }
 
+/**
+ * Execute all static HTML and sitemap validations.
+ * @returns {void}
+ */
 function main() {
   const errors = [];
   const htmlFiles = getHtmlFiles(PUBLIC_DIR);

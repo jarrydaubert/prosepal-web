@@ -24,7 +24,7 @@
     "deploy:prod": "bun run check && bun run vercel:check-link && vercel --prod --yes"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.11",
+    "@biomejs/biome": "^2.4.4",
     "serve": "^14.2.5"
   }
 }

@@ -83,17 +83,6 @@ When reporting completion, include:
 3. Pass/fail result summary.
 4. Remaining risks or follow-up backlog IDs (if any).
 
-## Required local quality flow
-
-Run these before shipping:
-
-```bash
-bun run lint
-bun run test:artifacts
-bun run validate
-bun run check
-```
-
 `check` already includes:
 
 1. SEO artifact generation.
@@ -203,6 +192,7 @@ Keep these docs current:
 3. `docs/WEB_REDESIGN_EXECUTION.md` should track active standards and Definition of Done.
 4. `docs/guides/DEPLOYMENT.md` should match current Vercel/Cloudflare deployment reality.
 5. `docs/guides/CI.md` should match current GitHub Actions + Dependabot behavior.
+6. `docs/guides/AUTOMATION.md` should reflect what is automated vs still manual.
 
 ## Slash Commands
 

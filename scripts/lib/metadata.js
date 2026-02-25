@@ -2,6 +2,12 @@ const SITE_URL = "https://www.prosepal.app";
 const SITE_NAME = "Prosepal";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
+/**
+ * Convert a site-relative path to an absolute URL for metadata.
+ * Pass-through for already-absolute URLs.
+ * @param {string} pathname
+ * @returns {string}
+ */
 function toAbsoluteUrl(pathname) {
   if (!pathname) return SITE_URL;
   if (pathname.startsWith("http://") || pathname.startsWith("https://")) {
@@ -12,6 +18,11 @@ function toAbsoluteUrl(pathname) {
   return `${SITE_URL}${normalized}`;
 }
 
+/**
+ * Ensure page titles consistently include the site name suffix.
+ * @param {string} title
+ * @returns {string}
+ */
 function formatTitle(title) {
   if (!title) {
     return SITE_NAME;
@@ -24,6 +35,43 @@ function formatTitle(title) {
   return `${title} | ${SITE_NAME}`;
 }
 
+/**
+ * Build canonical, Open Graph, and Twitter metadata fields from one input object.
+ * @param {{
+ *   title: string,
+ *   description: string,
+ *   pathname?: string,
+ *   type?: string,
+ *   image?: string,
+ *   robots?: string,
+ *   twitterCard?: string
+ * }} options
+ * @returns {{
+ *   title: string,
+ *   description: string,
+ *   canonical: string,
+ *   robots: string,
+ *   openGraph: {
+ *     title: string,
+ *     description: string,
+ *     type: string,
+ *     url: string,
+ *     image: string,
+ *     imageWidth: number,
+ *     imageHeight: number,
+ *     imageAlt: string,
+ *     siteName: string,
+ *     locale: string
+ *   },
+ *   twitter: {
+ *     card: string,
+ *     title: string,
+ *     description: string,
+ *     image: string,
+ *     imageAlt: string
+ *   }
+ * }}
+ */
 function buildMetadata(options) {
   const {
     title,
