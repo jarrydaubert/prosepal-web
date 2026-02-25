@@ -13,7 +13,10 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.prosepal.app">
   <meta property="og:image" content="https://www.prosepal.app/logo.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Prosepal">
+  <meta property="og:locale" content="en_US">
   
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -35,6 +38,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.producthunt.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   
   <!-- Structured Data: Organization -->
@@ -585,6 +589,13 @@
       font-size: 0.9rem;
       cursor: pointer;
       transition: all 0.3s;
+      background: none;
+      border-right: none;
+      border-top: none;
+      border-bottom: none;
+      text-align: left;
+      width: 100%;
+      font-family: inherit;
     }
 
     .showcase-nav-item:hover {
@@ -1073,7 +1084,7 @@
   <div class="grain"></div>
 
   <!-- Navigation -->
-  <nav class="nav">
+  <nav class="nav" aria-label="Main navigation">
     <a href="/" class="nav-logo">Prosepal</a>
     <div class="nav-links">
       <a href="#features">Features</a>
@@ -1180,13 +1191,13 @@
             <div></div>
           </div>
           <div class="showcase-body">
-            <div class="showcase-sidebar" id="showcase-categories">
+            <div class="showcase-sidebar" id="showcase-categories" role="tablist" aria-label="Message categories">
               <div class="showcase-nav-label">Categories</div>
-              <div class="showcase-nav-item active" data-category="birthday">Birthday</div>
-              <div class="showcase-nav-item" data-category="anniversary">Anniversary</div>
-              <div class="showcase-nav-item" data-category="thankyou">Thank You</div>
-              <div class="showcase-nav-item" data-category="sympathy">Sympathy</div>
-              <div class="showcase-nav-item" data-category="congrats">Congratulations</div>
+              <button class="showcase-nav-item active" data-category="birthday" role="tab" tabindex="0" aria-selected="true">Birthday</button>
+              <button class="showcase-nav-item" data-category="anniversary" role="tab" tabindex="-1" aria-selected="false">Anniversary</button>
+              <button class="showcase-nav-item" data-category="thankyou" role="tab" tabindex="-1" aria-selected="false">Thank You</button>
+              <button class="showcase-nav-item" data-category="sympathy" role="tab" tabindex="-1" aria-selected="false">Sympathy</button>
+              <button class="showcase-nav-item" data-category="congrats" role="tab" tabindex="-1" aria-selected="false">Congratulations</button>
             </div>
             <div class="showcase-main">
               <div class="showcase-input-area">
@@ -1282,10 +1293,10 @@
       <table class="comparison-table">
         <thead>
           <tr>
-            <th>What you get</th>
-            <th>ChatGPT</th>
-            <th>Google</th>
-            <th>Prosepal</th>
+            <th scope="col">What you get</th>
+            <th scope="col">ChatGPT</th>
+            <th scope="col">Google</th>
+            <th scope="col">Prosepal</th>
           </tr>
         </thead>
         <tbody>
@@ -1444,7 +1455,7 @@
         <a href="/support.html">Support</a>
       </div>
       <a href="https://www.producthunt.com/posts/prosepal?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-prosepal" class="launch-badge" target="_blank" rel="noopener">
-        <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1063912&theme=light&t=1768594524815" alt="Prosepal on Product Hunt" style="height: 40px;">
+        <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1063912&theme=light&t=1768594524815" alt="Prosepal on Product Hunt" style="height: 40px;" loading="lazy">
       </a>
       <div class="footer-copy">© 2026 Prosepal</div>
     </div>
@@ -1475,16 +1486,38 @@
       }
     };
 
-    document.querySelectorAll('.showcase-nav-item').forEach(item => {
-      item.addEventListener('click', () => {
-        document.querySelectorAll('.showcase-nav-item').forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-        
-        const category = item.dataset.category;
-        const data = showcaseData[category];
-        
-        document.getElementById('showcase-input').textContent = data.input;
-        document.getElementById('showcase-output').innerHTML = data.output;
+    const tabs = document.querySelectorAll('.showcase-nav-item');
+    
+    function selectTab(tab) {
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+        t.setAttribute('tabindex', '-1');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      tab.setAttribute('tabindex', '0');
+      tab.focus();
+      
+      const category = tab.dataset.category;
+      const data = showcaseData[category];
+      document.getElementById('showcase-input').textContent = data.input;
+      document.getElementById('showcase-output').innerHTML = data.output;
+    }
+    
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectTab(tab));
+      tab.addEventListener('keydown', (e) => {
+        let newIndex;
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          newIndex = (index + 1) % tabs.length;
+          selectTab(tabs[newIndex]);
+        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          newIndex = (index - 1 + tabs.length) % tabs.length;
+          selectTab(tabs[newIndex]);
+        }
       });
     });
   </script>

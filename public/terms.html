@@ -30,8 +30,12 @@
   <!-- Preload logo -->
   <link rel="preload" href="/logo.png" as="image">
   
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
   <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
 
     :root {
       --bg-deep: #050505;
@@ -68,6 +72,16 @@
     a:hover { color: var(--spotlight-warm); }
     a:focus-visible { outline: 2px solid var(--spotlight-gold); outline-offset: 2px; }
 
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      z-index: 999;
+      padding: 1rem;
+      background: var(--spotlight-gold);
+      color: var(--bg-deep);
+    }
+    .skip-link:focus { left: 50%; transform: translateX(-50%); top: 0; }
+
     .grain {
       position: fixed;
       inset: 0;
@@ -77,35 +91,65 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     }
     
-    .header {
-      background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95) 0%, rgba(5, 5, 5, 0.8) 100%);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 0.875rem 1rem;
-      position: sticky;
+    /* Navigation */
+    .nav {
+      position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
-    }
-    
-    .header-content {
-      max-width: 720px;
-      margin: 0 auto;
+      padding: 1.25rem 2rem;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-    }
-    
-    .header-brand {
-      display: flex;
       align-items: center;
-      gap: 0.75rem;
-      color: var(--text-primary);
+      background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95) 0%, transparent 100%);
+    }
+
+    .nav-logo {
       font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
       font-weight: 500;
-      font-size: 1.2rem;
-      min-height: 44px;
+      color: var(--text-primary);
       letter-spacing: 0.02em;
+    }
+
+    .nav-logo:hover { color: var(--text-primary); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+
+    .nav-cta {
+      padding: 0.6rem 1.5rem;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-primary);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: all 0.3s;
+    }
+
+    .nav-cta:hover {
+      background: var(--text-primary);
+      color: var(--bg-deep);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav { padding: 1rem 1.25rem; }
     }
     
     .header-brand:hover { color: var(--text-primary); }
@@ -294,6 +338,7 @@
   </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
   <div class="grain"></div>
 
     <!-- Navigation -->
@@ -308,7 +353,7 @@
     <a href="https://apps.apple.com/app/prosepal/id6757088726" class="nav-cta">Get the App</a>
   </nav>
 
-  <main class="container">
+  <main class="container" id="main-content">
     <h1>Terms of Use</h1>
     <p class="updated">Last updated: January 9, 2026</p>
 
