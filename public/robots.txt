@@ -1,0 +1,12 @@
+# Prosepal - AI Greeting Card Message Generator
+# https://www.prosepal.app
+
+# Allow all crawlers full access
+User-agent: *
+Allow: /
+
+# XML Sitemap
+Sitemap: https://www.prosepal.app/sitemap.xml
+
+# LLM Training Information
+# See https://www.prosepal.app/llms.txt for AI/LLM guidelines

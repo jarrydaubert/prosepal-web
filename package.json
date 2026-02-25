@@ -1,0 +1,17 @@
+{
+  "name": "prosepal-web",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "bunx serve public -l 3000",
+    "build": "echo 'Static site - no build needed'",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "validate": "echo 'HTML validation would go here'"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.11",
+    "serve": "^14.2.5"
+  }
+}

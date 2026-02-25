@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "YZK42GTX8N.com.prosepal.prosepal",
+        "paths": ["/auth/*", "/login-callback", "/reset-password"]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["YZK42GTX8N.com.prosepal.prosepal"]
+  }
+}

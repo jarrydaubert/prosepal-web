@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+bun.lock
+
+# Vercel
+.vercel/
+
+# OS
+.DS_Store
