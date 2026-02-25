@@ -33,6 +33,18 @@ bun run check
 
 `check` includes generation, linting, metadata tests, SEO artifact tests, validation, and style audit thresholds.
 
+Release QA spot-checks (production metadata/schema):
+
+```bash
+bun run release:qa
+```
+
+Prepare semantic release notes:
+
+```bash
+bun run release:prepare -- vX.Y.Z
+```
+
 ## Automation
 
 Ops and DevOps process (single source):
