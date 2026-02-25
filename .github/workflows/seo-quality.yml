@@ -14,6 +14,10 @@ on:
       - "vercel.json"
       - "AGENTS.md"
       - "CLAUDE.md"
+      - "README.md"
+      - "LICENSE"
+      - "SECURITY.md"
+      - ".github/**"
       - ".github/workflows/seo-quality.yml"
   push:
     branches:
@@ -29,6 +33,10 @@ on:
       - "vercel.json"
       - "AGENTS.md"
       - "CLAUDE.md"
+      - "README.md"
+      - "LICENSE"
+      - "SECURITY.md"
+      - ".github/**"
       - ".github/workflows/seo-quality.yml"
 
 concurrency:
