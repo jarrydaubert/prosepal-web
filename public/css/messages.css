@@ -49,50 +49,50 @@ a:focus-visible { outline: 2px solid var(--spotlight-gold); outline-offset: 2px;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
-/* Header */
-.site-header {
-  background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95) 0%, rgba(5, 5, 5, 0.8) 100%);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border-subtle);
-  padding: 1rem 1.5rem;
-  position: sticky;
+/* Navigation */
+.nav {
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
-}
-
-.header-content {
-  max-width: 800px;
-  margin: 0 auto;
+  padding: 1.25rem 2rem;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95) 0%, transparent 100%);
 }
 
-.header-brand {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: var(--text-primary);
+.nav-logo {
   font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
   font-weight: 500;
-  font-size: 1.2rem;
-  text-decoration: none;
+  color: var(--text-primary);
   letter-spacing: 0.02em;
 }
 
-.header-brand:hover { color: var(--text-primary); }
+.nav-logo:hover { color: var(--text-primary); }
 
-.header-brand img {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
 }
 
-.header-cta {
+.nav-links a {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.nav-links a:hover { color: var(--text-primary); }
+
+.nav-cta {
+  padding: 0.6rem 1.5rem;
   background: transparent;
-  color: var(--text-primary);
-  padding: 0.6rem 1.25rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
   font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.05em;
@@ -100,16 +100,21 @@ a:focus-visible { outline: 2px solid var(--spotlight-gold); outline-offset: 2px;
   transition: all 0.3s;
 }
 
-.header-cta:hover {
+.nav-cta:hover {
   background: var(--text-primary);
   color: var(--bg-deep);
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav { padding: 1rem 1.25rem; }
 }
 
 /* Article */
 .article {
   max-width: 800px;
   margin: 0 auto;
-  padding: 4rem 1.5rem;
+  padding: 6rem 1.5rem 4rem;
   position: relative;
   z-index: 1;
 }
