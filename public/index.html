@@ -1078,6 +1078,26 @@
       .agitate-item { flex-direction: column; text-align: center; }
       .footer-content { flex-direction: column; gap: 1.5rem; text-align: center; }
       .footer-links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+      .spotlight { filter: blur(40px); }
+      .spotlight-main { width: 400px; height: 400px; }
+      .spotlight-accent { width: 200px; height: 200px; }
+      .nav-cta { padding: 0.75rem 1.25rem; }
+    }
+
+    /* Reduced motion for accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    /* Table scroll wrapper */
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
   </style>
 </head>
@@ -1109,7 +1129,7 @@
     <p class="hero-tagline">You know exactly how you feel. You just can't find the words. Get 3 heartfelt messages in seconds — ready to write in any card.</p>
     <div class="hero-cta">
       <a href="https://apps.apple.com/app/prosepal/id6757088726" class="store-badge">
-        <img src="/app-store-badge.svg" alt="Download on the App Store">
+        <img src="/app-store-badge.svg" alt="Download on the App Store" width="120" height="40">
       </a>
       <span class="hero-secondary">Android coming soon</span>
     </div>
@@ -1297,48 +1317,50 @@
         <h2 class="section-title">vs. ChatGPT & Google</h2>
         <p class="section-subtitle">Purpose-built for greeting cards, not generic text generation</p>
       </div>
-      <table class="comparison-table">
-        <thead>
-          <tr>
-            <th scope="col">What you get</th>
-            <th scope="col">ChatGPT</th>
-            <th scope="col">Google</th>
-            <th scope="col">Prosepal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Messages that sound like you wrote them</td>
-            <td>Maybe</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Usable in the card aisle</td>
-            <td><span class="cross">✗</span></td>
-            <td>Awkward</td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Pick from options (stay in control)</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Knows boss vs. mom vs. acquaintance</td>
-            <td>If you explain it</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Done before you finish reading the card</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-wrapper">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th scope="col">What you get</th>
+              <th scope="col">ChatGPT</th>
+              <th scope="col">Google</th>
+              <th scope="col">Prosepal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Messages that sound like you wrote them</td>
+              <td>Maybe</td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Usable in the card aisle</td>
+              <td><span class="cross">✗</span></td>
+              <td>Awkward</td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Pick from options (stay in control)</td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Knows boss vs. mom vs. acquaintance</td>
+              <td>If you explain it</td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+            <tr>
+              <td>Done before you finish reading the card</td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="cross">✗</span></td>
+              <td><span class="check">✓</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <!-- Use Cases -->
@@ -1444,7 +1466,7 @@
       <p>No signup required. No credit card. Just pick your occasion and get 3 messages instantly.</p>
       <div class="cta-badges">
         <a href="https://apps.apple.com/app/prosepal/id6757088726" class="store-badge">
-          <img src="/app-store-badge.svg" alt="Download on the App Store">
+          <img src="/app-store-badge.svg" alt="Download on the App Store" width="120" height="40">
         </a>
       </div>
     </section>
