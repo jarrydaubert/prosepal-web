@@ -16,6 +16,10 @@ This folder holds execution and quality docs for the web project.
    - TODO-only backlog with explicit Definition of Done per item.
 6. `guides/OPS_RUNBOOK.md`
    - Single source of truth for DevOps, CI/CD, release operations, and monthly ops review.
+7. `evidence/`
+   - Latest release QA spot-check outputs for social preview and schema.
+8. `releases/`
+   - Versioned release notes files.
 
 ## Working rule
 

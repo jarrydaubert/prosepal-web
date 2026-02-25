@@ -17,11 +17,15 @@
     "audit:styles:strict": "node scripts/audit-styles.js --fail-on-thresholds --show-thresholds",
     "test:metadata": "node scripts/test-metadata.js",
     "test:artifacts": "node scripts/test-seo-artifacts.js",
+    "validate:social:prod": "node scripts/validate-social-preview.js",
+    "validate:schema:prod": "node scripts/validate-schema-spotcheck.js",
+    "release:qa": "bun run validate:social:prod && bun run validate:schema:prod",
+    "release:prepare": "node scripts/prepare-release-notes.js",
     "validate": "node scripts/validate-site.js",
     "check": "bun run generate:site && bun run lint && bun run test:metadata && bun run test:artifacts && bun run validate && bun run audit:styles:strict",
     "vercel:check-link": "node scripts/check-vercel-project.js",
     "deploy:preview": "bun run vercel:check-link && vercel",
-    "deploy:prod": "bun run check && bun run vercel:check-link && vercel --prod --yes"
+    "deploy:prod": "bun run check && bun run vercel:check-link && node scripts/enforce-prod-deploy-policy.js && vercel --prod --yes"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.4",

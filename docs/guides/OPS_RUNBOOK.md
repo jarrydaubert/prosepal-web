@@ -32,7 +32,13 @@ bun run check
 bun run vercel:check-link
 ```
 
-3. Use approved production deployment path (defined by `WEB-P0-4` backlog item).
+3. Production policy:
+   - default: Git-based release flow (merge to `main`)
+   - local CLI production deploy is blocked unless owner emergency override is explicit:
+
+```bash
+ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
+```
 
 ## 4) CI/CD Controls
 
@@ -59,8 +65,31 @@ bun run vercel:check-link
 
 1. `bun run check` passes.
 2. Required PR checks pass on GitHub.
-3. Schema/social/Lighthouse checks are completed when required by backlog.
-4. Release tag + release notes are published (once `WEB-P0-3` is complete).
+3. Production preview metadata checks pass:
+
+```bash
+bun run release:qa
+```
+
+Evidence files are written to:
+
+1. `docs/evidence/social-preview-validation.md`
+2. `docs/evidence/schema-spotcheck.md`
+
+4. Prepare release notes:
+
+```bash
+bun run release:prepare -- vX.Y.Z
+```
+
+5. Create and push semantic tag:
+
+```bash
+git tag -a vX.Y.Z -m "Release vX.Y.Z"
+git push origin vX.Y.Z
+```
+
+Release note files live in `docs/releases/` (for example `docs/releases/v1.0.0.md`).
 
 ## 7) Monthly Ops Review
 
