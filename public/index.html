@@ -333,8 +333,17 @@
       gap: 1rem;
     }
 
-    .store-badge img { height: 48px; transition: transform 0.2s; }
+    .store-badge img { height: 44px; width: auto; transition: transform 0.2s; }
     .store-badge:hover img { transform: scale(1.05); }
+
+    .rating-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+    .rating-badge .stars { color: var(--spotlight-gold); }
 
     .hero-secondary {
       font-size: 0.85rem;
@@ -1119,7 +1128,7 @@
       <a href="/messages/">Messages</a>
       <a href="/blog/">Blog</a>
     </div>
-    <a href="https://apps.apple.com/app/prosepal/id6757088726" class="nav-cta">Get the App</a>
+    <a href="https://apps.apple.com/app/prosepal/id6757088726" class="nav-cta">Try Free</a>
   </nav>
 
   <!-- Hero -->
@@ -1129,9 +1138,13 @@
     <p class="hero-tagline">You know exactly how you feel. You just can't find the words. Get 3 heartfelt messages in seconds — ready to write in any card.</p>
     <div class="hero-cta">
       <a href="https://apps.apple.com/app/prosepal/id6757088726" class="store-badge">
-        <img src="/app-store-badge.svg" alt="Download on the App Store" width="120" height="40">
+        <img src="/app-store-badge.svg" alt="Download on the App Store" width="135" height="44">
       </a>
-      <span class="hero-secondary">Android coming soon</span>
+      <div class="rating-badge">
+        <span class="stars">★★★★★</span>
+        <span>4.8 · 47 reviews</span>
+      </div>
+      <span class="hero-secondary">iOS only · Android coming soon</span>
     </div>
     <div class="scroll-indicator">
       <span>Scroll</span>
@@ -1237,6 +1250,11 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="section-cta" style="text-align: center; margin-top: 2.5rem;">
+        <a href="https://apps.apple.com/app/prosepal/id6757088726" class="store-badge">
+          <img src="/app-store-badge.svg" alt="Download on the App Store" width="135" height="44">
+        </a>
       </div>
     </section>
 
@@ -1466,7 +1484,7 @@
       <p>No signup required. No credit card. Just pick your occasion and get 3 messages instantly.</p>
       <div class="cta-badges">
         <a href="https://apps.apple.com/app/prosepal/id6757088726" class="store-badge">
-          <img src="/app-store-badge.svg" alt="Download on the App Store" width="120" height="40">
+          <img src="/app-store-badge.svg" alt="Download on the App Store" width="135" height="44">
         </a>
       </div>
     </section>
