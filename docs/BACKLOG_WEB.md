@@ -1,63 +1,18 @@
-# Prosepal Web Backlog
+# Prosepal Web Backlog (TODO Only)
 
-Goal: maximize SEO and organic traffic for the landing page and supporting content hubs.
-Last updated: 2026-02-25.
-Execution reference: `docs/WEB_REDESIGN_EXECUTION.md`.
+This backlog contains open work only.
+Every row must define a clear, testable Definition of Done.
 
-This is the only live backlog for `prosepal-web`. Each active item must have:
-- a clear next step,
-- a measurable done condition,
-- one owner (assign when picked up).
-
----
-
-## P0 - Do Now
-
-| ID | Work Item | Next Step | Done When |
+| ID | Priority | TODO | Definition Of Done |
 | --- | --- | --- | --- |
-| `WEB-P0-1` | Social preview validation on production | Run homepage + one blog URL through Facebook Sharing Debugger and Twitter Card Validator. Capture pass/fail notes in docs. | Production social cards are confirmed valid for both tools and any mismatches are fixed. |
-| `WEB-P0-2` | Schema validation in release QA | Add a repeatable release step for Rich Results/schema.org validation on homepage + one blog + one message page. | Release checklist includes schema validation with recorded pass evidence. |
-| `WEB-P0-3` | First formal tagged release process | Define initial semantic version (`v1.0.0` or agreed alternative), create a release checklist entry for tag + release notes, and execute it on the next production-ready merge. | Next production release ships with a Git tag and GitHub Release notes linked to the merged PR scope. |
-| `WEB-P0-4` | Production deploy governance lock | Decide and enforce production deploy source of truth (Git merge only vs CLI allowed for owner-only emergency). Update scripts/docs to reflect policy. | Production deploy path is unambiguous, documented, and technically enforced (no accidental alternate route). |
-
-## P1 - Next
-
-| ID | Work Item | Next Step | Done When |
-| --- | --- | --- | --- |
-| `WEB-P1-1` | Accessibility manual regression pass | Run keyboard/focus/manual checks across homepage, messages hub, blog hub, and legal pages. Log findings and fixes. | No unresolved critical accessibility issues remain on core pages. |
-| `WEB-P1-2` | Lighthouse budget enforcement | Define mobile SEO/performance thresholds and add a local repeatable command/workflow for budget checks. | Budget run exists and is part of release QA with documented thresholds. |
-| `WEB-P1-3` | Canonical redirect expansion policy | Document when future campaign/alt routes require canonical redirects and add rules for current known variants if any exist. | Canonical redirect policy exists and active alternate routes comply. |
-| `WEB-P1-4` | Repository licensing decision | Decide license strategy (none/proprietary notice vs OSS license), record rationale, and apply chosen license file with matching README language. | Repository has an explicit licensing posture documented and enforced by committed `LICENSE` (if open) or clear proprietary notice. |
-| `WEB-P1-5` | GitHub ruleset and Actions policy drift audit | Add a monthly verification checklist for branch ruleset, required checks, Actions allowlist, fork-approval policy, and workflow token scope. | Monthly audit step exists and settings drift is caught before release. |
-| `WEB-P1-6` | CI usage budget and retention tuning | Document baseline run duration/cost profile, set artifact/log retention targets, and monitor regressions. | CI minutes/storage remain predictable and no avoidable usage spikes occur. |
-
-## P2 - Later
-
-| ID | Work Item | Next Step | Done When |
-| --- | --- | --- | --- |
-| `WEB-P2-1` | Verified social proof rollout | Replace placeholder social proof with verified testimonials and source notes. | Live site displays verified testimonials only. |
-| `WEB-P2-2` | Aggregate rating readiness | Define minimum review-volume/verification criteria and update schema only after criteria are met. | `aggregateRating` is added with auditable real review data. |
-
----
-
-## Completed Milestones Snapshot
-
-| ID | Milestone | Status |
-| --- | --- | --- |
-| `WEB-DONE-1` | Metadata pipeline + tests (`scripts/lib/metadata.js`, `scripts/test-metadata.js`) | Complete |
-| `WEB-DONE-2` | Automated sitemap/robots/llms generation with artifact integrity tests | Complete |
-| `WEB-DONE-3` | Indexability-aware sitemap generation (`noindex` exclusion) | Complete |
-| `WEB-DONE-4` | Crawler policy expansion (search/indexing vs training bots) | Complete |
-| `WEB-DONE-5` | Style drift audit integrated into `bun run check` | Complete |
-| `WEB-DONE-6` | Vercel project-link guard + deploy scripts (`vercel:check-link`, `deploy:prod`) | Complete |
-| `WEB-DONE-7` | GitHub public-repo CI optimization (path filters, concurrency, timeout, minimal permissions) | Complete |
-
----
-
-## Release QA Minimum (Local)
-
-- `bun run check`
-- `bun run test:artifacts`
-- Schema validation spot-check (pending `WEB-P0-2`)
-- Lighthouse mobile budget check (pending `WEB-P1-2`)
-- Release tagging + GitHub Release notes linkage (pending `WEB-P0-3`)
+| `WEB-P0-1` | P0 | Validate social preview cards on production | Homepage and one blog URL pass Facebook Sharing Debugger and Twitter Card validation; any mismatch is fixed. |
+| `WEB-P0-2` | P0 | Add schema validation to release QA | Release process includes repeatable Rich Results/schema validation for homepage, one blog page, and one message page with recorded evidence. |
+| `WEB-P0-3` | P0 | Ship first formal tagged release | Next production release is published with a semantic Git tag and matching GitHub Release notes. |
+| `WEB-P0-4` | P0 | Lock production deploy governance | One production deploy path is documented and enforced (Git-only or explicit owner-only exception). |
+| `WEB-P1-1` | P1 | Run accessibility manual regression | Keyboard/focus/manual checks are completed on homepage, messages hub, blog hub, and legal pages with no unresolved critical issues. |
+| `WEB-P1-2` | P1 | Enforce Lighthouse budgets | Mobile SEO/performance thresholds are documented and checked by a repeatable command/workflow in release QA. |
+| `WEB-P1-3` | P1 | Define canonical redirect policy | Canonical redirect rules are documented and current alternate routes comply. |
+| `WEB-P1-5` | P1 | Add monthly GitHub policy drift audit | Monthly checklist verifies ruleset checks, Actions allowlist, fork policy, and token permissions. |
+| `WEB-P1-6` | P1 | Tune CI usage budget | CI runtime/storage baseline is documented with retention targets and periodic usage review. |
+| `WEB-P2-1` | P2 | Roll out verified social proof | Placeholder social proof is replaced by verified testimonials with source notes. |
+| `WEB-P2-2` | P2 | Re-introduce aggregate rating only when ready | `aggregateRating` schema is added only after defined review-volume/verification criteria are met with auditable data. |

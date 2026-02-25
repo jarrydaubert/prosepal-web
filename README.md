@@ -35,11 +35,9 @@ bun run check
 
 ## Automation
 
-CI/CD and governance details:
+Ops and DevOps process (single source):
 
-- `docs/guides/AUTOMATION.md`
-- `docs/guides/CI.md`
-- `docs/guides/DEPLOYMENT.md`
+- `docs/guides/OPS_RUNBOOK.md`
 
 ## Contribution flow
 

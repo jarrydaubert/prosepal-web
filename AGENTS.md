@@ -188,11 +188,9 @@ Local project customization skill:
 Keep these docs current:
 
 1. `CLAUDE.md` should stay minimal and evergreen, pointing here.
-2. `docs/BACKLOG_WEB.md` status date and release checklist should reflect current reality.
+2. `docs/BACKLOG_WEB.md` should stay TODO-only with explicit Definition of Done per item.
 3. `docs/WEB_REDESIGN_EXECUTION.md` should track active standards and Definition of Done.
-4. `docs/guides/DEPLOYMENT.md` should match current Vercel/Cloudflare deployment reality.
-5. `docs/guides/CI.md` should match current GitHub Actions + Dependabot behavior.
-6. `docs/guides/AUTOMATION.md` should reflect what is automated vs still manual.
+4. `docs/guides/OPS_RUNBOOK.md` is the single source for DevOps/CI/deploy ops process.
 
 ## Slash Commands
 
