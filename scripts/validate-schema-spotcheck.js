@@ -83,6 +83,28 @@ function collectTypes(node, types) {
 }
 
 /**
+ * Verify schema.org JSON-LD context URL safely.
+ * @param {unknown} contextValue
+ * @returns {boolean}
+ */
+function hasValidSchemaContext(contextValue) {
+  if (typeof contextValue !== "string") {
+    return false;
+  }
+
+  let parsed;
+  try {
+    parsed = new URL(contextValue);
+  } catch {
+    return false;
+  }
+
+  const isHttp = parsed.protocol === "https:" || parsed.protocol === "http:";
+  const isSchemaHost = parsed.hostname === "schema.org" || parsed.hostname === "www.schema.org";
+  return isHttp && isSchemaHost;
+}
+
+/**
  * Validate schema blocks for one target page.
  * @param {{label: string, url: string, requiredTypes: string[]}} target
  * @returns {Promise<string[]>}
@@ -108,7 +130,7 @@ async function validateTarget(target) {
     }
 
     const contextValue = parsed?.["@context"];
-    if (typeof contextValue !== "string" || !contextValue.includes("schema.org")) {
+    if (!hasValidSchemaContext(contextValue)) {
       errors.push(`[${target.label}] block ${index + 1} missing schema.org @context`);
     }
 
