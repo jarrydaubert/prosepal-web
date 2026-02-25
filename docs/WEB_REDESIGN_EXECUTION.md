@@ -137,6 +137,7 @@ The redesign is done only when all items below are true.
 1. This document is updated when thresholds or scope change.
 2. Backlog reflects open redesign tasks with owner and status.
 3. Release QA checklist includes style-audit review.
+4. Deploy workflow remains Vercel CLI/SDK based with project-link verification (`bun run vercel:check-link`) before deploy.
 
 ## Operating workflow (every redesign PR)
 
