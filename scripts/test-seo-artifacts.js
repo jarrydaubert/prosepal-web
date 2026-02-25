@@ -9,21 +9,38 @@ const ROOT_DIR = path.join(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT_DIR, "public");
 const DATA_FILE = path.join(ROOT_DIR, "data", "messages-pages.json");
 
+/**
+ * Read a generated file from `public/`.
+ * @param {string} fileName
+ * @returns {string}
+ */
 function readPublicFile(fileName) {
   return fs.readFileSync(path.join(PUBLIC_DIR, fileName), "utf8");
 }
 
+/**
+ * Count generated message detail pages from source data.
+ * @returns {number}
+ */
 function readMessageCount() {
   const raw = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
   return Array.isArray(raw.pages) ? raw.pages.length : 0;
 }
 
+/**
+ * Count blog article pages (excluding index).
+ * @returns {number}
+ */
 function readBlogCount() {
   const blogDir = path.join(PUBLIC_DIR, "blog");
   return fs.readdirSync(blogDir).filter((name) => name.endsWith(".html") && name !== "index.html")
     .length;
 }
 
+/**
+ * Assert crawler policy and sitemap declaration in robots.txt.
+ * @returns {void}
+ */
 function testRobots() {
   const robots = readPublicFile("robots.txt");
 
@@ -79,6 +96,10 @@ function testRobots() {
   );
 }
 
+/**
+ * Assert sitemap coverage and canonical-domain constraints.
+ * @returns {void}
+ */
 function testSitemap() {
   const sitemap = readPublicFile("sitemap.xml");
   const locMatches = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)];
@@ -100,6 +121,10 @@ function testSitemap() {
   );
 }
 
+/**
+ * Assert llms.txt structure, links, and coverage counts.
+ * @returns {void}
+ */
 function testLlms() {
   const llms = readPublicFile("llms.txt");
   const messageCount = readMessageCount();
@@ -141,6 +166,10 @@ function testLlms() {
   );
 }
 
+/**
+ * Run all SEO artifact assertions.
+ * @returns {void}
+ */
 function main() {
   testRobots();
   testSitemap();

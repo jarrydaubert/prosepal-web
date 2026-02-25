@@ -33,6 +33,14 @@ bun run check
 
 `check` includes generation, linting, metadata tests, SEO artifact tests, validation, and style audit thresholds.
 
+## Automation
+
+CI/CD and governance details:
+
+- `docs/guides/AUTOMATION.md`
+- `docs/guides/CI.md`
+- `docs/guides/DEPLOYMENT.md`
+
 ## Contribution flow
 
 1. Create a branch from `main`.

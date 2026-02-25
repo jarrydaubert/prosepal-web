@@ -16,6 +16,8 @@ This folder holds execution and quality docs for the web project.
    - Vercel deployment workflow and project-link safety checks.
 6. `guides/CI.md`
    - GitHub Actions and Dependabot operating notes for the public repo.
+7. `guides/AUTOMATION.md`
+   - Current automation coverage, manual release steps, and release sequence.
 
 ## Working rule
 

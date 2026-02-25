@@ -11,11 +11,21 @@ const EXPECTED_PROJECT_ID =
   process.env.EXPECTED_VERCEL_PROJECT_ID || "prj_drrormeL9LQJaIWEmyS1zsfyTb7Q";
 const EXPECTED_ORG_ID = process.env.EXPECTED_VERCEL_ORG_ID || "team_85dggpRwntnaGYNvf7T6FKM8";
 
+/**
+ * Print a terminal-friendly error and exit with non-zero status.
+ * @param {string} message
+ * @returns {never}
+ */
 function fail(message) {
   console.error(`\n❌ ${message}`);
   process.exit(1);
 }
 
+/**
+ * Validate that local Vercel linkage points to the expected project/org IDs.
+ * This prevents accidental deploys to another project from the same machine.
+ * @returns {void}
+ */
 function main() {
   if (!fs.existsSync(VERCEL_PROJECT_FILE)) {
     fail(
