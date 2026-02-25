@@ -54,3 +54,4 @@ CI/CD and governance details:
 - `docs/README.md` - docs index
 - `docs/WEB_REDESIGN_EXECUTION.md` - implementation standards and definition of done
 - `docs/BACKLOG_WEB.md` - active backlog and release QA checklist
+- `SECURITY.md` - security reporting policy

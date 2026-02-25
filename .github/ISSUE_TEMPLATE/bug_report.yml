@@ -1,0 +1,51 @@
+name: Bug report
+description: Report a reproducible bug on prosepal-web.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What is broken?
+      placeholder: Clear description of the issue.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Steps to reproduce.
+      placeholder: |
+        1. Go to ...
+        2. Click ...
+        3. See ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: input
+    id: page
+    attributes:
+      label: URL/page
+      placeholder: https://www.prosepal.app/...
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Browser/device/screenshots/logs if relevant.

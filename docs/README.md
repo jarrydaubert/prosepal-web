@@ -8,15 +8,17 @@ This folder holds execution and quality docs for the web project.
    - Public root overview (what the repo is, local run, contribution flow).
 2. `../AGENTS.md`
    - Canonical operations guide, including skills source and sync process.
-3. `WEB_REDESIGN_EXECUTION.md`
+3. `../SECURITY.md`
+   - Security reporting process and private vulnerability channel.
+4. `WEB_REDESIGN_EXECUTION.md`
    - Source of truth for redesign scope, architecture decisions, and Definition of Done.
-4. `BACKLOG_WEB.md`
+5. `BACKLOG_WEB.md`
    - SEO/UX backlog with release QA checklist and open items.
-5. `guides/DEPLOYMENT.md`
+6. `guides/DEPLOYMENT.md`
    - Vercel deployment workflow and project-link safety checks.
-6. `guides/CI.md`
+7. `guides/CI.md`
    - GitHub Actions and Dependabot operating notes for the public repo.
-7. `guides/AUTOMATION.md`
+8. `guides/AUTOMATION.md`
    - Current automation coverage, manual release steps, and release sequence.
 
 ## Working rule
