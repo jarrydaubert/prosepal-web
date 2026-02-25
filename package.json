@@ -18,7 +18,10 @@
     "test:metadata": "node scripts/test-metadata.js",
     "test:artifacts": "node scripts/test-seo-artifacts.js",
     "validate": "node scripts/validate-site.js",
-    "check": "bun run generate:site && bun run lint && bun run test:metadata && bun run test:artifacts && bun run validate && bun run audit:styles:strict"
+    "check": "bun run generate:site && bun run lint && bun run test:metadata && bun run test:artifacts && bun run validate && bun run audit:styles:strict",
+    "vercel:check-link": "node scripts/check-vercel-project.js",
+    "deploy:preview": "bun run vercel:check-link && vercel",
+    "deploy:prod": "bun run check && bun run vercel:check-link && vercel --prod --yes"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",

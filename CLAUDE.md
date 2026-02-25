@@ -7,6 +7,8 @@ Canonical project guidance lives in `AGENTS.md`.
 ```bash
 bun run dev
 bun run check
+bun run vercel:check-link
+bun run deploy:prod
 ```
 
 ## Docs

@@ -44,6 +44,8 @@ This is the only live backlog for `prosepal-web`. Each active item must have:
 | `WEB-DONE-3` | Indexability-aware sitemap generation (`noindex` exclusion) | Complete |
 | `WEB-DONE-4` | Crawler policy expansion (search/indexing vs training bots) | Complete |
 | `WEB-DONE-5` | Style drift audit integrated into `bun run check` | Complete |
+| `WEB-DONE-6` | Vercel project-link guard + deploy scripts (`vercel:check-link`, `deploy:prod`) | Complete |
+| `WEB-DONE-7` | GitHub public-repo CI optimization (path filters, concurrency, timeout, minimal permissions) | Complete |
 
 ---
 

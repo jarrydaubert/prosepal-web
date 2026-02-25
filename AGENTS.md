@@ -7,9 +7,32 @@ Operational guide for contributors and coding agents working in `prosepal-web`.
 ## Project facts
 
 1. Site type: static web app (HTML/CSS/JS) with generated SEO artifacts.
-2. Hosting: Vercel.
-3. Primary release gate: `bun run check`.
-4. Repo/CI may be absent in local-only mode; process must still be evidence-driven.
+2. Runtime hosting: Vercel (deployment target).
+3. Edge/domain: Cloudflare fronts the public domain.
+4. Repository: public GitHub repo with Actions enabled.
+5. Primary release gate: `bun run check`.
+
+## Deployment Standard
+
+Production deployment is done via Vercel CLI/SDK workflow only.
+
+Required sequence:
+
+```bash
+bun run check
+bun run vercel:check-link
+bun run deploy:prod
+```
+
+Important safety rule:
+
+1. This machine also deploys other projects (including PayeTax).
+2. Always run `bun run vercel:check-link` before any preview/prod deploy.
+3. If the check fails, relink correctly before continuing:
+
+```bash
+vercel link --project prosepal-web
+```
 
 ## Operating Doctrine
 
@@ -178,6 +201,8 @@ Keep these docs current:
 1. `CLAUDE.md` should stay minimal and evergreen, pointing here.
 2. `docs/BACKLOG_WEB.md` status date and release checklist should reflect current reality.
 3. `docs/WEB_REDESIGN_EXECUTION.md` should track active standards and Definition of Done.
+4. `docs/guides/DEPLOYMENT.md` should match current Vercel/Cloudflare deployment reality.
+5. `docs/guides/CI.md` should match current GitHub Actions + Dependabot behavior.
 
 ## Slash Commands
 
