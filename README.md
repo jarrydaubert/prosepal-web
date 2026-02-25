@@ -55,3 +55,4 @@ CI/CD and governance details:
 - `docs/WEB_REDESIGN_EXECUTION.md` - implementation standards and definition of done
 - `docs/BACKLOG_WEB.md` - active backlog and release QA checklist
 - `SECURITY.md` - security reporting policy
+- `LICENSE` - proprietary licensing terms (`All rights reserved`)
