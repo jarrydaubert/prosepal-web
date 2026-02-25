@@ -83,17 +83,6 @@ When reporting completion, include:
 3. Pass/fail result summary.
 4. Remaining risks or follow-up backlog IDs (if any).
 
-## Required local quality flow
-
-Run these before shipping:
-
-```bash
-bun run lint
-bun run test:artifacts
-bun run validate
-bun run check
-```
-
 `check` already includes:
 
 1. SEO artifact generation.

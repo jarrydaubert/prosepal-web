@@ -18,6 +18,7 @@ This is the only live backlog for `prosepal-web`. Each active item must have:
 | `WEB-P0-1` | Social preview validation on production | Run homepage + one blog URL through Facebook Sharing Debugger and Twitter Card Validator. Capture pass/fail notes in docs. | Production social cards are confirmed valid for both tools and any mismatches are fixed. |
 | `WEB-P0-2` | Schema validation in release QA | Add a repeatable release step for Rich Results/schema.org validation on homepage + one blog + one message page. | Release checklist includes schema validation with recorded pass evidence. |
 | `WEB-P0-3` | First formal tagged release process | Define initial semantic version (`v1.0.0` or agreed alternative), create a release checklist entry for tag + release notes, and execute it on the next production-ready merge. | Next production release ships with a Git tag and GitHub Release notes linked to the merged PR scope. |
+| `WEB-P0-4` | Production deploy governance lock | Decide and enforce production deploy source of truth (Git merge only vs CLI allowed for owner-only emergency). Update scripts/docs to reflect policy. | Production deploy path is unambiguous, documented, and technically enforced (no accidental alternate route). |
 
 ## P1 - Next
 
@@ -27,6 +28,8 @@ This is the only live backlog for `prosepal-web`. Each active item must have:
 | `WEB-P1-2` | Lighthouse budget enforcement | Define mobile SEO/performance thresholds and add a local repeatable command/workflow for budget checks. | Budget run exists and is part of release QA with documented thresholds. |
 | `WEB-P1-3` | Canonical redirect expansion policy | Document when future campaign/alt routes require canonical redirects and add rules for current known variants if any exist. | Canonical redirect policy exists and active alternate routes comply. |
 | `WEB-P1-4` | Repository licensing decision | Decide license strategy (none/proprietary notice vs OSS license), record rationale, and apply chosen license file with matching README language. | Repository has an explicit licensing posture documented and enforced by committed `LICENSE` (if open) or clear proprietary notice. |
+| `WEB-P1-5` | GitHub ruleset and Actions policy drift audit | Add a monthly verification checklist for branch ruleset, required checks, Actions allowlist, fork-approval policy, and workflow token scope. | Monthly audit step exists and settings drift is caught before release. |
+| `WEB-P1-6` | CI usage budget and retention tuning | Document baseline run duration/cost profile, set artifact/log retention targets, and monitor regressions. | CI minutes/storage remain predictable and no avoidable usage spikes occur. |
 
 ## P2 - Later
 
@@ -57,3 +60,4 @@ This is the only live backlog for `prosepal-web`. Each active item must have:
 - `bun run test:artifacts`
 - Schema validation spot-check (pending `WEB-P0-2`)
 - Lighthouse mobile budget check (pending `WEB-P1-2`)
+- Release tagging + GitHub Release notes linkage (pending `WEB-P0-3`)
