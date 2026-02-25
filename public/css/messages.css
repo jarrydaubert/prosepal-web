@@ -2,9 +2,8 @@
  * Prosepal Messages Pages Stylesheet
  * Shared styles for /messages/ SEO landing pages
  * Theme: Spotlight Cinematic (Option 6)
+ * Note: Fonts loaded via <link> in HTML head for better performance
  */
-
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
   --bg-deep: #050505;
