@@ -1,115 +1,55 @@
 # Prosepal Web Backlog
 
-> Items to do for prosepal-web. Remove items when complete.
+Goal: maximize SEO and organic traffic for the landing page and supporting content hubs.
+Last updated: 2026-02-25.
+Execution reference: `docs/WEB_REDESIGN_EXECUTION.md`.
+
+This is the only live backlog for `prosepal-web`. Each active item must have:
+- a clear next step,
+- a measurable done condition,
+- one owner (assign when picked up).
 
 ---
 
-## SEO Enhancements
+## P0 - Do Now
 
-### OG Share Images
-**Priority:** Medium
+| ID | Work Item | Next Step | Done When |
+| --- | --- | --- | --- |
+| `WEB-P0-1` | Social preview validation on production | Run homepage + one blog URL through Facebook Sharing Debugger and Twitter Card Validator. Capture pass/fail notes in docs. | Production social cards are confirmed valid for both tools and any mismatches are fixed. |
+| `WEB-P0-2` | Schema validation in release QA | Add a repeatable release step for Rich Results/schema.org validation on homepage + one blog + one message page. | Release checklist includes schema validation with recorded pass evidence. |
 
-Currently using `logo.png` for Open Graph and Twitter cards. Should create proper 1200x630px share images.
+## P1 - Next
 
-- Create main OG image for homepage (show app UI mockup + tagline)
-- Create OG images for each blog post (optional, can use generic)
-- Update meta tags in `index.html` and blog posts
+| ID | Work Item | Next Step | Done When |
+| --- | --- | --- | --- |
+| `WEB-P1-1` | Accessibility manual regression pass | Run keyboard/focus/manual checks across homepage, messages hub, blog hub, and legal pages. Log findings and fixes. | No unresolved critical accessibility issues remain on core pages. |
+| `WEB-P1-2` | Lighthouse budget enforcement | Define mobile SEO/performance thresholds and add a local repeatable command/workflow for budget checks. | Budget run exists and is part of release QA with documented thresholds. |
+| `WEB-P1-3` | Canonical redirect expansion policy | Document when future campaign/alt routes require canonical redirects and add rules for current known variants if any exist. | Canonical redirect policy exists and active alternate routes comply. |
 
-**Files:** `public/index.html` lines 15, 22 | `public/blog/*.html` og:image tags
+## P2 - Later
 
----
-
-### Google Search Console Setup
-**Priority:** High
-
-Manual steps after deploy:
-
-- Verify domain ownership at https://search.google.com/search-console
-- Submit sitemap: `https://www.prosepal.app/sitemap.xml`
-- Request indexing for homepage
-- Request indexing for blog index
+| ID | Work Item | Next Step | Done When |
+| --- | --- | --- | --- |
+| `WEB-P2-1` | Verified social proof rollout | Replace placeholder social proof with verified testimonials and source notes. | Live site displays verified testimonials only. |
+| `WEB-P2-2` | Aggregate rating readiness | Define minimum review-volume/verification criteria and update schema only after criteria are met. | `aggregateRating` is added with auditable real review data. |
 
 ---
 
-### SoftwareApplication Schema - Add Ratings
-**Priority:** Low
-**Trigger:** When app has 10+ App Store reviews
+## Completed Milestones Snapshot
 
-Add actual rating values to the SoftwareApplication schema in `public/index.html`:
-
-```json
-"aggregateRating": {
-  "@type": "AggregateRating",
-  "ratingValue": "4.8",
-  "ratingCount": "47",
-  "bestRating": "5",
-  "worstRating": "1"
-}
-```
+| ID | Milestone | Status |
+| --- | --- | --- |
+| `WEB-DONE-1` | Metadata pipeline + tests (`scripts/lib/metadata.js`, `scripts/test-metadata.js`) | Complete |
+| `WEB-DONE-2` | Automated sitemap/robots/llms generation with artifact integrity tests | Complete |
+| `WEB-DONE-3` | Indexability-aware sitemap generation (`noindex` exclusion) | Complete |
+| `WEB-DONE-4` | Crawler policy expansion (search/indexing vs training bots) | Complete |
+| `WEB-DONE-5` | Style drift audit integrated into `bun run check` | Complete |
 
 ---
 
-## Content Roadmap
+## Release QA Minimum (Local)
 
-### Blog Posts
-**Cadence:** 1 post every 2 weeks per MARKETING.md
-
-| Post | Target Keyword | Timing |
-|------|----------------|--------|
-| Get Well Soon Card Messages | get well soon messages | Evergreen |
-| New Baby Card Messages | new baby card message | Evergreen |
-| Retirement Card Messages | retirement card message | Evergreen |
-| Christmas Card Messages | christmas card message | November |
-| Valentine's Day Messages | valentine card message | January |
-| Mother's Day Messages | mothers day card message | April |
-| Father's Day Messages | fathers day card message | May |
-
-**Template:** See MARKETING.md Section 13
-
----
-
-## Performance
-
-### Image Optimization
-**Priority:** Low
-
-- Convert `logo.png` to WebP with PNG fallback
-- Add `srcset` for different device sizes
-- Verify all images have explicit width/height
-
----
-
-### Preconnect Hints
-**Priority:** Low
-
-Add to `<head>`:
-```html
-<link rel="preconnect" href="https://apps.apple.com">
-```
-
----
-
-## Future Enhancements
-
-### Add hreflang When Localizing
-**Trigger:** When creating UK/AU-specific landing pages
-
-- `/uk/` - UK-specific (Mum spelling, GBP, UK retailers)
-- `/au/` - Australia-specific (AU dates, AUD)
-
----
-
-### Blog Search/Filter
-**Trigger:** When blog has 10+ posts
-
-Add client-side search or category filtering to blog index.
-
----
-
-### Analytics Events
-**Priority:** Low
-
-Consider custom Vercel Analytics events:
-- Blog post scroll depth
-- CTA click tracking
-- Time on page
+- `bun run check`
+- `bun run test:artifacts`
+- Schema validation spot-check (pending `WEB-P0-2`)
+- Lighthouse mobile budget check (pending `WEB-P1-2`)

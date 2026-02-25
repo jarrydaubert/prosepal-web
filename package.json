@@ -4,11 +4,21 @@
   "private": true,
   "scripts": {
     "dev": "bunx serve public -l 3000",
-    "build": "echo 'Static site - no build needed'",
+    "build": "bun run generate:site && echo 'Static site build artifacts generated'",
+    "generate:site": "node scripts/generate-seo-artifacts.js",
+    "generate:messages": "node scripts/generate-messages.js",
+    "generate:sitemap": "node scripts/generate-sitemap.js",
+    "generate:robots": "node scripts/generate-robots.js",
+    "generate:llms": "node scripts/generate-llms.js",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
-    "validate": "echo 'HTML validation would go here'"
+    "audit:styles": "node scripts/audit-styles.js",
+    "audit:styles:strict": "node scripts/audit-styles.js --fail-on-thresholds --show-thresholds",
+    "test:metadata": "node scripts/test-metadata.js",
+    "test:artifacts": "node scripts/test-seo-artifacts.js",
+    "validate": "node scripts/validate-site.js",
+    "check": "bun run generate:site && bun run lint && bun run test:metadata && bun run test:artifacts && bun run validate && bun run audit:styles:strict"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",

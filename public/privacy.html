@@ -6,7 +6,6 @@
   <title>Privacy Policy - Prosepal</title>
   <meta name="description" content="Prosepal Privacy Policy. Learn how we collect, use, and protect your data when using our AI greeting card message generator.">
   
-  <!-- Open Graph -->
   <meta property="og:title" content="Privacy Policy - Prosepal">
   <meta property="og:description" content="Learn how Prosepal collects, uses, and protects your data.">
   <meta property="og:type" content="website">
@@ -14,342 +13,48 @@
   <meta property="og:image" content="https://www.prosepal.app/logo.png">
   <meta property="og:site_name" content="Prosepal">
   
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Privacy Policy - Prosepal">
   <meta name="twitter:description" content="Learn how Prosepal collects, uses, and protects your data.">
   
-  <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  
-  <!-- Canonical -->
   <link rel="canonical" href="https://www.prosepal.app/privacy.html">
-  
-  <!-- Preload logo -->
-  <link rel="preload" href="/logo.png" as="image">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
   
-  <style>
-
-
-    :root {
-      --bg-deep: #050505;
-      --bg-dark: #0a0a0a;
-      --bg-card: #111111;
-      --text-primary: #ffffff;
-      --text-secondary: #888888;
-      --text-dim: #555555;
-      --spotlight-warm: #ffedd5;
-      --spotlight-gold: #fbbf24;
-      --spotlight-amber: #f59e0b;
-      --accent: #D4736B;
-      --accent-light: #F2D4D1;
-      --border-subtle: rgba(255, 255, 255, 0.05);
-      --border-light: rgba(255, 255, 255, 0.1);
-    }
-    
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-    
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      color: var(--text-primary);
-      line-height: 1.6;
-      background: var(--bg-deep);
-      -webkit-font-smoothing: antialiased;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-    }
-
-    a { color: var(--spotlight-gold); text-decoration: none; transition: color 0.3s; }
-    a:hover { color: var(--spotlight-warm); }
-    a:focus-visible { outline: 2px solid var(--spotlight-gold); outline-offset: 2px; }
-
-    .skip-link {
-      position: absolute;
-      left: -9999px;
-      z-index: 999;
-      padding: 1rem;
-      background: var(--spotlight-gold);
-      color: var(--bg-deep);
-    }
-    .skip-link:focus { left: 50%; transform: translateX(-50%); top: 0; }
-
-    .grain {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1000;
-      opacity: 0.03;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    }
-    
-    /* Navigation */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 1.25rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95) 0%, transparent 100%);
-    }
-
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem;
-      font-weight: 500;
-      color: var(--text-primary);
-      letter-spacing: 0.02em;
-    }
-
-    .nav-logo:hover { color: var(--text-primary); }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-    }
-
-    .nav-links a {
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-      font-weight: 400;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .nav-links a:hover { color: var(--text-primary); }
-
-    .nav-cta {
-      padding: 0.6rem 1.5rem;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: var(--text-primary);
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      transition: all 0.3s;
-    }
-
-    .nav-cta:hover {
-      background: var(--text-primary);
-      color: var(--bg-deep);
-    }
-
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .nav { padding: 1rem 1.25rem; }
-    }
-    
-    .header-brand:hover { color: var(--text-primary); }
-    .header-brand img { width: 32px; height: 32px; border-radius: 8px; }
-    
-    .header-cta {
-      background: transparent;
-      color: var(--text-primary);
-      padding: 0.5rem 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      min-height: 44px;
-      display: inline-flex;
-      align-items: center;
-      transition: all 0.3s;
-    }
-    
-    .header-cta:hover {
-      background: var(--text-primary);
-      color: var(--bg-deep);
-    }
-    
-    main {
-      flex: 1;
-      position: relative;
-      z-index: 1;
-    }
-    
-    .content {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 3rem 1.25rem;
-    }
-    
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 5vw, 2.5rem);
-      font-weight: 400;
-      margin-bottom: 0.5rem;
-      color: var(--text-primary);
-      letter-spacing: -0.02em;
-    }
-    
-    .last-updated {
-      color: var(--text-dim);
-      font-size: 0.85rem;
-      margin-bottom: 2.5rem;
-      letter-spacing: 0.05em;
-    }
-    
-    h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 500;
-      margin: 2.5rem 0 1rem;
-      color: var(--text-primary);
-      letter-spacing: -0.01em;
-    }
-    
-    h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.15rem;
-      font-weight: 500;
-      margin: 2rem 0 0.75rem;
-      color: var(--text-primary);
-    }
-    
-    p {
-      margin-bottom: 1.25rem;
-      color: var(--text-secondary);
-      font-weight: 300;
-      line-height: 1.8;
-    }
-    
-    ul, ol {
-      margin-bottom: 1.25rem;
-      padding-left: 1.5rem;
-      color: var(--text-secondary);
-    }
-    
-    li {
-      margin-bottom: 0.5rem;
-      font-weight: 300;
-    }
-    
-    .highlight-box {
-      background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%);
-      border: 1px solid rgba(251, 191, 36, 0.2);
-      padding: 1.5rem;
-      margin: 2rem 0;
-    }
-    
-    .highlight-box p { margin-bottom: 0; color: var(--text-primary); font-weight: 400; }
-    .highlight-box strong { color: var(--spotlight-gold); }
-    
-    .contact-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      padding: 2rem;
-      margin: 2rem 0;
-      position: relative;
-    }
-    
-    .contact-box::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.3), transparent);
-    }
-    
-    .contact-box h3 {
-      font-family: 'Playfair Display', serif;
-      margin-top: 0;
-      margin-bottom: 1rem;
-      color: var(--text-primary);
-    }
-    
-    .contact-box p { margin-bottom: 0.5rem; }
-    .contact-box p:last-child { margin-bottom: 0; }
-    
-    .footer {
-      background: var(--bg-deep);
-      border-top: 1px solid var(--border-subtle);
-      padding: 2rem 1rem;
-      text-align: center;
-      color: var(--text-dim);
-      position: relative;
-      z-index: 1;
-    }
-    
-    .footer-content {
-      max-width: 720px;
-      margin: 0 auto;
-    }
-    
-    .footer-brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--text-dim);
-      font-family: 'Playfair Display', serif;
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-    }
-    
-    .footer-brand img { width: 24px; height: 24px; border-radius: 6px; opacity: 0.7; }
-    
-    .footer-links {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 1.5rem;
-    }
-    
-    .footer-links a {
-      color: var(--text-dim);
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 0.5rem 0;
-      min-height: 44px;
-      display: inline-flex;
-      align-items: center;
-      transition: color 0.3s;
-    }
-    
-    .footer-links a:hover { color: var(--text-secondary); }
-    
-    .copyright {
-      font-size: 0.75rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border-subtle);
-    }
-    
-    @media (max-width: 640px) {
-      .content { padding: 2rem 1rem; }
-      .footer-links { flex-direction: column; gap: 0.25rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/content.css">
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
-  <div class="grain"></div>
 
-    <!-- Navigation -->
-  <nav class="nav">
-    <a href="/" class="nav-logo">Prosepal</a>
+  <nav class="nav" aria-label="Main navigation">
+    <a href="/" class="nav-brand">
+      <span>Prosepal</span>
+    </a>
     <div class="nav-links">
       <a href="/#features">Features</a>
       <a href="/#demo">Demo</a>
       <a href="/messages/">Messages</a>
       <a href="/blog/">Blog</a>
     </div>
+    <a href="https://apps.apple.com/app/prosepal/id6757088726" class="nav-cta">Get the App</a>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+    <a href="/">Home</a>
+    <a href="/#features">Features</a>
+    <a href="/#demo">Demo</a>
+    <a href="/messages/">Messages</a>
+    <a href="/blog/">Blog</a>
     <a href="https://apps.apple.com/app/prosepal/id6757088726" class="nav-cta">Get the App</a>
   </nav>
 
@@ -431,6 +136,7 @@
       <li><strong>RevenueCat</strong> — Subscription management. <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
       <li><strong>Firebase Analytics</strong> — App usage analytics. <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
       <li><strong>Firebase Crashlytics</strong> — Crash reporting. <a href="https://firebase.google.com/support/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
+      <li><strong>Vercel Analytics & Speed Insights</strong> — Website performance analytics on prosepal.app. We also honor browser Do Not Track (DNT) and Global Privacy Control (GPC) signals on web.</li>
     </ul>
 
     <h2>What We Don't Do</h2>
@@ -449,6 +155,7 @@
       <li><strong>Export</strong> your data (Settings → Export My Data)</li>
       <li><strong>Delete</strong> your account and all associated data (Settings → Delete Account)</li>
       <li><strong>Opt out</strong> of analytics (Settings → Analytics & Crash Reports toggle)</li>
+      <li><strong>Opt out on web</strong> by enabling Do Not Track or Global Privacy Control in your browser</li>
     </ul>
 
     <h2>Data Retention</h2>
@@ -501,21 +208,21 @@
   <footer>
     <div class="footer-content">
       <div class="footer-brand">
-        <img src="/logo.png" alt="Prosepal" width="28" height="28">
         <span>Prosepal</span>
       </div>
-      <nav class="footer-links" aria-label="Footer navigation">
-        <a href="/privacy.html">Privacy Policy</a>
-        <a href="/terms.html">Terms of Use</a>
+      <nav class="footer-links">
+        <a href="/">Home</a>
+        <a href="/messages/">Messages</a>
+        <a href="/blog/">Blog</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
         <a href="/support.html">Support</a>
       </nav>
       <div class="copyright">© 2026 Prosepal. All rights reserved.</div>
     </div>
   </footer>
 
-  <script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-  </script>
-  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/js/analytics.js"></script>
+  <script defer src="/js/mobile-menu.js"></script>
 </body>
 </html>

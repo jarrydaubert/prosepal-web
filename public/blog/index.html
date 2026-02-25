@@ -12,14 +12,14 @@
   <meta property="og:description" content="Find the perfect words for any greeting card. Expert tips and examples for sympathy, birthday, wedding, thank you cards, and more.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.prosepal.app/blog/">
-  <meta property="og:image" content="https://www.prosepal.app/logo.png">
+  <meta property="og:image" content="https://www.prosepal.app/og-image.jpg">
   <meta property="og:site_name" content="Prosepal">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Card Message Ideas & Writing Tips | Prosepal Blog">
   <meta name="twitter:description" content="Find the perfect words for any greeting card.">
-  <meta name="twitter:image" content="https://www.prosepal.app/logo.png">
+  <meta name="twitter:image" content="https://www.prosepal.app/og-image.jpg">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
@@ -28,422 +28,113 @@
   <!-- Canonical -->
   <link rel="canonical" href="https://www.prosepal.app/blog/">
 
+  <!-- Structured Data: CollectionPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Card Message Ideas & Writing Tips",
+    "description": "Find the perfect words for any greeting card. Expert tips and examples for sympathy, birthday, wedding, thank you cards, and more.",
+    "url": "https://www.prosepal.app/blog/",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Prosepal",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.prosepal.app/og-image.jpg"
+      }
+    }
+  }
+  </script>
+
+  <!-- Structured Data: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.prosepal.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Blog",
+        "item": "https://www.prosepal.app/blog/"
+      }
+    ]
+  }
+  </script>
+
+  <!-- Structured Data: ItemList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Card Writing Guides",
+    "numberOfItems": 5,
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "url": "https://www.prosepal.app/blog/what-to-write-in-sympathy-card.html", "name": "What to Write in a Sympathy Card"},
+      {"@type": "ListItem", "position": 2, "url": "https://www.prosepal.app/blog/birthday-card-messages.html", "name": "Birthday Card Messages"},
+      {"@type": "ListItem", "position": 3, "url": "https://www.prosepal.app/blog/thank-you-card-wording.html", "name": "Thank You Card Wording"},
+      {"@type": "ListItem", "position": 4, "url": "https://www.prosepal.app/blog/wedding-card-message.html", "name": "Wedding Card Messages"},
+      {"@type": "ListItem", "position": 5, "url": "https://www.prosepal.app/blog/graduation-card-messages.html", "name": "Graduation Card Messages"}
+    ]
+  }
+  </script>
+
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --bg-deep: #050505;
-      --bg-dark: #0a0a0a;
-      --bg-card: #111111;
-      --text-primary: #ffffff;
-      --text-secondary: #888888;
-      --text-dim: #555555;
-      --spotlight-warm: #ffedd5;
-      --spotlight-gold: #fbbf24;
-      --spotlight-amber: #f59e0b;
-      --accent: #D4736B;
-      --border-subtle: rgba(255, 255, 255, 0.05);
-      --border-light: rgba(255, 255, 255, 0.1);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      color: var(--text-primary);
-      line-height: 1.6;
-      background: var(--bg-deep);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-
-    a { color: var(--spotlight-gold); text-decoration: none; transition: color 0.3s; }
-    a:hover { color: var(--spotlight-warm); }
-    a:focus-visible { outline: 2px solid var(--spotlight-gold); outline-offset: 2px; }
-
-    .grain {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1000;
-      opacity: 0.03;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    }
-
-    /* Navigation */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 1.25rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95) 0%, transparent 100%);
-    }
-
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem;
-      font-weight: 500;
-      color: var(--text-primary);
-      letter-spacing: 0.02em;
-    }
-
-    .nav-logo:hover { color: var(--text-primary); }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-    }
-
-    .nav-links a {
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-      font-weight: 400;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .nav-links a:hover { color: var(--text-primary); }
-
-    .nav-cta {
-      padding: 0.6rem 1.5rem;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: var(--text-primary);
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      transition: all 0.3s;
-    }
-
-    .nav-cta:hover {
-      background: var(--text-primary);
-      color: var(--bg-deep);
-    }
-
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .nav { padding: 1rem 1.25rem; }
-    }
-
-    /* Hero */
-    .blog-hero {
-      background: var(--bg-dark);
-      padding: 6rem 1.5rem 4rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .blog-hero::before {
-      content: '';
-      position: absolute;
-      top: -200px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, rgba(251, 191, 36, 0.1) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .blog-hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 400;
-      margin-bottom: 1.25rem;
-      color: var(--text-primary);
-      position: relative;
-      letter-spacing: -0.02em;
-    }
-
-    .blog-hero h1 em {
-      font-style: italic;
-      color: var(--spotlight-warm);
-    }
-
-    .blog-hero p {
-      font-size: 1.1rem;
-      color: var(--text-secondary);
-      max-width: 550px;
-      margin: 0 auto;
-      font-weight: 300;
-      line-height: 1.7;
-      position: relative;
-    }
-
-    /* Posts Grid */
-    .posts-section {
-      padding: 6rem 1.5rem 4rem;
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .posts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .post-card {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-      border: 1px solid var(--border-subtle);
-      overflow: hidden;
-      transition: all 0.4s ease;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    .post-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.4), transparent);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-
-    .post-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--border-light);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .post-card:hover::before { opacity: 1; }
-
-    .post-card a {
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-
-    .post-card a:hover { text-decoration: none; color: inherit; }
-
-    .post-emoji {
-      background: var(--bg-card);
-      padding: 2rem;
-      text-align: center;
-      font-size: 3rem;
-    }
-
-    .post-content {
-      padding: 1.5rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .post-tag {
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--spotlight-gold);
-      margin-bottom: 0.75rem;
-    }
-
-    .post-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.25rem;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 0.75rem;
-      line-height: 1.3;
-    }
-
-    .post-excerpt {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      flex: 1;
-      font-weight: 300;
-    }
-
-    .post-meta {
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border-subtle);
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      letter-spacing: 0.05em;
-    }
-
-    /* CTA Section */
-    .cta-section {
-      background: var(--bg-card);
-      border-top: 1px solid var(--border-subtle);
-      padding: 5rem 1.5rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-section::before {
-      content: '';
-      position: absolute;
-      top: -150px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .cta-section h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
-      font-weight: 400;
-      margin-bottom: 1rem;
-      color: var(--text-primary);
-      position: relative;
-    }
-
-    .cta-section h2 em {
-      font-style: italic;
-      color: var(--spotlight-warm);
-    }
-
-    .cta-section p {
-      color: var(--text-secondary);
-      max-width: 500px;
-      margin: 0 auto 2rem;
-      font-weight: 300;
-      position: relative;
-    }
-
-    .cta-button {
-      display: inline-block;
-      background: var(--spotlight-gold);
-      color: var(--bg-deep);
-      padding: 1rem 2.5rem;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      transition: all 0.3s;
-      position: relative;
-    }
-
-    .cta-button:hover {
-      background: var(--spotlight-amber);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(251, 191, 36, 0.2);
-      color: var(--bg-deep);
-    }
-
-    /* Footer */
-    footer {
-      padding: 6rem 1.5rem 3rem;
-      background: var(--bg-deep);
-      border-top: 1px solid var(--border-subtle);
-      color: var(--text-dim);
-      position: relative;
-      z-index: 1;
-    }
-
-    .footer-content {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      color: var(--text-dim);
-      font-family: 'Playfair Display', serif;
-      font-weight: 400;
-      font-size: 1rem;
-    }
-
-    .footer-brand img { width: 32px; height: 32px; border-radius: 6px; opacity: 0.7; }
-
-    .footer-links {
-      display: flex;
-      gap: 2.5rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .footer-links a {
-      color: var(--text-dim);
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 0.5rem 0;
-      min-height: 44px;
-      display: inline-flex;
-      align-items: center;
-      transition: color 0.3s;
-    }
-
-    .footer-links a:hover { color: var(--text-secondary); }
-
-    .copyright {
-      font-size: 0.75rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border-subtle);
-      width: 100%;
-      text-align: center;
-    }
-
-    /* Responsive */
-    @media (max-width: 640px) {
-      .blog-hero { padding: 4rem 1.25rem 3rem; }
-      .posts-section { padding: 2.5rem 1.25rem; }
-      .posts-grid { grid-template-columns: 1fr; }
-      .footer-links { flex-direction: column; align-items: center; gap: 0.75rem; }
-      .cta-section { padding: 4rem 1.25rem; }
-    }
-
-    @media (min-width: 1200px) {
-      .posts-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/blog.css">
 </head>
 <body>
-  <div class="grain"></div>
-  
-    <!-- Navigation -->
-  <nav class="nav">
-    <a href="/" class="nav-logo">Prosepal</a>
-    <div class="nav-links">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <nav class="header-content" aria-label="Main navigation">
+      <a href="/" class="header-brand">
+        <span>Prosepal</span>
+      </a>
+      <div class="header-links">
+        <a href="/#features">Features</a>
+        <a href="/#how-it-works">How it works</a>
+        <a href="/#faq">FAQ</a>
+        <a href="/messages/">Messages</a>
+        <a href="/blog/">Blog</a>
+      </div>
+      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="header-cta">Get the App</a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+      <a href="/">Home</a>
       <a href="/#features">Features</a>
-      <a href="/#demo">Demo</a>
+      <a href="/#how-it-works">How it works</a>
+      <a href="/#faq">FAQ</a>
       <a href="/messages/">Messages</a>
       <a href="/blog/">Blog</a>
-    </div>
-    <a href="https://apps.apple.com/app/prosepal/id6757088726" class="nav-cta">Get the App</a>
-  </nav>
+      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="header-cta">Get the App</a>
+    </nav>
+  </header>
 
   <section class="blog-hero">
     <h1>Card Message <em>Ideas</em> & Tips</h1>
     <p>Find the perfect words for any greeting card. Examples and advice for every occasion.</p>
   </section>
 
-  <main class="posts-section">
+  <main class="posts-section" id="main-content">
     <div class="posts-grid">
       <article class="post-card">
         <a href="/blog/what-to-write-in-sympathy-card.html">
@@ -516,7 +207,6 @@
   <footer>
     <div class="footer-content">
       <div class="footer-brand">
-        <img src="/logo.png" alt="Prosepal" width="32" height="32" loading="lazy">
         <span>Prosepal</span>
       </div>
       <nav class="footer-links">
@@ -531,13 +221,7 @@
     </div>
   </footer>
 
-  <script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-  </script>
-  <script defer src="/_vercel/insights/script.js"></script>
-  <script>
-    window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-  </script>
-  <script defer src="/_vercel/speed-insights/script.js"></script>
+  <script defer src="/js/mobile-menu.js"></script>
+  <script defer src="/js/analytics.js"></script>
 </body>
 </html>

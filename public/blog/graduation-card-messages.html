@@ -12,14 +12,16 @@
   <meta property="og:description" content="Skip 'Congrats grad!' Find graduation card messages for high school, college, and beyond.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://www.prosepal.app/blog/graduation-card-messages.html">
-  <meta property="og:image" content="https://www.prosepal.app/logo.png">
+  <meta property="og:image" content="https://www.prosepal.app/blog/og-graduation-card.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Prosepal">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Graduation Card Messages They'll Actually Remember">
   <meta name="twitter:description" content="Skip 'Congrats grad!' Find graduation card messages for high school, college, and beyond.">
-  <meta name="twitter:image" content="https://www.prosepal.app/logo.png">
+  <meta name="twitter:image" content="https://www.prosepal.app/blog/og-graduation-card.jpg">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
@@ -28,6 +30,7 @@
   <!-- Canonical -->
   <link rel="canonical" href="https://www.prosepal.app/blog/graduation-card-messages.html">
 
+
   <!-- Structured Data: Article -->
   <script type="application/ld+json">
   {
@@ -35,7 +38,7 @@
     "@type": "Article",
     "headline": "Graduation Card Messages They'll Actually Remember",
     "description": "Skip 'Congrats grad!' Find graduation card messages for high school, college, and beyond.",
-    "image": "https://www.prosepal.app/logo.png",
+    "image": "https://www.prosepal.app/og-image.jpg",
     "author": {
       "@type": "Organization",
       "name": "Prosepal",
@@ -46,7 +49,7 @@
       "name": "Prosepal",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://www.prosepal.app/logo.png"
+        "url": "https://www.prosepal.app/og-image.jpg"
       }
     },
     "datePublished": "2026-01-17",
@@ -58,419 +61,61 @@
   }
   </script>
 
-  <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+  <!-- Structured Data: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.prosepal.app/"},
+      {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.prosepal.app/blog/"},
+      {"@type": "ListItem", "position": 3, "name": "Graduation Card Messages", "item": "https://www.prosepal.app/blog/graduation-card-messages.html"}
+    ]
+  }
+  </script>
 
-    :root {
-      --bg-deep: #050505;
-      --bg-dark: #0a0a0a;
-      --bg-card: #111111;
-      --text-primary: #ffffff;
-      --text-secondary: #888888;
-      --text-dim: #555555;
-      --spotlight-warm: #ffedd5;
-      --spotlight-gold: #fbbf24;
-      --spotlight-amber: #f59e0b;
-      --accent: #D4736B;
-      --accent-light: #F2D4D1;
-      --border-subtle: rgba(255, 255, 255, 0.05);
-      --border-light: rgba(255, 255, 255, 0.1);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      color: var(--text-primary);
-      line-height: 1.7;
-      background: var(--bg-deep);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-
-    a { color: var(--spotlight-gold); text-decoration: none; transition: color 0.3s; }
-    a:hover { color: var(--spotlight-warm); }
-    a:focus-visible { outline: 2px solid var(--spotlight-gold); outline-offset: 2px; }
-
-    .grain {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1000;
-      opacity: 0.03;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    }
-
-    /* Navigation */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 1.25rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95) 0%, transparent 100%);
-    }
-
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem;
-      font-weight: 500;
-      color: var(--text-primary);
-      letter-spacing: 0.02em;
-    }
-
-    .nav-logo:hover { color: var(--text-primary); }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-    }
-
-    .nav-links a {
-      color: var(--text-secondary);
-      font-size: 0.8rem;
-      font-weight: 400;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .nav-links a:hover { color: var(--text-primary); }
-
-    .nav-cta {
-      padding: 0.6rem 1.5rem;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: var(--text-primary);
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      transition: all 0.3s;
-    }
-
-    .nav-cta:hover {
-      background: var(--text-primary);
-      color: var(--bg-deep);
-    }
-
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .nav { padding: 1rem 1.25rem; }
-    }
-
-    .article {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 6rem 1.5rem 4rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .article-header {
-      margin-bottom: 3rem;
-      text-align: center;
-    }
-
-    .breadcrumb {
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .breadcrumb a { color: var(--text-secondary); }
-    .breadcrumb a:hover { color: var(--spotlight-gold); }
-
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 400;
-      line-height: 1.2;
-      margin-bottom: 1rem;
-      color: var(--text-primary);
-      letter-spacing: -0.02em;
-    }
-
-    h1 em {
-      font-style: italic;
-      color: var(--spotlight-warm);
-      text-shadow: 0 0 60px rgba(251, 191, 36, 0.3);
-    }
-
-    .article-meta {
-      color: var(--text-dim);
-      font-size: 0.85rem;
-      letter-spacing: 0.05em;
-    }
-
-    .article-content h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.75rem;
-      font-weight: 500;
-      margin: 3rem 0 1.25rem;
-      color: var(--text-primary);
-      letter-spacing: -0.01em;
-    }
-
-    .article-content h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 500;
-      margin: 2.5rem 0 1rem;
-      color: var(--text-primary);
-    }
-
-    .article-content p {
-      margin-bottom: 1.5rem;
-      color: var(--text-secondary);
-      font-weight: 300;
-      line-height: 1.8;
-    }
-
-    .article-content ul, .article-content ol {
-      margin-bottom: 1.5rem;
-      padding-left: 1.5rem;
-      color: var(--text-secondary);
-    }
-
-    .article-content li {
-      margin-bottom: 0.75rem;
-      font-weight: 300;
-    }
-
-    .message-examples {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-      border: 1px solid var(--border-subtle);
-      padding: 2rem;
-      margin: 2rem 0;
-      position: relative;
-    }
-
-    .message-examples::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.3), transparent);
-    }
-
-    .message-example {
-      padding: 1.25rem 1.5rem;
-      background: rgba(0, 0, 0, 0.3);
-      margin-bottom: 1rem;
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: 1.1rem;
-      line-height: 1.7;
-      color: var(--text-primary);
-      border-left: 2px solid var(--spotlight-gold);
-    }
-
-    .message-example:last-child { margin-bottom: 0; }
-
-    .cta-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      padding: 3rem 2rem;
-      text-align: center;
-      margin: 3rem 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-box::before {
-      content: '';
-      position: absolute;
-      top: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(251, 191, 36, 0.15) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .cta-box h3 {
-      font-family: 'Playfair Display', serif;
-      color: var(--text-primary);
-      margin-bottom: 1rem;
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 400;
-      position: relative;
-    }
-
-    .cta-box p {
-      color: var(--text-secondary);
-      margin-bottom: 1.5rem;
-      font-weight: 300;
-      position: relative;
-    }
-
-    .cta-button {
-      display: inline-block;
-      background: var(--spotlight-gold);
-      color: var(--bg-deep);
-      padding: 1rem 2rem;
-      font-size: 0.85rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      transition: all 0.3s;
-      position: relative;
-    }
-
-    .cta-button:hover {
-      background: var(--spotlight-amber);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(251, 191, 36, 0.2);
-      color: var(--bg-deep);
-    }
-
-    .tips-box {
-      background: linear-gradient(135deg, rgba(212, 115, 107, 0.1) 0%, rgba(212, 115, 107, 0.05) 100%);
-      border: 1px solid rgba(212, 115, 107, 0.2);
-      padding: 2rem;
-      margin: 2rem 0;
-    }
-
-    .tips-box h4 {
-      font-family: 'Playfair Display', serif;
-      color: var(--accent-light);
-      margin-bottom: 1rem;
-      font-size: 1.1rem;
-      font-weight: 500;
-    }
-
-    .tips-box ul { margin-bottom: 0; color: var(--text-secondary); }
-    .tips-box li { margin-bottom: 0.75rem; font-weight: 300; }
-    .tips-box li:last-child { margin-bottom: 0; }
-    .tips-box strong { color: var(--text-primary); font-weight: 500; }
-
-    .related-section {
-      margin-top: 3rem;
-      padding-top: 2.5rem;
-      border-top: 1px solid var(--border-subtle);
-    }
-
-    .related-section h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.25rem;
-      font-weight: 500;
-      margin-bottom: 1.25rem;
-    }
-
-    .related-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .related-link {
-      display: inline-block;
-      background: transparent;
-      border: 1px solid var(--border-light);
-      padding: 0.75rem 1.25rem;
-      font-size: 0.9rem;
-      transition: all 0.3s;
-    }
-
-    .related-link:hover {
-      border-color: var(--spotlight-gold);
-      background: rgba(251, 191, 36, 0.05);
-      color: var(--spotlight-gold);
-    }
-
-    footer {
-      padding: 6rem 1.5rem 3rem;
-      background: var(--bg-deep);
-      border-top: 1px solid var(--border-subtle);
-      color: var(--text-dim);
-      position: relative;
-      z-index: 1;
-    }
-
-    .footer-content {
-      max-width: 800px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      color: var(--text-dim);
-      font-family: 'Playfair Display', serif;
-      font-weight: 400;
-      font-size: 1rem;
-    }
-
-    .footer-brand img { width: 32px; height: 32px; border-radius: 6px; opacity: 0.7; }
-
-    .footer-links {
-      display: flex;
-      gap: 2.5rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .footer-links a {
-      color: var(--text-dim);
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      padding: 0.5rem 0;
-      min-height: 44px;
-      display: inline-flex;
-      align-items: center;
-      transition: color 0.3s;
-    }
-
-    .footer-links a:hover { color: var(--text-secondary); }
-
-    .copyright {
-      font-size: 0.75rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border-subtle);
-      width: 100%;
-      text-align: center;
-    }
-
-    @media (max-width: 640px) {
-      .article { padding: 3rem 1.25rem; }
-      .footer-links { flex-direction: column; align-items: center; gap: 0.75rem; }
-      .related-links { flex-direction: column; }
-      .related-link { text-align: center; width: 100%; }
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/tokens.css">
+  <link rel="stylesheet" href="/css/blog.css">
 </head>
 <body>
-  <div class="grain"></div>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Navigation -->
-  <nav class="nav">
-    <a href="/" class="nav-logo">Prosepal</a>
-    <div class="nav-links">
+  <!-- Navigation -->
+  <header class="site-header">
+    <nav class="header-content" aria-label="Main navigation">
+      <a href="/" class="header-brand">
+        <span>Prosepal</span>
+      </a>
+      <div class="header-links">
+        <a href="/#features">Features</a>
+        <a href="/#how-it-works">How it works</a>
+        <a href="/#faq">FAQ</a>
+        <a href="/messages/">Messages</a>
+        <a href="/blog/">Blog</a>
+      </div>
+      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="header-cta">Get the App</a>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
+      <a href="/">Home</a>
       <a href="/#features">Features</a>
-      <a href="/#demo">Demo</a>
+      <a href="/#how-it-works">How it works</a>
+      <a href="/#faq">FAQ</a>
       <a href="/messages/">Messages</a>
       <a href="/blog/">Blog</a>
-    </div>
-    <a href="https://apps.apple.com/app/prosepal/id6757088726" class="nav-cta">Get the App</a>
-  </nav>
+      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="header-cta">Get the App</a>
+    </nav>
+  </header>
 
-  <article class="article">
+  <article class="article" id="main-content">
     <header class="article-header">
       <nav class="breadcrumb">
         <a href="/">Home</a> &rsaquo; <a href="/blog/">Blog</a> &rsaquo; Graduation Cards
@@ -593,33 +238,22 @@
   <footer>
     <div class="footer-content">
       <div class="footer-brand">
-        <img src="/logo.png" alt="Prosepal" width="36" height="36" loading="lazy">
         <span>Prosepal</span>
       </div>
       <nav class="footer-links">
         <a href="/">Home</a>
         <a href="/messages/">Messages</a>
         <a href="/blog/">Blog</a>
-        <a href="/privacy.html">Privacy Policy</a>
-        <a href="/terms.html">Terms of Use</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
         <a href="/support.html">Support</a>
       </nav>
-      <div class="copyright">
-        &copy; 2026 Prosepal. All rights reserved.
-      </div>
+      <div class="copyright">© 2026 Prosepal. All rights reserved.</div>
     </div>
   </footer>
-
   <!-- Vercel Analytics -->
-  <script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-  </script>
-  <script defer src="/_vercel/insights/script.js"></script>
-
+  <script defer src="/js/mobile-menu.js"></script>
+  <script defer src="/js/analytics.js"></script>
   <!-- Vercel Speed Insights -->
-  <script>
-    window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
-  </script>
-  <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,134 @@
+/*
+ * Shared design tokens for all Prosepal web pages.
+ * V5 Glass Design: Cream/Plum/Gold palette
+ */
+
+:root {
+  --font-family-base: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-display: "Space Grotesk", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --font-size-3xs: 0.75rem;
+  --font-size-2xs: 0.72rem;
+  --font-size-xs: 0.8rem;
+  --font-size-xs-tight: 0.83rem;
+  --font-size-xs-wide: 0.85rem;
+  --font-size-sm: 0.9rem;
+  --font-size-sm-plus: 0.95rem;
+  --font-size-md: 1rem;
+  --font-size-md-plus: 1.05rem;
+  --font-size-lg: 1.14rem;
+  --font-size-lg-plus: 1.2rem;
+  --font-size-xl: 1.3rem;
+  --font-size-xl-plus: 1.5rem;
+  --font-size-2xl-fixed: 1.35rem;
+  --font-size-hero-sm: 1.75rem;
+  --font-size-heading-fluid: clamp(2rem, 5vw, 2.75rem);
+  --font-size-title-fluid: clamp(1.5rem, 4vw, 2rem);
+  --font-size-display-404: clamp(6rem, 20vw, 10rem);
+  --font-size-display-hero: clamp(2.6rem, 7.2vw, 5.2rem);
+  --font-size-hero-subtitle: clamp(1rem, 2.2vw, 1.24rem);
+  --font-size-popup-title: clamp(1.8rem, 4.4vw, 2.28rem);
+  --font-size-popup-title-mobile: clamp(1.7rem, 9vw, 2rem);
+  --font-size-nav-link: 0.95rem;
+  --font-size-2xl: clamp(1.7rem, 8vw, 2.7rem);
+  --font-size-3xl: clamp(2.2rem, 14vw, 3.8rem);
+
+  --radius-3xs: 4px;
+  --radius-2xs: 2px;
+  --radius-xs: 8px;
+  --radius-sm: 10px;
+  --radius-base: 12px;
+  --radius-md: 14px;
+  --radius-card: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-2xl: 26px;
+  --radius-pill: 999px;
+
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+
+  --md-primary: #4A3A52;
+  --md-primary-hover: #5D4A68;
+  --md-primary-active: #5639a0;
+  --md-on-primary: #ffffff;
+  --md-primary-container: #F9F6F1;
+  --md-on-primary-container: #3A3235;
+
+  --md-secondary: #6E5C7A;
+  --md-secondary-strong: #7A6888;
+  --md-on-secondary: #ffffff;
+  --md-secondary-container: #F0EBE5;
+  --md-on-secondary-container: #3A3235;
+
+  --md-tertiary: #D4AF37;
+  --md-tertiary-dark: #3A3235;
+  --md-on-tertiary: #3A3235;
+  --md-tertiary-container: #FBF5E6;
+  --md-on-tertiary-container: #5C4A1E;
+
+  --md-surface: #F9F6F1;
+  --md-surface-dim: #E8E3DC;
+  --md-surface-variant: #F0EBE5;
+  --md-on-surface: #3A3235;
+  --md-on-surface-variant: #7A7075;
+
+  --md-outline: #9A9095;
+  --md-outline-variant: rgba(74, 58, 82, 0.08);
+
+  --md-background: #F9F6F1;
+  --md-on-background: #3A3235;
+
+  --md-surface-container-lowest: #ffffff;
+  --md-surface-container-low: #FAF7F2;
+  --md-surface-container: #F5F1EB;
+  --md-surface-container-high: #EFEBE5;
+  --md-surface-container-highest: #E8E4DE;
+
+  --md-error: #b3261e;
+  --md-on-error: #ffffff;
+
+  --md-shadow-1: 0 1px 3px 1px rgba(74, 58, 82, 0.08), 0 1px 2px rgba(74, 58, 82, 0.12);
+  --md-shadow-2: 0 2px 6px 2px rgba(74, 58, 82, 0.08), 0 1px 2px rgba(74, 58, 82, 0.12);
+  --md-shadow-3: 0 4px 8px 3px rgba(74, 58, 82, 0.08), 0 1px 3px rgba(74, 58, 82, 0.12);
+
+  /* V5-specific gradients */
+  --v5-gradient-gold: linear-gradient(135deg, #D4AF37 0%, #E8C85A 50%, #D4AF37 100%);
+  --v5-gradient-plum: linear-gradient(135deg, #4A3A52 0%, #6E5C7A 100%);
+  --v5-gradient-plum-strong: linear-gradient(135deg, var(--md-primary-hover), var(--md-secondary-strong));
+
+  /* Glass theme tokens */
+  --glass-bg-page: #07070b;
+  --glass-bg-surface: rgba(255, 255, 255, 0.06);
+  --glass-bg-surface-strong: rgba(255, 255, 255, 0.12);
+  --glass-border-soft: rgba(255, 255, 255, 0.14);
+  --glass-border-hard: rgba(255, 255, 255, 0.24);
+  --glass-text-main: #f7f7fb;
+  --glass-text-secondary: rgba(247, 247, 251, 0.75);
+  --glass-text-muted: rgba(247, 247, 251, 0.58);
+  --glass-accent-peach: #d4736b;
+  --glass-accent-peach-strong: #bf635c;
+  --glass-accent-peach-deep: #b85c54;
+  --glass-accent-peach-light: #f2d4d1;
+  --glass-accent-peach-soft: #f4d3d0;
+  --glass-accent-purple: #8b5cf6;
+  --glass-accent-cyan: #06b6d4;
+  --glass-accent-blue: #2563eb;
+  --glass-shadow-soft: 0 18px 60px rgba(0, 0, 0, 0.26);
+  --glass-text-contrast: #101018;
+  --status-success: #22c55e;
+  --traffic-red: #ff5f57;
+  --traffic-yellow: #febc2e;
+  --traffic-green: #28c840;
+  --color-white: #ffffff;
+}
+
+/*
+ * Default heading treatment for content/blog/messages pages.
+ * Homepage intentionally overrides to --font-family-display in home.css.
+ */
+h1, h2, h3, .serif { font-family: "Playfair Display", Georgia, serif; }
