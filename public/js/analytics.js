@@ -54,8 +54,31 @@
     loadScript("/_vercel/speed-insights/script.js");
   }
 
+  function trackEvent(name, properties = {}) {
+    if (!isTrackingAllowed() || typeof name !== "string" || name.length === 0) {
+      return;
+    }
+
+    const payload =
+      properties && typeof properties === "object" && !Array.isArray(properties) ? properties : {};
+
+    try {
+      window.va("event", { name, ...payload });
+      return;
+    } catch {
+      // Some integrations accept a positional event signature.
+    }
+
+    try {
+      window.va("event", name, payload);
+    } catch {
+      // Ignore analytics transport failures.
+    }
+  }
+
   window.prosepalAnalytics = {
     isTrackingAllowed,
+    trackEvent,
     setOptOut(value) {
       try {
         if (value) {

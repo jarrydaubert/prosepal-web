@@ -117,6 +117,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const demoContext = document.getElementById("demo-context");
   const demoMessage = document.getElementById("demo-message");
   const copyButton = document.getElementById("demo-copy");
+  const analytics = window.prosepalAnalytics;
+  const appStoreLinks = document.querySelectorAll(
+    "a[href*='apps.apple.com/app/prosepal/id6757088726']",
+  );
+
+  function trackEvent(name, properties = {}) {
+    analytics?.trackEvent?.(name, properties);
+  }
+
+  appStoreLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      const location = link.id || link.className || "app_store_link";
+      trackEvent("app_store_click", { location });
+    });
+  });
 
   function selectDemo(key, selectedChip) {
     const value = demoData[key];
@@ -148,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         selectDemo(key, chip);
+        trackEvent("demo_chip_click", { variant: key });
       });
 
       chip.addEventListener("keydown", (event) => {
@@ -185,14 +201,48 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (copyButton && demoMessage) {
+    function fallbackCopyText(text) {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "absolute";
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.select();
+      textarea.setSelectionRange(0, text.length);
+
+      let copied = false;
+      try {
+        copied = document.execCommand("copy");
+      } catch {
+        copied = false;
+      }
+
+      document.body.removeChild(textarea);
+      return copied;
+    }
+
     copyButton.addEventListener("click", async () => {
       const defaultLabel = "Copy sample";
+      const textToCopy = demoMessage.textContent || "";
 
       try {
-        await navigator.clipboard.writeText(demoMessage.textContent || "");
+        await navigator.clipboard.writeText(textToCopy);
         copyButton.textContent = "Copied";
       } catch {
-        copyButton.textContent = "Copy failed";
+        const copied = fallbackCopyText(textToCopy);
+        if (copied) {
+          copyButton.textContent = "Copied";
+        } else {
+          const selection = window.getSelection();
+          const range = document.createRange();
+          range.selectNodeContents(demoMessage);
+          selection?.removeAllRanges();
+          selection?.addRange(range);
+          demoMessage.setAttribute("tabindex", "-1");
+          demoMessage.focus();
+          copyButton.textContent = "Select text to copy";
+        }
       }
 
       setTimeout(() => {
@@ -231,6 +281,7 @@ document.addEventListener("DOMContentLoaded", () => {
         waitlistForm.reset();
         waitlistStatus.dataset.state = "success";
         waitlistStatus.textContent = "Thanks, you are on the Android waitlist.";
+        trackEvent("waitlist_submit_success", { surface: "hero_waitlist" });
       } catch {
         waitlistStatus.dataset.state = "error";
         waitlistStatus.textContent = "Submission failed. Please try again in a moment.";
@@ -415,6 +466,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tipsPopupForm.reset();
         tipsPopupStatus.dataset.state = "success";
         tipsPopupStatus.textContent = "Thanks. Check your inbox soon.";
+        trackEvent("waitlist_submit_success", { surface: "tips_popup" });
         setDismissed(POPUP_SUBMIT_DAYS);
         window.setTimeout(() => closePopup(), 1200);
       } catch {

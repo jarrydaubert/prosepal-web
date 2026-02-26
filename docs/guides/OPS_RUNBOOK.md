@@ -9,6 +9,7 @@ Scope: lightweight DevOps and release operations for `prosepal-web` (static mark
 3. Required checks: `SEO + QA Gate`, `CodeQL`.
 4. Hosting: Vercel origin + Cloudflare edge.
 5. Primary local gate: `bun run check`.
+6. SEO artifact date source: `PROSEPAL_CONTENT_DATE` (defaults to `2026-02-25`) for deterministic generated outputs.
 
 ## 2) Daily Developer Flow
 
@@ -40,6 +41,13 @@ bun run vercel:check-link
 ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
 ```
 
+4. Canonical route policy:
+   - legal/support canonical pages remain `.html` paths
+   - clean aliases must redirect permanently:
+     - `/privacy` -> `/privacy.html`
+     - `/terms` -> `/terms.html`
+     - `/support` -> `/support.html`
+
 ## 4) CI/CD Controls
 
 1. Web quality workflow runs `bun run check`.
@@ -52,6 +60,9 @@ ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
 4. Dependabot updates:
    - npm weekly
    - GitHub Actions weekly
+5. Style audit guardrails:
+   - `audit:styles:strict` is part of `bun run check`
+   - current `hardcoded-color-rgba` threshold is `<=120`
 
 ## 5) Security Controls
 
@@ -75,6 +86,9 @@ Evidence files are written to:
 
 1. `docs/evidence/social-preview-validation.md`
 2. `docs/evidence/schema-spotcheck.md`
+3. `docs/evidence/canonical-route-validation.md`
+
+Schema validation runs against local generated HTML scope (homepage, hubs, blog articles, and message detail pages).
 
 4. Prepare release notes:
 
@@ -91,9 +105,16 @@ git push origin vX.Y.Z
 
 Release note files live in `docs/releases/` (for example `docs/releases/v1.0.0.md`).
 
+6. Conversion event smoke check on preview:
+   - verify custom events fire for:
+     - `app_store_click`
+     - `waitlist_submit_success`
+     - `demo_chip_click`
+
 ## 7) Monthly Ops Review
 
 1. Confirm required check names still match actual CI contexts.
 2. Verify Actions allowlist and token restrictions.
 3. Review Dependabot backlog and merge/update policy.
 4. Review CI runtime/storage usage and adjust thresholds/retention.
+5. Verify style-audit thresholds are still calibrated (no blind spots, no noisy false positives).

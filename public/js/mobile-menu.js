@@ -1,6 +1,7 @@
 (function setupMobileMenu() {
   const hamburger = document.getElementById("nav-hamburger");
   const mobileMenu = document.getElementById("mobile-menu");
+  const firstMobileLink = mobileMenu?.querySelector("a");
 
   if (!hamburger || !mobileMenu) {
     return;
@@ -20,6 +21,10 @@
     const isOpen = mobileMenu.classList.toggle("open");
     hamburger.setAttribute("aria-expanded", String(isOpen));
     document.body.style.overflow = isOpen ? "hidden" : "";
+
+    if (isOpen && firstMobileLink instanceof HTMLElement) {
+      firstMobileLink.focus();
+    }
   });
 
   mobileMenu.querySelectorAll("a").forEach((link) => {

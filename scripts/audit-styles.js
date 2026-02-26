@@ -11,6 +11,7 @@ const DEFAULT_THRESHOLDS = {
   "inline-style-tag": 0,
   "hardcoded-font-family": 0,
   "hardcoded-color-hex": 10,
+  "hardcoded-color-rgba": 120,
   "hardcoded-radius": 20,
   "hardcoded-font-size": 30,
 };
@@ -106,6 +107,7 @@ function auditCss(cssFiles) {
         (value) => !value.includes("var(--font-family-") && !value.includes("inherit"),
       ),
       ...collectMatches(filePath, css, /(#[0-9a-fA-F]{3,8})\b/g, "hardcoded-color-hex"),
+      ...collectMatches(filePath, css, /\brgba\([^)]+\)/gi, "hardcoded-color-rgba"),
       ...collectMatches(
         filePath,
         css,
