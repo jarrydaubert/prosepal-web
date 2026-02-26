@@ -17,7 +17,7 @@ This folder holds execution and quality docs for the web project.
 6. `guides/OPS_RUNBOOK.md`
    - Single source of truth for DevOps, CI/CD, release operations, and monthly ops review.
 7. `evidence/`
-   - Latest release QA and operations evidence outputs (social/schema/canonical, governance policy drift, CI usage budget, accessibility baseline).
+   - Latest release QA evidence outputs (social/schema/canonical, accessibility baseline). For governance/CI usage, treat successful `Monthly Governance Audit` run URL/ID as authoritative evidence.
 8. `releases/`
    - Versioned release notes files.
 

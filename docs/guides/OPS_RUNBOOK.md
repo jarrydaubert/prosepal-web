@@ -72,6 +72,7 @@ ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
    - GitHub policy drift audit (`bun run audit:github:policy`)
    - CI usage budget audit (`bun run audit:ci:usage`)
    - requires repo secret `GH_ADMIN_TOKEN` (fine-grained PAT with Administration read + Actions read)
+   - authoritative evidence is the successful GitHub Actions run on `main` (run URL/ID), because local evidence files can be stale during transient API outages
 
 ## 5) Security Controls
 
@@ -148,3 +149,4 @@ bun run audit:ci:usage
 4. Review Dependabot backlog and merge/update policy.
 5. Review CI runtime/storage usage and adjust thresholds/retention.
 6. Verify style-audit thresholds are still calibrated (no blind spots, no noisy false positives).
+7. Record latest successful `Monthly Governance Audit` run URL/ID in ops notes when closing governance backlog items.
