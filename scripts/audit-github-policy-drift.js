@@ -112,7 +112,9 @@ function appendResult(result, lines) {
 function main() {
   const checks = [];
 
-  let rulesets;
+  let rulesetSummaries;
+  /** @type {unknown[]} */
+  let rulesets = [];
   let actionsPermissions;
   let workflowPermissions;
   let selectedActions;
@@ -120,12 +122,23 @@ function main() {
   let privateVulnReporting;
 
   try {
-    rulesets = ghApi(`repos/${REPO}/rulesets`);
+    rulesetSummaries = ghApi(`repos/${REPO}/rulesets`);
     actionsPermissions = ghApi(`repos/${REPO}/actions/permissions`);
     workflowPermissions = ghApi(`repos/${REPO}/actions/permissions/workflow`);
     selectedActions = ghApi(`repos/${REPO}/actions/permissions/selected-actions`);
     forkApproval = ghApi(`repos/${REPO}/actions/permissions/fork-pr-contributor-approval`);
     privateVulnReporting = ghApi(`repos/${REPO}/private-vulnerability-reporting`);
+    if (Array.isArray(rulesetSummaries)) {
+      rulesets = rulesetSummaries
+        .map((ruleset) => {
+          const id = ruleset?.id;
+          if (typeof id !== "number" && typeof id !== "string") {
+            return null;
+          }
+          return ghApi(`repos/${REPO}/rulesets/${id}`);
+        })
+        .filter(Boolean);
+    }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     if (ALLOW_OFFLINE) {
@@ -141,14 +154,12 @@ function main() {
     process.exit(1);
   }
 
-  const mainRule = Array.isArray(rulesets)
-    ? rulesets.find(
-        (ruleset) =>
-          ruleset?.enforcement === "active" &&
-          Array.isArray(ruleset?.conditions?.ref_name?.include) &&
-          ruleset.conditions.ref_name.include.includes("refs/heads/main"),
-      )
-    : null;
+  const mainRule = rulesets.find(
+    (ruleset) =>
+      ruleset?.enforcement === "active" &&
+      Array.isArray(ruleset?.conditions?.ref_name?.include) &&
+      ruleset.conditions.ref_name.include.includes("refs/heads/main"),
+  );
 
   checks.push({
     ok: Boolean(mainRule),
