@@ -71,6 +71,7 @@ ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
 7. Monthly governance workflow (`Monthly Governance Audit`) runs:
    - GitHub policy drift audit (`bun run audit:github:policy`)
    - CI usage budget audit (`bun run audit:ci:usage`)
+   - requires repo secret `GH_ADMIN_TOKEN` (fine-grained PAT with Administration read + Actions read)
 
 ## 5) Security Controls
 
