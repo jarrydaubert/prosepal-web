@@ -102,6 +102,7 @@ Evidence files are written to:
 2. `docs/evidence/schema-spotcheck.md`
 3. `docs/evidence/canonical-route-validation.md`
 4. `docs/evidence/accessibility-regression.md`
+5. `docs/evidence/lighthouse-budget.md`
 
 Schema validation runs against local generated HTML scope (homepage, hubs, blog articles, and message detail pages).
 
