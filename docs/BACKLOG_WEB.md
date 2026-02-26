@@ -6,7 +6,6 @@ Every row must define a clear, testable Definition of Done.
 | ID | Priority | TODO | Definition Of Done |
 | --- | --- | --- | --- |
 | `WEB-P1-1` | P1 | Run accessibility manual regression | `bun run validate:a11y:baseline` passes and keyboard/focus/manual checks are completed on homepage, messages hub, blog hub, and legal pages with no unresolved critical issues, captured in `docs/evidence/accessibility-regression.md`. |
-| `WEB-P1-2` | P1 | Enforce Lighthouse budgets | `.lighthouserc.json` thresholds are current, `Lighthouse Budget` workflow passes against mobile homepage/messages/blog paths, and release QA includes an explicit Lighthouse pass check. |
 | `WEB-P1-5` | P1 | Add monthly GitHub policy drift audit | `Monthly Governance Audit` runs monthly and `bun run audit:github:policy` records a PASS result in `docs/evidence/github-policy-drift.md` covering rulesets, Actions allowlist, fork policy, and workflow token permissions. |
 | `WEB-P1-6` | P1 | Tune CI usage budget | CI runtime/storage budget targets are documented, `bun run audit:ci:usage` records PASS in `docs/evidence/ci-usage-budget.md`, and monthly ops review includes variance checks against budget thresholds. |
 | `WEB-P1-9` | P1 | Add HSTS preload readiness | `Strict-Transport-Security` includes `preload`, hstspreload submission status is documented, and live header check output is recorded. |
