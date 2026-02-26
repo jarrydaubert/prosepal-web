@@ -17,13 +17,15 @@ Audit the live website for policy and consent risks.
 
 ```bash
 /compliance
+/compliance live
+/compliance local
 /compliance cookies
 /compliance forms
 /compliance claims
 /compliance privacy
 ```
 
-Treat `$ARGUMENTS` as scope. If omitted, run full compliance sweep.
+Treat `$ARGUMENTS` as scope. If omitted, run full compliance sweep on local source plus inferred live behavior.
 
 ## Scope
 

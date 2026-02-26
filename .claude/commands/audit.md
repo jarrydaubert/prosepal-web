@@ -7,7 +7,7 @@ disable-model-invocation: true
 # /audit - Deep Web Audit
 
 **CRITICAL INSTRUCTIONS:**
-- Do NOT use plan/spec modes or persist artifacts to disk.
+- Do NOT persist artifacts to disk.
 - Output all findings directly in chat as markdown.
 - Do NOT modify code in this command.
 - Do not claim "resolved" without file-level evidence.
@@ -65,6 +65,10 @@ Severity:
 - `LOW`: polish and consistency
 
 ### 4. Non-goals & Assumptions
+
+### 5. Backlog Candidates
+- Include only verified P0/P1 items.
+- Each item must include a concrete Definition of Done.
 
 ## Audit Checklist
 

@@ -23,6 +23,12 @@ disable-model-invocation: true
 
 Treat `$ARGUMENTS` as scope. If omitted, run full sweep.
 
+Severity scale:
+- `CRITICAL`: exploitable now, immediate remediation needed
+- `HIGH`: realistic abuse path with material impact
+- `MEDIUM`: hardening gap or defense-in-depth weakness
+- `LOW`: hygiene/polish
+
 ## Evidence Standard
 
 Every finding must include:
@@ -80,3 +86,7 @@ rg "innerHTML|outerHTML|insertAdjacentHTML" public/js scripts
 | --- | --- | --- | --- | --- |
 
 ### 4. Deferred/Unverified Checks
+
+### 5. Immediate Actions
+- Max 5 actions.
+- Order by impact and fix speed.

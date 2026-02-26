@@ -47,6 +47,8 @@ Ignore generated/cache folders:
 - `node_modules/`
 - `.git/`
 - `.vercel/`
+- `docs/evidence/`
+- `docs/releases/`
 
 ## Never Flag as Orphan Without Extra Checks
 

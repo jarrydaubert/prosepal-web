@@ -27,12 +27,13 @@ Treat `$ARGUMENTS` as scope. If omitted, run baseline coverage review.
 ## Baseline Verification Order
 
 ```bash
-bun run generate:site
-bun run lint
-bun run test:metadata
-bun run validate
-bun run audit:styles:strict
 bun run check
+```
+
+If scope includes social metadata/schema checks, also run:
+
+```bash
+bun run release:qa
 ```
 
 ## Test Philosophy
