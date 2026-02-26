@@ -22,8 +22,12 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name: Validate admin token secret
-        if: ${{ secrets.GH_ADMIN_TOKEN == '' }}
+        env:
+          GH_ADMIN_TOKEN: ${{ secrets.GH_ADMIN_TOKEN }}
         run: |
+          if [ -n "$GH_ADMIN_TOKEN" ]; then
+            exit 0
+          fi
           echo "::error::Missing GH_ADMIN_TOKEN secret. Add a fine-grained token with Administration (read) and Actions (read)."
           exit 1
 
