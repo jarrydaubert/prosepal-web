@@ -3,38 +3,64 @@
 const fs = require("node:fs");
 const path = require("node:path");
 
-const TARGETS = [
+const ROOT = path.join(__dirname, "..");
+const PUBLIC_DIR = path.join(ROOT, "public");
+const LOG_DIR = path.join(ROOT, "docs", "evidence");
+const LOG_FILE = path.join(LOG_DIR, "schema-spotcheck.md");
+
+const TARGET_RULES = [
   {
     label: "homepage",
-    url: "https://www.prosepal.app/",
+    match: (relativePath) => relativePath === "index.html",
     requiredTypes: ["Organization", "SoftwareApplication", "WebSite", "FAQPage"],
   },
   {
-    label: "blog-sympathy",
-    url: "https://www.prosepal.app/blog/what-to-write-in-sympathy-card.html",
-    requiredTypes: ["Article", "BreadcrumbList"],
+    label: "messages-hub",
+    match: (relativePath) => relativePath === "messages/index.html",
+    requiredTypes: ["CollectionPage", "BreadcrumbList", "ItemList"],
   },
   {
-    label: "message-sympathy-coworker",
-    url: "https://www.prosepal.app/messages/sympathy-card-message-for-coworker.html",
+    label: "blog-hub",
+    match: (relativePath) => relativePath === "blog/index.html",
+    requiredTypes: ["CollectionPage", "BreadcrumbList", "ItemList"],
+  },
+  {
+    label: "message-detail",
+    match: (relativePath) =>
+      relativePath.startsWith("messages/") && relativePath !== "messages/index.html",
     requiredTypes: ["Article", "BreadcrumbList", "HowTo", "FAQPage"],
+  },
+  {
+    label: "blog-article",
+    match: (relativePath) => relativePath.startsWith("blog/") && relativePath !== "blog/index.html",
+    requiredTypes: ["Article", "BreadcrumbList"],
   },
 ];
 
-const LOG_DIR = path.join(__dirname, "..", "docs", "evidence");
-const LOG_FILE = path.join(LOG_DIR, "schema-spotcheck.md");
-
 /**
- * Fetch text content from a URL.
- * @param {string} url
- * @returns {Promise<string>}
+ * Recursively gather files by extension.
+ * @param {string} directory
+ * @param {string} extension
+ * @returns {string[]}
  */
-async function fetchText(url) {
-  const response = await fetch(url, { redirect: "follow" });
-  if (!response.ok) {
-    throw new Error(`HTTP ${response.status} for ${url}`);
+function walkFiles(directory, extension) {
+  const entries = fs.readdirSync(directory, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    const absolutePath = path.join(directory, entry.name);
+
+    if (entry.isDirectory()) {
+      files.push(...walkFiles(absolutePath, extension));
+      continue;
+    }
+
+    if (entry.isFile() && absolutePath.endsWith(extension)) {
+      files.push(absolutePath);
+    }
   }
-  return response.text();
+
+  return files;
 }
 
 /**
@@ -83,18 +109,31 @@ function collectTypes(node, types) {
 }
 
 /**
- * Verify schema.org JSON-LD context URL safely.
+ * Validate schema.org JSON-LD context URL safely.
  * @param {unknown} contextValue
  * @returns {boolean}
  */
 function hasValidSchemaContext(contextValue) {
-  if (typeof contextValue !== "string") {
-    return false;
+  if (typeof contextValue === "string") {
+    return isSchemaContextUrl(contextValue);
   }
 
+  if (Array.isArray(contextValue)) {
+    return contextValue.some((value) => typeof value === "string" && isSchemaContextUrl(value));
+  }
+
+  return false;
+}
+
+/**
+ * Validate whether a context URL points to schema.org.
+ * @param {string} contextUrl
+ * @returns {boolean}
+ */
+function isSchemaContextUrl(contextUrl) {
   let parsed;
   try {
-    parsed = new URL(contextValue);
+    parsed = new URL(contextUrl);
   } catch {
     return false;
   }
@@ -105,17 +144,34 @@ function hasValidSchemaContext(contextValue) {
 }
 
 /**
- * Validate schema blocks for one target page.
- * @param {{label: string, url: string, requiredTypes: string[]}} target
- * @returns {Promise<string[]>}
+ * Find target rule for a relative HTML path.
+ * @param {string} relativePath
+ * @returns {{label: string, requiredTypes: string[]} | null}
  */
-async function validateTarget(target) {
-  const html = await fetchText(target.url);
+function resolveRule(relativePath) {
+  for (const rule of TARGET_RULES) {
+    if (rule.match(relativePath)) {
+      return { label: rule.label, requiredTypes: rule.requiredTypes };
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Validate schema blocks for one local file target.
+ * @param {string} relativePath
+ * @param {{label: string, requiredTypes: string[]}} rule
+ * @returns {string[]}
+ */
+function validateTarget(relativePath, rule) {
+  const htmlPath = path.join(PUBLIC_DIR, relativePath);
+  const html = fs.readFileSync(htmlPath, "utf8");
   const blocks = extractJsonLdBlocks(html);
   const errors = [];
 
   if (blocks.length === 0) {
-    return [`[${target.label}] no JSON-LD scripts found`];
+    return [`[${relativePath}] no JSON-LD scripts found`];
   }
 
   const allTypes = new Set();
@@ -125,21 +181,22 @@ async function validateTarget(target) {
     try {
       parsed = JSON.parse(block);
     } catch (error) {
-      errors.push(`[${target.label}] invalid JSON-LD block ${index + 1}: ${error.message}`);
+      const message = error instanceof Error ? error.message : String(error);
+      errors.push(`[${relativePath}] invalid JSON-LD block ${index + 1}: ${message}`);
       continue;
     }
 
     const contextValue = parsed?.["@context"];
     if (!hasValidSchemaContext(contextValue)) {
-      errors.push(`[${target.label}] block ${index + 1} missing schema.org @context`);
+      errors.push(`[${relativePath}] block ${index + 1} missing schema.org @context`);
     }
 
     collectTypes(parsed, allTypes);
   }
 
-  for (const requiredType of target.requiredTypes) {
+  for (const requiredType of rule.requiredTypes) {
     if (!allTypes.has(requiredType)) {
-      errors.push(`[${target.label}] missing required @type: ${requiredType}`);
+      errors.push(`[${relativePath}] missing required @type (${rule.label}): ${requiredType}`);
     }
   }
 
@@ -166,19 +223,32 @@ function writeLog(results) {
 
 /**
  * Entry point.
- * @returns {Promise<void>}
+ * @returns {void}
  */
-async function main() {
-  const allErrors = [];
-  const lines = ["Status: PASS"];
+function main() {
+  const htmlFiles = walkFiles(PUBLIC_DIR, ".html");
+  const relativeHtmlFiles = htmlFiles
+    .map((filePath) => path.relative(PUBLIC_DIR, filePath).split(path.sep).join("/"))
+    .sort();
 
-  for (const target of TARGETS) {
-    const errors = await validateTarget(target);
+  const scopedTargets = relativeHtmlFiles
+    .map((relativePath) => ({ relativePath, rule: resolveRule(relativePath) }))
+    .filter((entry) => entry.rule !== null);
+
+  const allErrors = [];
+  const lines = [
+    "Status: PASS",
+    `- Scope: ${scopedTargets.length} local HTML files (homepage, hubs, blog articles, message details)`,
+  ];
+
+  for (const target of scopedTargets) {
+    const errors = validateTarget(target.relativePath, target.rule);
     if (errors.length > 0) {
       allErrors.push(...errors);
       continue;
     }
-    lines.push(`- ${target.label}: pass`);
+
+    lines.push(`- ${target.relativePath}: pass`);
   }
 
   if (allErrors.length > 0) {
@@ -200,7 +270,4 @@ async function main() {
   console.log(`Evidence written: ${path.relative(process.cwd(), LOG_FILE)}`);
 }
 
-main().catch((error) => {
-  console.error(`Schema spot-check error: ${error.message}`);
-  process.exit(1);
-});
+main();

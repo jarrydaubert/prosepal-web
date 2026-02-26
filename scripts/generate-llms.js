@@ -2,7 +2,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { SITE_URL } = require("./lib/metadata");
+const { CONTENT_DATE, SITE_URL } = require("./lib/metadata");
 
 const ROOT_DIR = path.join(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT_DIR, "public");
@@ -129,7 +129,6 @@ function main() {
 
   const messagePages = listMessagePages();
   const blogPages = listBlogPages();
-  const today = new Date().toISOString().slice(0, 10);
 
   const groupedMessages = new Map();
   for (const page of messagePages) {
@@ -162,7 +161,7 @@ function main() {
 
 > AI-powered greeting card message generator for birthdays, sympathy, thank-you notes, weddings, and more.
 
-Last updated: ${today}
+Last updated: ${CONTENT_DATE}
 
 Prosepal helps users turn blank-card anxiety into clear, natural wording. The web experience is content-led (message examples and blog guides) with App Store conversion as the primary product CTA.
 

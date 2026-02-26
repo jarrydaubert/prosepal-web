@@ -15,7 +15,6 @@ disable-model-invocation: true
 ## Usage
 
 ```bash
-/web audit
 /web responsive
 /web a11y
 /web performance
@@ -23,7 +22,7 @@ disable-model-invocation: true
 /web nav rewrite
 ```
 
-Treat `$ARGUMENTS` as the requested task mode. If omitted, default to `audit`.
+Treat `$ARGUMENTS` as the requested task mode. If omitted, default to `responsive`.
 
 ## Project Context
 
@@ -61,7 +60,6 @@ Treat `$ARGUMENTS` as the requested task mode. If omitted, default to `audit`.
 
 | Task | Output |
 | --- | --- |
-| `audit` | UX/perf/SEO/a11y findings with ranked fixes |
 | `responsive` | layout and spacing fixes for mobile/tablet/desktop |
 | `a11y` | semantic and keyboard/focus improvements |
 | `performance` | render-path and asset loading improvements |

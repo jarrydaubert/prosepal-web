@@ -1,0 +1,39 @@
+name: Monthly Governance Audit
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "20 7 1 * *"
+
+concurrency:
+  group: monthly-governance-audit-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  governance-audit:
+    name: Governance Drift + CI Usage Budget
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Run GitHub policy drift audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/audit-github-policy-drift.js
+
+      - name: Run CI usage budget audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/audit-ci-usage-budget.js
+
+      - name: Print audit evidence
+        run: |
+          echo "---- github-policy-drift.md ----"
+          cat docs/evidence/github-policy-drift.md
+          echo "---- ci-usage-budget.md ----"
+          cat docs/evidence/ci-usage-budget.md

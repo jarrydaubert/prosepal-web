@@ -1,6 +1,7 @@
 const SITE_URL = "https://www.prosepal.app";
 const SITE_NAME = "Prosepal";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg`;
+const CONTENT_DATE = process.env.PROSEPAL_CONTENT_DATE || "2026-02-25";
 
 /**
  * Convert a site-relative path to an absolute URL for metadata.
@@ -118,6 +119,7 @@ module.exports = {
   SITE_NAME,
   SITE_URL,
   DEFAULT_OG_IMAGE,
+  CONTENT_DATE,
   buildMetadata,
   formatTitle,
   toAbsoluteUrl,

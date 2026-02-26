@@ -2,7 +2,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { SITE_URL } = require("./lib/metadata");
+const { CONTENT_DATE, SITE_URL } = require("./lib/metadata");
 
 const ROOT_DIR = path.join(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT_DIR, "public");
@@ -157,8 +157,8 @@ function getChangeFreq(urlPath) {
  * @param {string} filePath
  * @returns {string}
  */
-function toLastMod(filePath) {
-  return fs.statSync(filePath).mtime.toISOString().slice(0, 10);
+function toLastMod() {
+  return CONTENT_DATE;
 }
 
 /**

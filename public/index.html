@@ -23,6 +23,7 @@
   <meta name="twitter:description" content="Get card messages that sound like you wrote them in seconds.">
   <meta name="twitter:image" content="https://www.prosepal.app/og-image.jpg">
   <meta name="twitter:image:alt" content="Prosepal app showing AI-generated greeting card messages">
+  <meta name="color-scheme" content="dark">
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon.png">
@@ -180,7 +181,7 @@
           <a href="#demo" class="cta-secondary">Preview sample messages</a>
         </div>
         <div class="hero-waitlist">
-          <span class="hero-waitlist-label">On Android? Join the waitlist.</span>
+          <label class="hero-waitlist-label" for="android-waitlist-email">On Android? Join the waitlist.</label>
           <form
             class="hero-waitlist-form"
             id="android-waitlist-form"
@@ -367,6 +368,7 @@
         action="https://formspree.io/f/xgooqzgg"
         method="POST"
       >
+        <label for="tips-popup-email" class="sr-only">Email address</label>
         <input
           type="email"
           name="email"

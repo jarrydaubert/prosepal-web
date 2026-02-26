@@ -9,6 +9,11 @@ Scope: lightweight DevOps and release operations for `prosepal-web` (static mark
 3. Required checks: `SEO + QA Gate`, `CodeQL`.
 4. Hosting: Vercel origin + Cloudflare edge.
 5. Primary local gate: `bun run check`.
+6. SEO artifact date source: `PROSEPAL_CONTENT_DATE` (defaults to `2026-02-25`) for deterministic generated outputs.
+7. CI budget targets (30-day window):
+   - total workflow runtime <= `180m`
+   - `Web Quality` average runtime <= `3m`
+   - `CodeQL` average runtime <= `8m`
 
 ## 2) Daily Developer Flow
 
@@ -40,18 +45,32 @@ bun run vercel:check-link
 ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
 ```
 
+4. Canonical route policy:
+   - legal/support canonical pages remain `.html` paths
+   - clean aliases must redirect permanently:
+     - `/privacy` -> `/privacy.html`
+     - `/terms` -> `/terms.html`
+     - `/support` -> `/support.html`
+
 ## 4) CI/CD Controls
 
 1. Web quality workflow runs `bun run check`.
 2. CodeQL scanning is required on `main`.
-3. Actions policy:
+3. Lighthouse budget workflow (`Lighthouse Budget`) runs on `main` changes and manual dispatch.
+4. Actions policy:
    - selected actions only
    - SHA pinning required
    - read-only default `GITHUB_TOKEN`
    - external contributor workflow approval enabled
-4. Dependabot updates:
+5. Dependabot updates:
    - npm weekly
    - GitHub Actions weekly
+6. Style audit guardrails:
+   - `audit:styles:strict` is part of `bun run check`
+   - current `hardcoded-color-rgba` threshold is `<=120`
+7. Monthly governance workflow (`Monthly Governance Audit`) runs:
+   - GitHub policy drift audit (`bun run audit:github:policy`)
+   - CI usage budget audit (`bun run audit:ci:usage`)
 
 ## 5) Security Controls
 
@@ -65,7 +84,13 @@ ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
 
 1. `bun run check` passes.
 2. Required PR checks pass on GitHub.
-3. Production preview metadata checks pass:
+3. Accessibility baseline gate passes:
+
+```bash
+bun run validate:a11y:baseline
+```
+
+4. Production preview metadata checks pass:
 
 ```bash
 bun run release:qa
@@ -75,14 +100,24 @@ Evidence files are written to:
 
 1. `docs/evidence/social-preview-validation.md`
 2. `docs/evidence/schema-spotcheck.md`
+3. `docs/evidence/canonical-route-validation.md`
+4. `docs/evidence/accessibility-regression.md`
 
-4. Prepare release notes:
+Schema validation runs against local generated HTML scope (homepage, hubs, blog articles, and message detail pages).
+
+5. Lighthouse budget workflow is green for current `main`:
+
+```bash
+gh run list --workflow "Lighthouse Budget" --limit 1 --repo jarrydaubert/prosepal-web
+```
+
+6. Prepare release notes:
 
 ```bash
 bun run release:prepare -- vX.Y.Z
 ```
 
-5. Create and push semantic tag:
+7. Create and push semantic tag:
 
 ```bash
 git tag -a vX.Y.Z -m "Release vX.Y.Z"
@@ -91,9 +126,23 @@ git push origin vX.Y.Z
 
 Release note files live in `docs/releases/` (for example `docs/releases/v1.0.0.md`).
 
+8. Conversion event smoke check on preview:
+   - verify custom events fire for:
+     - `app_store_click`
+     - `waitlist_submit_success`
+     - `demo_chip_click`
+
 ## 7) Monthly Ops Review
 
-1. Confirm required check names still match actual CI contexts.
-2. Verify Actions allowlist and token restrictions.
-3. Review Dependabot backlog and merge/update policy.
-4. Review CI runtime/storage usage and adjust thresholds/retention.
+1. Run governance audits:
+
+```bash
+bun run audit:github:policy
+bun run audit:ci:usage
+```
+
+2. Confirm required check names still match actual CI contexts.
+3. Verify Actions allowlist and token restrictions.
+4. Review Dependabot backlog and merge/update policy.
+5. Review CI runtime/storage usage and adjust thresholds/retention.
+6. Verify style-audit thresholds are still calibrated (no blind spots, no noisy false positives).

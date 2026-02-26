@@ -7,6 +7,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const { CONTENT_DATE } = require("./lib/metadata");
 const { buildMetadata } = require("./lib/metadata");
 
 const ROOT_DIR = path.join(__dirname, "..");
@@ -14,8 +15,8 @@ const DATA_FILE = path.join(ROOT_DIR, "data", "messages-pages.json");
 const TEMPLATE_FILE = path.join(ROOT_DIR, "templates", "message-page.html");
 const OUTPUT_DIR = path.join(ROOT_DIR, "public", "messages");
 
-const TODAY = new Date().toISOString().split("T")[0];
-const DISPLAY_DATE = new Date().toLocaleDateString("en-US", {
+const TODAY = CONTENT_DATE;
+const DISPLAY_DATE = new Date(`${TODAY}T00:00:00Z`).toLocaleDateString("en-US", {
   month: "long",
   year: "numeric",
 });
@@ -366,6 +367,7 @@ function generateHubPage(pages) {
   <meta name="twitter:description" content="${escapeHtml(metadata.twitter.description)}">
   <meta name="twitter:image" content="${metadata.twitter.image}">
   <meta name="twitter:image:alt" content="${escapeHtml(metadata.twitter.imageAlt)}">
+  <meta name="color-scheme" content="dark">
 
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
