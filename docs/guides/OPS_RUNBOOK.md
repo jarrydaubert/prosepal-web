@@ -68,7 +68,11 @@ ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
 6. Style audit guardrails:
    - `audit:styles:strict` is part of `bun run check`
    - current `hardcoded-color-rgba` threshold is `<=120`
-7. Monthly governance workflow (`Monthly Governance Audit`) runs:
+7. Bun dependency caching in CI:
+   - `Web Quality` and `Lighthouse Budget` use SHA-pinned `actions/cache` for `~/.bun/install/cache`
+   - cache key is deterministic: `${{ runner.os }}-bun-cache-${{ hashFiles('bun.lock') }}`
+   - cache hit/miss status is visible in workflow logs via the `Cache Bun package cache` step
+8. Monthly governance workflow (`Monthly Governance Audit`) runs:
    - GitHub policy drift audit (`bun run audit:github:policy`)
    - CI usage budget audit (`bun run audit:ci:usage`)
    - requires repo secret `GH_ADMIN_TOKEN` (fine-grained PAT with Administration read + Actions read)
