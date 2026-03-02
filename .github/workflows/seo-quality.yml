@@ -17,6 +17,8 @@ on:
       - "README.md"
       - "LICENSE"
       - "SECURITY.md"
+      - "CHANGELOG.md"
+      - ".release-please-manifest.json"
       - ".github/**"
       - ".github/workflows/seo-quality.yml"
   push:
@@ -36,6 +38,8 @@ on:
       - "README.md"
       - "LICENSE"
       - "SECURITY.md"
+      - "CHANGELOG.md"
+      - ".release-please-manifest.json"
       - ".github/**"
       - ".github/workflows/seo-quality.yml"
 
