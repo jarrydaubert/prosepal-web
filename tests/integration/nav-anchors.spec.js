@@ -6,7 +6,7 @@ test.use({
 });
 
 async function assertAnchorTargetVisible(page, href, sectionId) {
-  await page.locator(`.nav .nav-links a[href=\"${href}\"]`).click();
+  await page.locator(`.nav .nav-links a[href="${href}"]`).click();
   await expect(page).toHaveURL(new RegExp(`${href}$`));
 
   const top = await page.evaluate((id) => {
