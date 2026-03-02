@@ -19,6 +19,7 @@
     "test:artifacts": "node scripts/test-seo-artifacts.js",
     "validate:a11y:baseline": "node scripts/validate-accessibility-regression.js",
     "validate:csp:runtime": "node scripts/validate-csp-runtime.js",
+    "validate:events:conversion": "node scripts/validate-conversion-events.js",
     "validate:social:prod": "node scripts/validate-social-preview.js",
     "validate:canonical:routes": "node scripts/validate-canonical-routes.js",
     "validate:schema:local": "node scripts/validate-schema-spotcheck.js",
