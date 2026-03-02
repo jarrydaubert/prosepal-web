@@ -7,7 +7,6 @@ Every row must define a clear, testable Definition of Done.
 | --- | --- | --- | --- |
 | `WEB-P1-9` | P1 | Add HSTS preload readiness | `Strict-Transport-Security` includes `preload`, hstspreload submission status is documented, and live header check output is recorded. |
 | `WEB-P1-12` | P1 | Rotate governance audit token before expiry (May 27, 2026) | `GH_ADMIN_TOKEN` is replaced before **May 27, 2026**, `Monthly Governance Audit` passes on `main` after rotation, and the new expiry date is recorded in ops notes/backlog. |
-| `WEB-P1-13` | P1 | Remove render-blocking Google Fonts on non-home pages | All non-home HTML routes (including generated message and blog pages) use deferred/non-blocking font loading equivalent to homepage strategy, and before/after evidence is recorded in `docs/evidence/`. |
 | `WEB-P2-1` | P2 | Roll out verified social proof | Placeholder social proof is replaced by verified testimonials with source notes. |
 | `WEB-P2-16` | P2 | Populate Organization schema `sameAs` links | Homepage `Organization` JSON-LD `sameAs` is non-empty and points to valid official profiles/listings (for example App Store or social profiles), and schema spot-check evidence is updated. |
 | `WEB-P2-17` | P2 | Expand visual regression coverage beyond homepage | Visual regression suite includes at least one blog page and one message-detail page baseline in addition to homepage, and CI evidence is recorded. |
