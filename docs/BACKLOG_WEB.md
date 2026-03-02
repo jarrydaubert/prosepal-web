@@ -7,7 +7,6 @@ Every row must define a clear, testable Definition of Done.
 | --- | --- | --- | --- |
 | `WEB-P1-9` | P1 | Add HSTS preload readiness | `Strict-Transport-Security` includes `preload`, hstspreload submission status is documented, and live header check output is recorded. |
 | `WEB-P2-8` | P2 | Add explicit Permissions-Policy header | Global response headers include a least-privilege `Permissions-Policy` value for this static site, and live header checks confirm it is returned. |
-| `WEB-P2-5` | P2 | Verify runtime CSP behavior for Vercel analytics scripts | Browser console checks on production show no CSP violations for analytics/speed-insights, or CSP is updated with least-privilege allow rules and evidence is captured. |
 | `WEB-P1-12` | P1 | Rotate governance audit token before expiry (May 27, 2026) | `GH_ADMIN_TOKEN` is replaced before **May 27, 2026**, `Monthly Governance Audit` passes on `main` after rotation, and the new expiry date is recorded in ops notes/backlog. |
 | `WEB-P1-11` | P1 | Add high-value conversion analytics events | Vercel custom events are emitted for key conversion interactions (App Store clicks, waitlist submit success, demo-chip interactions), event names/properties are documented, and events are verified in the analytics dashboard or network traces. |
 | `WEB-P2-3` | P2 | Decide Formspree endpoint strategy for two forms | Either separate Formspree endpoints are implemented for waitlist vs tips popup, or a documented single-endpoint decision with proven source-based filtering and failure handling is added. |
