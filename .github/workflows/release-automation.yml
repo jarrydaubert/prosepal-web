@@ -42,9 +42,15 @@ jobs:
           manifest-file: .release-please-manifest.json
 
       - name: Summarize release automation result
+        env:
+          RELEASE_CREATED: ${{ steps.release.outputs.release_created }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag_name }}
+          RELEASE_URL: ${{ steps.release.outputs.html_url }}
+          PRS_CREATED: ${{ steps.release.outputs.prs_created }}
+          RELEASE_PR: ${{ steps.release.outputs.pr }}
         run: |
-          echo "release_created=${{ steps.release.outputs.release_created }}"
-          echo "release_tag=${{ steps.release.outputs.tag_name }}"
-          echo "release_url=${{ steps.release.outputs.html_url }}"
-          echo "prs_created=${{ steps.release.outputs.prs_created }}"
-          echo "pr=${{ steps.release.outputs.pr }}"
+          printf 'release_created=%s\n' "$RELEASE_CREATED"
+          printf 'release_tag=%s\n' "$RELEASE_TAG"
+          printf 'release_url=%s\n' "$RELEASE_URL"
+          printf 'prs_created=%s\n' "$PRS_CREATED"
+          printf 'pr=%s\n' "$RELEASE_PR"
