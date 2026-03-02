@@ -120,6 +120,7 @@ Evidence files are written to:
 8. `docs/evidence/conversion-events-verification.md`
 9. `docs/evidence/formspree-endpoint-strategy.md`
 10. `docs/evidence/homepage-css-path-optimization.md`
+11. `docs/evidence/ci-bun-cache-validation.md`
 
 Schema validation runs against local generated HTML scope (homepage, hubs, blog articles, and message detail pages).
 
