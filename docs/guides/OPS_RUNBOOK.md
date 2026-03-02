@@ -106,6 +106,7 @@ Evidence files are written to:
 4. `docs/evidence/accessibility-regression.md`
 5. `docs/evidence/lighthouse-budget.md`
 6. `docs/evidence/security-headers-validation.md`
+7. `docs/evidence/csp-runtime-verification.md`
 
 Schema validation runs against local generated HTML scope (homepage, hubs, blog articles, and message detail pages).
 
@@ -141,6 +142,12 @@ Release note files live in `docs/releases/` (for example `docs/releases/v1.0.0.m
 ```bash
 curl -sS -I https://www.prosepal.app | rg -i "strict-transport-security|permissions-policy"
 curl -sS -I https://prosepal.app | rg -i "strict-transport-security|permissions-policy|location"
+```
+
+10. Runtime CSP smoke check for analytics scripts:
+
+```bash
+bun run validate:csp:runtime
 ```
 
 ## 7) Monthly Ops Review
