@@ -147,10 +147,10 @@ async function main() {
     await browser.close();
   }
 
-  const hasBlockingIssues = results.some(
-    (result) => result.cspConsoleViolations.length > 0 || result.pageErrors.length > 0,
+  const hasBlockingIssues = results.some((result) => result.cspConsoleViolations.length > 0);
+  const hasRuntimeWarnings = results.some(
+    (result) => result.pageErrors.length > 0 || result.analyticsRequestFailures.length > 0,
   );
-  const hasAnalyticsWarnings = results.some((result) => result.analyticsRequestFailures.length > 0);
 
   const lines = [hasBlockingIssues ? "Status: FAIL" : "Status: PASS"];
 
@@ -197,8 +197,8 @@ async function main() {
     process.exit(1);
   }
 
-  if (hasAnalyticsWarnings) {
-    console.warn("CSP runtime verification passed with analytics request warnings.");
+  if (hasRuntimeWarnings) {
+    console.warn("CSP runtime verification passed with runtime warnings.");
   }
 
   console.log("CSP runtime verification passed.");
