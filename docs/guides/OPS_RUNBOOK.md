@@ -129,6 +129,7 @@ Evidence files are written to:
 16. `docs/evidence/nonblocking-font-loading.md`
 17. `docs/evidence/interaction-regression.md`
 18. `docs/evidence/tips-popup-regression.md`
+19. `docs/evidence/hsts-preload.md`
 
 Schema validation runs against local generated HTML scope (homepage, hubs, blog articles, and message detail pages).
 
@@ -170,7 +171,7 @@ curl -sS -I https://prosepal.app | rg -i "strict-transport-security|permissions-
 Expected result:
 
 - `www` responses include both `Strict-Transport-Security` (with `preload`) and `Permissions-Policy`.
-- apex redirect must include `location` and `Strict-Transport-Security`; missing apex `Permissions-Policy` is tracked via `WEB-P1-9` external redirect ownership.
+- apex redirect must include `location` and `Strict-Transport-Security`; if apex `Permissions-Policy` differs, document the external redirect-owner constraint in ops notes.
 
 10. Runtime CSP smoke check for analytics scripts:
 
