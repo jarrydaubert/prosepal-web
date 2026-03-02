@@ -128,6 +128,7 @@ Evidence files are written to:
 15. `docs/evidence/marketing-claims.md`
 16. `docs/evidence/nonblocking-font-loading.md`
 17. `docs/evidence/interaction-regression.md`
+18. `docs/evidence/tips-popup-regression.md`
 
 Schema validation runs against local generated HTML scope (homepage, hubs, blog articles, and message detail pages).
 
