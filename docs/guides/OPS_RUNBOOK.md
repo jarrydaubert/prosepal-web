@@ -177,3 +177,58 @@ bun run audit:ci:usage
 5. Review CI runtime/storage usage and adjust thresholds/retention.
 6. Verify style-audit thresholds are still calibrated (no blind spots, no noisy false positives).
 7. Record latest successful `Monthly Governance Audit` run URL/ID in ops notes when closing governance backlog items.
+
+## 8) Troubleshooting
+
+1. GitHub API outage during governance audits:
+   - Symptom: `bun run audit:github:policy` or `bun run audit:ci:usage` reports API connection failures.
+   - Action path:
+
+```bash
+gh run list --workflow "Monthly Governance Audit" --limit 1 --repo jarrydaubert/prosepal-web
+```
+
+   - If latest `main` run is `success`, treat that run URL/ID as authoritative and defer local rerun until GitHub status recovers.
+   - If latest run is not `success`, rerun workflow from Actions UI once GitHub API is healthy and capture new run URL/ID in ops notes.
+
+2. Stale local evidence files:
+   - Symptom: local files under `docs/evidence/` show `SKIP` or old timestamps after transient failures.
+   - Action path:
+
+```bash
+bun run release:qa
+bun run validate:a11y:baseline
+bun run validate:csp:runtime
+bun run validate:events:conversion
+bun run validate:formspree:strategy
+```
+
+   - Commit updated evidence only after commands pass and timestamps reflect current run date.
+
+3. `GH_ADMIN_TOKEN` expiry or rotation failure:
+   - Symptom: `Monthly Governance Audit` fails at token validation or GitHub API calls.
+   - Action path:
+     - Create new fine-grained PAT with `Administration (read)` and `Actions (read)` for `jarrydaubert/prosepal-web`.
+     - Update repo secret `GH_ADMIN_TOKEN` in GitHub settings.
+     - Trigger workflow rerun:
+
+```bash
+gh workflow run "Monthly Governance Audit" --repo jarrydaubert/prosepal-web
+gh run list --workflow "Monthly Governance Audit" --limit 1 --repo jarrydaubert/prosepal-web
+```
+
+   - Record new token expiry date and successful run URL/ID in ops notes/backlog.
+
+4. Vercel/Cloudflare rollback path:
+   - Symptom: production regression after deploy or edge-header misbehavior.
+   - Action path:
+     - Inspect recent Vercel deployments and identify last known-good target.
+     - Promote/rollback from Vercel dashboard to last known-good deployment.
+     - Verify header/canonical sanity immediately:
+
+```bash
+curl -sS -I https://www.prosepal.app | rg -i "strict-transport-security|permissions-policy|content-security-policy|location"
+curl -sS -I https://prosepal.app | rg -i "strict-transport-security|permissions-policy|location"
+```
+
+   - If apex redirect headers still diverge, escalate to apex-domain owner/Cloudflare admin and document incident notes.
