@@ -63,8 +63,8 @@ ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
    - read-only default `GITHUB_TOKEN`
    - external contributor workflow approval enabled
 5. Dependabot updates:
-   - npm weekly
-   - GitHub Actions weekly
+   - npm weekly (grouped as `npm-all`)
+   - GitHub Actions weekly (grouped as `github-actions-all`)
 6. Style audit guardrails:
    - `audit:styles:strict` is part of `bun run check`
    - current `hardcoded-color-rgba` threshold is `<=120`
