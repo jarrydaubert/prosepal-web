@@ -18,6 +18,7 @@
     "test:metadata": "node scripts/test-metadata.js",
     "test:artifacts": "node scripts/test-seo-artifacts.js",
     "validate:a11y:baseline": "node scripts/validate-accessibility-regression.js",
+    "validate:a11y:manual": "node scripts/validate-accessibility-manual.js",
     "validate:csp:runtime": "node scripts/validate-csp-runtime.js",
     "validate:events:conversion": "node scripts/validate-conversion-events.js",
     "validate:formspree:strategy": "node scripts/validate-formspree-strategy.js",

@@ -96,6 +96,12 @@ ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
 bun run validate:a11y:baseline
 ```
 
+Manual keyboard/focus regression also passes:
+
+```bash
+bun run validate:a11y:manual
+```
+
 4. Production preview metadata checks pass:
 
 ```bash
