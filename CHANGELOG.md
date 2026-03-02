@@ -1,0 +1,24 @@
+# Changelog
+
+## [1.1.0](https://github.com/jarrydaubert/prosepal-web/compare/v1.0.1...v1.1.0) (2026-03-02)
+
+
+### Features
+
+* add manual accessibility regression checks ([b52311f](https://github.com/jarrydaubert/prosepal-web/commit/b52311fc567c38137492024e1a4c4a1b9ada2dd8))
+* add runtime CSP verification evidence ([3e814d1](https://github.com/jarrydaubert/prosepal-web/commit/3e814d1a4e62afc24b8d49e7b181a1e4b884a6df))
+* harden web quality workflow and SEO artifacts ([00128af](https://github.com/jarrydaubert/prosepal-web/commit/00128afdaa59d16bb1a2c44bb03b9c585a679ff5))
+* validate Formspree single-endpoint strategy ([c210171](https://github.com/jarrydaubert/prosepal-web/commit/c210171117e44feaad91d5a2d15b0fee4dd6c602))
+* verify conversion events and close WEB-P1-11 ([6a438c4](https://github.com/jarrydaubert/prosepal-web/commit/6a438c49f7d54396fb7bafd07fef0781293b4777))
+
+
+### Bug Fixes
+
+* **ci:** safely print release-please PR output ([f5f6bb3](https://github.com/jarrydaubert/prosepal-web/commit/f5f6bb33b281cba32f15a629c2c667808e691c2b))
+* make monthly governance secret guard workflow-valid ([#12](https://github.com/jarrydaubert/prosepal-web/issues/12)) ([1804d96](https://github.com/jarrydaubert/prosepal-web/commit/1804d96c2c3d7c17f16e7161309b505d38bcb742))
+* use admin token secret for monthly governance audit ([#10](https://github.com/jarrydaubert/prosepal-web/issues/10)) ([d7042df](https://github.com/jarrydaubert/prosepal-web/commit/d7042df355f9c964981feeef159013556bfd9885))
+
+
+### Performance Improvements
+
+* optimize homepage font CSS loading path ([3463fb0](https://github.com/jarrydaubert/prosepal-web/commit/3463fb035a429729910fce86eda2811c82354991))
