@@ -597,10 +597,11 @@ section + section {
 .tips-popup h2 {
   margin: 0;
   font-family: var(--font-family-base);
-  font-size: var(--font-size-popup-title);
-  line-height: 1.06;
+  font-size: clamp(1.58rem, 3.8vw, 2rem);
+  line-height: 1.1;
   letter-spacing: -0.03em;
   padding-right: 2rem;
+  text-wrap: balance;
 }
 
 .tips-popup-copy {
