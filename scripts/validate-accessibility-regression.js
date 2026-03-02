@@ -81,6 +81,42 @@ const PAGE_RULES = [
       },
     ],
   },
+  {
+    file: "messages/sympathy-card-message-for-friend.html",
+    checks: [
+      { label: "skip link present", pattern: SKIP_LINK_PATTERN },
+      { label: "main-content anchor exists", pattern: /\sid="main-content"/i },
+      { label: "main navigation aria-label", pattern: /<nav[^>]*aria-label="Main navigation"/i },
+      {
+        label: "mobile navigation aria-label",
+        pattern: /<nav[^>]*class="mobile-menu"[^>]*aria-label="Mobile navigation"/i,
+      },
+    ],
+  },
+  {
+    file: "messages/birthday-card-message-for-friend.html",
+    checks: [
+      { label: "skip link present", pattern: SKIP_LINK_PATTERN },
+      { label: "main-content anchor exists", pattern: /\sid="main-content"/i },
+      { label: "main navigation aria-label", pattern: /<nav[^>]*aria-label="Main navigation"/i },
+      {
+        label: "mobile navigation aria-label",
+        pattern: /<nav[^>]*class="mobile-menu"[^>]*aria-label="Mobile navigation"/i,
+      },
+    ],
+  },
+  {
+    file: "messages/graduation-card-message-for-child.html",
+    checks: [
+      { label: "skip link present", pattern: SKIP_LINK_PATTERN },
+      { label: "main-content anchor exists", pattern: /\sid="main-content"/i },
+      { label: "main navigation aria-label", pattern: /<nav[^>]*aria-label="Main navigation"/i },
+      {
+        label: "mobile navigation aria-label",
+        pattern: /<nav[^>]*class="mobile-menu"[^>]*aria-label="Mobile navigation"/i,
+      },
+    ],
+  },
 ];
 
 const CSS_RULES = [

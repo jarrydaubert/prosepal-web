@@ -1,6 +1,6 @@
 # Accessibility Regression Baseline
 
-Date: 2026-03-02T15:18:05.942Z
+Date: 2026-03-02T15:19:31.513Z
 
 Status: PASS
 - PASS: index.html :: skip link present
@@ -23,11 +23,23 @@ Status: PASS
 - PASS: support.html :: skip link present
 - PASS: support.html :: main navigation aria-label
 - PASS: support.html :: mobile navigation aria-label
+- PASS: messages/sympathy-card-message-for-friend.html :: skip link present
+- PASS: messages/sympathy-card-message-for-friend.html :: main-content anchor exists
+- PASS: messages/sympathy-card-message-for-friend.html :: main navigation aria-label
+- PASS: messages/sympathy-card-message-for-friend.html :: mobile navigation aria-label
+- PASS: messages/birthday-card-message-for-friend.html :: skip link present
+- PASS: messages/birthday-card-message-for-friend.html :: main-content anchor exists
+- PASS: messages/birthday-card-message-for-friend.html :: main navigation aria-label
+- PASS: messages/birthday-card-message-for-friend.html :: mobile navigation aria-label
+- PASS: messages/graduation-card-message-for-child.html :: skip link present
+- PASS: messages/graduation-card-message-for-child.html :: main-content anchor exists
+- PASS: messages/graduation-card-message-for-child.html :: main navigation aria-label
+- PASS: messages/graduation-card-message-for-child.html :: mobile navigation aria-label
 - PASS: css/home.css :: waitlist input focus-visible outline
 - PASS: css/home.css :: no outline:none on waitlist email focus
 ## Manual Keyboard/Focus Checks
 
-Date: 2026-03-02T15:18:14.736Z
+Date: 2026-03-02T15:19:40.185Z
 
 Manual Status: PASS
 - PASS: homepage :: skip-link keyboard jump
