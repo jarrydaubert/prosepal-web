@@ -108,6 +108,7 @@ Evidence files are written to:
 6. `docs/evidence/security-headers-validation.md`
 7. `docs/evidence/csp-runtime-verification.md`
 8. `docs/evidence/conversion-events-verification.md`
+9. `docs/evidence/formspree-endpoint-strategy.md`
 
 Schema validation runs against local generated HTML scope (homepage, hubs, blog articles, and message detail pages).
 
@@ -153,6 +154,12 @@ curl -sS -I https://prosepal.app | rg -i "strict-transport-security|permissions-
 
 ```bash
 bun run validate:csp:runtime
+```
+
+11. Formspree single-endpoint strategy verification:
+
+```bash
+bun run validate:formspree:strategy
 ```
 
 ## 7) Monthly Ops Review
