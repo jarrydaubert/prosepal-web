@@ -109,6 +109,40 @@ function collectTypes(node, types) {
 }
 
 /**
+ * Recursively collect objects matching a target @type.
+ * @param {unknown} node
+ * @param {string} targetType
+ * @param {Record<string, unknown>[]} matches
+ * @returns {void}
+ */
+function collectTypedObjects(node, targetType, matches) {
+  if (Array.isArray(node)) {
+    for (const item of node) {
+      collectTypedObjects(item, targetType, matches);
+    }
+    return;
+  }
+
+  if (!node || typeof node !== "object") {
+    return;
+  }
+
+  const object = /** @type {Record<string, unknown>} */ (node);
+  const typeValue = object["@type"];
+  const typeMatches =
+    typeValue === targetType ||
+    (Array.isArray(typeValue) && typeValue.some((item) => item === targetType));
+
+  if (typeMatches) {
+    matches.push(object);
+  }
+
+  for (const value of Object.values(object)) {
+    collectTypedObjects(value, targetType, matches);
+  }
+}
+
+/**
  * Validate schema.org JSON-LD context URL safely.
  * @param {unknown} contextValue
  * @returns {boolean}
@@ -175,6 +209,8 @@ function validateTarget(relativePath, rule) {
   }
 
   const allTypes = new Set();
+  /** @type {unknown[]} */
+  const parsedBlocks = [];
 
   for (const [index, block] of blocks.entries()) {
     let parsed;
@@ -191,12 +227,63 @@ function validateTarget(relativePath, rule) {
       errors.push(`[${relativePath}] block ${index + 1} missing schema.org @context`);
     }
 
+    parsedBlocks.push(parsed);
     collectTypes(parsed, allTypes);
   }
 
   for (const requiredType of rule.requiredTypes) {
     if (!allTypes.has(requiredType)) {
       errors.push(`[${relativePath}] missing required @type (${rule.label}): ${requiredType}`);
+    }
+  }
+
+  if (rule.label === "homepage") {
+    const softwareApps = [];
+    const organizations = [];
+
+    for (const parsed of parsedBlocks) {
+      collectTypedObjects(parsed, "SoftwareApplication", softwareApps);
+      collectTypedObjects(parsed, "Organization", organizations);
+    }
+
+    const hasExpectedDownloadUrl = softwareApps.some((app) => {
+      const downloadUrl = app.downloadUrl;
+      return (
+        typeof downloadUrl === "string" &&
+        /^https:\/\/apps\.apple\.com\/app\/prosepal\/id6757088726$/i.test(downloadUrl)
+      );
+    });
+
+    if (!hasExpectedDownloadUrl) {
+      errors.push(
+        `[${relativePath}] homepage SoftwareApplication.downloadUrl must be https://apps.apple.com/app/prosepal/id6757088726`,
+      );
+    }
+
+    const hasValidOrganizationLogo = organizations.some((org) => {
+      const logo = org.logo;
+      return typeof logo === "string" && logo.startsWith("https://");
+    });
+
+    if (!hasValidOrganizationLogo) {
+      errors.push(`[${relativePath}] homepage Organization.logo must be a non-empty https:// URL`);
+    }
+  }
+
+  if (rule.label === "message-detail") {
+    const howTos = [];
+
+    for (const parsed of parsedBlocks) {
+      collectTypedObjects(parsed, "HowTo", howTos);
+    }
+
+    const hasHowToSteps = howTos.some((howTo) => {
+      const steps = howTo.step;
+      return Array.isArray(steps) && steps.length > 0;
+    });
+
+    if (!hasHowToSteps) {
+      errors.push(`[${relativePath}] message-detail HowTo.step must be a non-empty array`);
     }
   }
 
