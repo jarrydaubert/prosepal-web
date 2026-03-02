@@ -8,6 +8,10 @@ updates:
       time: "06:00"
       timezone: "Etc/UTC"
     open-pull-requests-limit: 5
+    groups:
+      npm-all:
+        patterns:
+          - "*"
     labels:
       - "dependencies"
       - "web"
@@ -20,6 +24,10 @@ updates:
       time: "06:15"
       timezone: "Etc/UTC"
     open-pull-requests-limit: 3
+    groups:
+      github-actions-all:
+        patterns:
+          - "*"
     labels:
       - "dependencies"
       - "ci"
