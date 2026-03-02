@@ -39,4 +39,4 @@ After fixes, re-run the same sequence to verify closure.
 
 ## Modern Claude Note
 
-Claude now treats custom slash commands and skills as part of the same extensibility model. `.claude/commands/*.md` remains fully supported for single-file workflows; use `.claude/skills/<name>/SKILL.md` when you need multi-file references, scripts, or automatic discovery.
+Claude now treats custom slash commands and skills as part of the same extensibility model. `.claude/commands/*.md` remains fully supported for single-file workflows; use `.agents/skills/<name>/SKILL.md` when you need multi-file references, scripts, or automatic discovery.

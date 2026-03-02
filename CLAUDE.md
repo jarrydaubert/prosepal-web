@@ -15,3 +15,4 @@ bun run deploy:prod
 
 1. `AGENTS.md` - source of truth for workflow, quality gates, and skills sync policy.
 2. `docs/README.md` - documentation index.
+3. `docs/guides/MARKETING_SKILLS_RUNBOOK.md` - skills sync/update and validation workflow.

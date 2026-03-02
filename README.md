@@ -56,6 +56,7 @@ bun run release:prepare -- vX.Y.Z
 
 - `AGENTS.md` - Operating doctrine and quality workflow
 - `docs/guides/OPS_RUNBOOK.md` - Ops and DevOps process (single source of truth)
+- `docs/guides/MARKETING_SKILLS_RUNBOOK.md` - Marketing skills sync, health checks, and upgrade policy
 - `docs/README.md` - Docs index
 - `docs/WEB_REDESIGN_EXECUTION.md` - Implementation standards and definition of done
 - `docs/BACKLOG_WEB.md` - Active backlog and release QA checklist

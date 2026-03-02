@@ -16,9 +16,11 @@ This folder holds execution and quality docs for the web project.
    - TODO-only backlog with explicit Definition of Done per item.
 6. `guides/OPS_RUNBOOK.md`
    - Single source of truth for DevOps, CI/CD, release operations, and monthly ops review.
-7. `evidence/`
+7. `guides/MARKETING_SKILLS_RUNBOOK.md`
+   - Canonical skills setup, sync, health-check, and upgrade process.
+8. `evidence/`
    - Latest release QA evidence outputs (social/schema/canonical, accessibility baseline). For governance/CI usage, treat successful `Monthly Governance Audit` run URL/ID as authoritative evidence.
-8. `releases/`
+9. `releases/`
    - Versioned release notes files.
 
 ## Working rule
