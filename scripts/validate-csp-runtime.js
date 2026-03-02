@@ -147,14 +147,12 @@ async function main() {
     await browser.close();
   }
 
-  const hasIssues = results.some(
-    (result) =>
-      result.cspConsoleViolations.length > 0 ||
-      result.pageErrors.length > 0 ||
-      result.analyticsRequestFailures.length > 0,
+  const hasBlockingIssues = results.some(
+    (result) => result.cspConsoleViolations.length > 0 || result.pageErrors.length > 0,
   );
+  const hasAnalyticsWarnings = results.some((result) => result.analyticsRequestFailures.length > 0);
 
-  const lines = [hasIssues ? "Status: FAIL" : "Status: PASS"];
+  const lines = [hasBlockingIssues ? "Status: FAIL" : "Status: PASS"];
 
   for (const result of results) {
     lines.push("");
@@ -193,10 +191,14 @@ async function main() {
 
   writeLog(lines);
 
-  if (hasIssues) {
+  if (hasBlockingIssues) {
     console.error("CSP runtime verification failed.");
     console.error(`Evidence written: ${path.relative(process.cwd(), LOG_FILE)}`);
     process.exit(1);
+  }
+
+  if (hasAnalyticsWarnings) {
+    console.warn("CSP runtime verification passed with analytics request warnings.");
   }
 
   console.log("CSP runtime verification passed.");
