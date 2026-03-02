@@ -1,12 +1,12 @@
 # prosepal-web
 
-Public marketing website for Prosepal.
+Marketing website for [Prosepal](https://prosepal.com) — a live iOS app. Static HTML/CSS/JS site with script-based page generation, Biome for linting, Playwright for quality checks, and a CI gate that runs on every PR.
 
 ## What this repo contains
 
-- Static site files in `public/`
-- SEO/message page generators in `scripts/`
-- Source content in `data/` and `templates/`
+- Static site and page templates in `public/`
+- Programmatic SEO and message page generators in `scripts/`
+- Source content and structured data in `data/` and `templates/`
 
 ## Local development
 
@@ -25,15 +25,15 @@ Generate site artifacts:
 bun run build
 ```
 
-Run the full quality gate:
+Run the full quality gate (required before every merge):
 
 ```bash
 bun run check
 ```
 
-`check` includes generation, linting, metadata tests, SEO artifact tests, validation, and style audit thresholds.
+`check` covers: page generation, Biome linting, metadata tests, SEO artifact validation, broken link checks, and style audit thresholds. All checks must pass — no warnings-as-noise.
 
-Release QA spot-checks (production metadata/schema):
+Release QA spot-checks against production metadata and schema:
 
 ```bash
 bun run release:qa
@@ -45,24 +45,19 @@ Prepare semantic release notes:
 bun run release:prepare -- vX.Y.Z
 ```
 
-## Automation
-
-Ops and DevOps process (single source):
-
-- `docs/guides/OPS_RUNBOOK.md`
-
 ## Contribution flow
 
-1. Create a branch from `main`.
+1. Branch from `main`.
 2. Open a pull request.
-3. Ensure required checks pass.
-4. Merge via PR (no direct `main` edits).
+3. All required checks must pass before merge.
+4. No direct commits to `main`.
 
 ## Project docs
 
-- `AGENTS.md` - operating doctrine and quality workflow
-- `docs/README.md` - docs index
-- `docs/WEB_REDESIGN_EXECUTION.md` - implementation standards and definition of done
-- `docs/BACKLOG_WEB.md` - active backlog and release QA checklist
-- `SECURITY.md` - security reporting policy
-- `LICENSE` - proprietary licensing terms (`All rights reserved`)
+- `AGENTS.md` - Operating doctrine and quality workflow
+- `docs/guides/OPS_RUNBOOK.md` - Ops and DevOps process (single source of truth)
+- `docs/README.md` - Docs index
+- `docs/WEB_REDESIGN_EXECUTION.md` - Implementation standards and definition of done
+- `docs/BACKLOG_WEB.md` - Active backlog and release QA checklist
+- `SECURITY.md` - Security reporting policy
+- `LICENSE` - Proprietary (`All rights reserved`)
