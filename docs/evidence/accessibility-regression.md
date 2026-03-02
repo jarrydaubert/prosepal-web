@@ -1,6 +1,6 @@
 # Accessibility Regression Baseline
 
-Date: 2026-03-02T15:23:09.472Z
+Date: 2026-03-02T15:25:29.460Z
 
 Status: PASS
 - PASS: index.html :: skip link present
@@ -39,7 +39,7 @@ Status: PASS
 - PASS: css/home.css :: no outline:none on waitlist email focus
 ## Manual Keyboard/Focus Checks
 
-Date: 2026-03-02T15:23:18.226Z
+Date: 2026-03-02T15:25:38.270Z
 
 Manual Status: PASS
 - PASS: homepage :: skip-link keyboard jump
