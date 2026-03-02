@@ -35,5 +35,5 @@ test("homepage hero and nav visual baseline", async ({ page }) => {
     });
   }
 
-  await expect(page.locator("body")).toHaveScreenshot("home-hero-nav.png");
+  await expect(page).toHaveScreenshot("home-hero-nav.png");
 });
