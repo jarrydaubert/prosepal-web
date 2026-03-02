@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/latest/schema.json",
   "assist": { "actions": { "source": { "organizeImports": "off" } } },
   "linter": {
     "enabled": true,
@@ -24,6 +24,7 @@
       "**/*.js",
       "!**/node_modules",
       "!**/bun.lockb",
+      "!**/test-results",
       "!**/.vercel",
       "!**/public/.well-known"
     ]
