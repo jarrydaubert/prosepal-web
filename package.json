@@ -24,6 +24,7 @@
     "validate:formspree:strategy": "node scripts/validate-formspree-strategy.js",
     "test:visual": "bunx playwright test -c playwright.visual.config.js",
     "test:visual:update": "bunx playwright test -c playwright.visual.config.js --update-snapshots",
+    "test:interaction": "bunx playwright test -c playwright.interaction.config.js",
     "validate:social:prod": "node scripts/validate-social-preview.js",
     "validate:canonical:routes": "node scripts/validate-canonical-routes.js",
     "validate:schema:local": "node scripts/validate-schema-spotcheck.js",
@@ -33,7 +34,7 @@
     "release:qa": "bun run validate:social:prod && bun run validate:schema:prod && bun run validate:canonical:routes",
     "release:prepare": "node scripts/prepare-release-notes.js",
     "validate": "node scripts/validate-site.js",
-    "check": "bun run generate:site && bun run lint && bun run test:metadata && bun run test:artifacts && bun run validate && bun run validate:schema:local && bun run validate:a11y:baseline && bun run validate:csp:runtime && bun run validate:events:conversion && bun run audit:styles:strict",
+    "check": "bun run generate:site && bun run lint && bun run test:metadata && bun run test:artifacts && bun run validate && bun run validate:schema:local && bun run validate:a11y:baseline && bun run validate:csp:runtime && bun run validate:events:conversion && bun run test:interaction && bun run audit:styles:strict",
     "vercel:check-link": "node scripts/check-vercel-project.js",
     "deploy:preview": "bun run vercel:check-link && vercel",
     "deploy:prod": "bun run check && bun run vercel:check-link && node scripts/enforce-prod-deploy-policy.js && vercel --prod --yes"
