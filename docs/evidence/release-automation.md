@@ -1,8 +1,8 @@
 # Release Automation Evidence
 
-Date: 2026-03-02T11:12:00Z
+Date: 2026-03-02T12:34:00Z
 
-Status: SKIP
+Status: FAIL
 Backlog item: `WEB-P2-15`
 
 What is implemented in-repo:
@@ -11,6 +11,14 @@ What is implemented in-repo:
 - `.release-please-config.json`
 - `.release-please-manifest.json`
 - `OPS_RUNBOOK.md` release checklist updated to automation flow (manual tag and release-note steps removed)
+
+Current blocker:
+
+- `Release Automation` run on `main` failed:
+  - Run: `22576115011`
+  - URL: `https://github.com/jarrydaubert/prosepal-web/actions/runs/22576115011`
+  - Error: `GitHub Actions is not permitted to create or approve pull requests`
+- Root cause: repository policy currently disallows Actions-origin PR creation, which `release-please` requires in this configuration.
 
 Pending close condition:
 
