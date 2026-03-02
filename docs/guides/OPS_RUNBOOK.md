@@ -107,6 +107,7 @@ Evidence files are written to:
 5. `docs/evidence/lighthouse-budget.md`
 6. `docs/evidence/security-headers-validation.md`
 7. `docs/evidence/csp-runtime-verification.md`
+8. `docs/evidence/conversion-events-verification.md`
 
 Schema validation runs against local generated HTML scope (homepage, hubs, blog articles, and message detail pages).
 
@@ -136,6 +137,10 @@ Release note files live in `docs/releases/` (for example `docs/releases/v1.0.0.m
      - `app_store_click`
      - `waitlist_submit_success`
      - `demo_chip_click`
+
+```bash
+bun run validate:events:conversion
+```
 
 9. Security header smoke check on production:
 
