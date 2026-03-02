@@ -52,17 +52,25 @@ bun run check
 2. `docs/guides/OPS_RUNBOOK.md`: DevOps and release operations source of truth.
 3. `docs/BACKLOG_WEB.md`: TODO-only backlog, each item with explicit Definition of Done.
 4. `docs/WEB_REDESIGN_EXECUTION.md`: implementation standards and redesign decisions.
+5. `docs/guides/MARKETING_SKILLS_RUNBOOK.md`: skills sync, validation, and upgrade workflow.
 
 ## Skills and command sync
 
-1. Skills source: `https://github.com/coreyhaines31/marketingskills` (pinned `v1.2.0`).
-2. Local skills path: `.claude/skills/`.
+1. Skills source: `https://github.com/coreyhaines31/marketingskills` (pinned `v1.3.0`).
+2. Local skills path: `.agents/skills/`.
 3. Refresh commands:
 
 ```bash
 scripts/sync-marketing-skills.sh --check
 scripts/sync-marketing-skills.sh --sync
 scripts/apply-marketing-skill-profile.sh --apply
+scripts/validate-marketing-skills-setup.sh
 ```
 
-4. Project slash commands are in `.claude/commands/`.
+4. Upgrade preview for a new tag:
+
+```bash
+scripts/sync-marketing-skills.sh --check --tag vX.Y.Z --commit <full_commit_sha>
+```
+
+5. Project slash commands are in `.claude/commands/`.

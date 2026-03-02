@@ -3,7 +3,7 @@
 set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SKILLS_DIR="$PROJECT_ROOT/.claude/skills"
+SKILLS_DIR="$PROJECT_ROOT/.agents/skills"
 PROFILE_DIR="$SKILLS_DIR/.profiles"
 PROFILE_FILE="$PROFILE_DIR/prosepal-web-keep.txt"
 
@@ -33,9 +33,12 @@ KEEP_SKILLS=(
   "product-marketing-context"
   "programmatic-seo"
   "referral-program"
+  "revops"
+  "sales-enablement"
   "schema-markup"
   "seo-audit"
   "signup-flow-cro"
+  "site-architecture"
   "social-content"
 )
 
