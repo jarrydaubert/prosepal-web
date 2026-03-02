@@ -22,6 +22,8 @@
     "validate:csp:runtime": "node scripts/validate-csp-runtime.js",
     "validate:events:conversion": "node scripts/validate-conversion-events.js",
     "validate:formspree:strategy": "node scripts/validate-formspree-strategy.js",
+    "test:visual": "bunx playwright test -c playwright.visual.config.js",
+    "test:visual:update": "bunx playwright test -c playwright.visual.config.js --update-snapshots",
     "validate:social:prod": "node scripts/validate-social-preview.js",
     "validate:canonical:routes": "node scripts/validate-canonical-routes.js",
     "validate:schema:local": "node scripts/validate-schema-spotcheck.js",
