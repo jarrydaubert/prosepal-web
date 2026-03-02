@@ -1,0 +1,50 @@
+name: Release Automation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "public/**"
+      - "scripts/**"
+      - "templates/**"
+      - "data/**"
+      - "docs/**"
+      - "package.json"
+      - "bun.lock"
+      - "vercel.json"
+      - ".github/workflows/release-automation.yml"
+      - ".release-please-config.json"
+      - ".release-please-manifest.json"
+
+concurrency:
+  group: release-automation-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  release-please:
+    name: Release Please
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Run release-please
+        id: release
+        uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38
+        with:
+          config-file: .release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      - name: Summarize release automation result
+        run: |
+          echo "release_created=${{ steps.release.outputs.release_created }}"
+          echo "release_tag=${{ steps.release.outputs.tag_name }}"
+          echo "release_url=${{ steps.release.outputs.html_url }}"
+          echo "prs_created=${{ steps.release.outputs.prs_created }}"
+          echo "pr=${{ steps.release.outputs.pr }}"
