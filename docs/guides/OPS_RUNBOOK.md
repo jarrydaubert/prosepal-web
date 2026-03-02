@@ -124,6 +124,7 @@ Evidence files are written to:
 11. `docs/evidence/homepage-css-path-optimization.md`
 12. `docs/evidence/ci-bun-cache-validation.md`
 13. `docs/evidence/release-automation.md`
+14. `docs/evidence/visual-regression-pilot.md`
 
 Schema validation runs against local generated HTML scope (homepage, hubs, blog articles, and message detail pages).
 
