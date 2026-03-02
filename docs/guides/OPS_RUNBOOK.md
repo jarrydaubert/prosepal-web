@@ -116,11 +116,12 @@ Evidence files are written to:
 4. `docs/evidence/accessibility-regression.md`
 5. `docs/evidence/lighthouse-budget.md`
 6. `docs/evidence/security-headers-validation.md`
-7. `docs/evidence/csp-runtime-verification.md`
-8. `docs/evidence/conversion-events-verification.md`
-9. `docs/evidence/formspree-endpoint-strategy.md`
-10. `docs/evidence/homepage-css-path-optimization.md`
-11. `docs/evidence/ci-bun-cache-validation.md`
+7. `docs/evidence/permissions-policy-validation.md`
+8. `docs/evidence/csp-runtime-verification.md`
+9. `docs/evidence/conversion-events-verification.md`
+10. `docs/evidence/formspree-endpoint-strategy.md`
+11. `docs/evidence/homepage-css-path-optimization.md`
+12. `docs/evidence/ci-bun-cache-validation.md`
 
 Schema validation runs against local generated HTML scope (homepage, hubs, blog articles, and message detail pages).
 
@@ -161,6 +162,11 @@ bun run validate:events:conversion
 curl -sS -I https://www.prosepal.app | rg -i "strict-transport-security|permissions-policy"
 curl -sS -I https://prosepal.app | rg -i "strict-transport-security|permissions-policy|location"
 ```
+
+Expected result:
+
+- `www` responses include both `Strict-Transport-Security` (with `preload`) and `Permissions-Policy`.
+- apex redirect must include `location` and `Strict-Transport-Security`; missing apex `Permissions-Policy` is tracked via `WEB-P1-9` external redirect ownership.
 
 10. Runtime CSP smoke check for analytics scripts:
 
