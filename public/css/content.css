@@ -190,8 +190,8 @@ a:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; bor
   display: flex;
   position: fixed;
   top: 3.9rem;
-  left: 0.75rem;
-  right: 0.75rem;
+  left: 1.5rem;
+  right: 1.5rem;
   background: rgba(8, 8, 12, 0.96);
   z-index: 99;
   padding: 0.7rem;
@@ -412,7 +412,7 @@ footer {
 /* Responsive */
 @media (max-width: 768px) {
   .nav {
-    padding: 0.72rem 0.75rem;
+    padding: 0.72rem 1.5rem;
   }
 
   .nav-links {
