@@ -407,8 +407,8 @@ section + section {
 .hero-actions {
   margin-top: 1.95rem;
   display: flex;
-  flex-direction: column;
-  gap: 0.9rem;
+  flex-direction: row;
+  gap: 0.75rem;
   align-items: center;
   justify-content: center;
 }
@@ -432,26 +432,32 @@ section + section {
   filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.42));
 }
 
-.cta-secondary {
+.hero-secondary-links {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.hero-link-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
   text-decoration: none;
-  border-radius: var(--radius-sm);
-  padding: 0.95rem 1.35rem;
-  min-width: 210px;
-  font-weight: 700;
-  font-size: var(--font-size-sm-plus);
-  background: linear-gradient(140deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
-  border: 1px solid var(--border-hard);
-  box-shadow: 0 12px 26px -20px rgba(0, 0, 0, 0.55);
+  min-height: 32px;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 0.1rem;
 }
 
-.cta-secondary:hover,
-.cta-secondary:focus-visible {
-  background: var(--bg-surface-strong);
-  border-color: color-mix(in srgb, var(--glass-accent-peach-light) 55%, transparent);
+.hero-link-secondary:hover,
+.hero-link-secondary:focus-visible {
+  color: var(--text-main);
+  border-bottom-color: color-mix(in srgb, var(--glass-accent-peach-light) 60%, transparent);
 }
 
 .hero-scroll {
@@ -476,7 +482,7 @@ section + section {
 }
 
 .hero-waitlist {
-  margin-top: 1rem;
+  margin-top: 0.78rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1138,9 +1144,9 @@ section + section {
     background: linear-gradient(90deg, var(--border-soft), var(--accent-peach), var(--border-soft));
   }
 
-  .hero-actions {
+  .hero-secondary-links {
     flex-direction: row;
-    gap: 1rem;
+    gap: 1.1rem;
   }
 
   .hero-waitlist-form {

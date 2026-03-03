@@ -284,6 +284,17 @@ a:focus-visible {
   color: var(--md-on-surface-variant);
 }
 
+.article-byline {
+  margin-top: 0.55rem;
+  font-size: var(--font-size-xs);
+  color: var(--md-on-surface-variant);
+}
+
+.article-byline strong {
+  color: var(--md-on-surface);
+  font-weight: 700;
+}
+
 /* Article Content */
 .article-content {
   font-size: var(--font-size-md-plus);
@@ -327,6 +338,7 @@ a:focus-visible {
   margin: 1.5rem 0;
 }
 
+.tips-box h3,
 .tips-box h4 {
   font-size: var(--font-size-md);
   font-weight: 700;
@@ -567,6 +579,68 @@ footer {
 
 .hub-breadcrumb {
   margin-bottom: 1rem;
+}
+
+.conversion-assist {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0 0 1.5rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-low);
+}
+
+.conversion-assist-copy {
+  margin: 0;
+  color: var(--md-on-surface);
+  font-size: var(--font-size-sm-plus);
+  line-height: 1.5;
+}
+
+.conversion-assist-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.assist-primary,
+.assist-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0.58rem 0.95rem;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.assist-primary {
+  color: var(--md-on-primary);
+  background: linear-gradient(135deg, var(--glass-accent-peach), var(--glass-accent-peach-deep));
+  border: 1px solid var(--md-outline-variant);
+  box-shadow: var(--md-shadow-1);
+}
+
+.assist-primary:hover {
+  color: var(--md-on-primary);
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, var(--glass-accent-peach-strong), var(--glass-accent-peach-deep));
+}
+
+.assist-secondary {
+  color: var(--md-on-surface);
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-lowest);
+}
+
+.assist-secondary:hover {
+  color: var(--md-on-surface);
+  border-color: var(--md-outline);
+  background: var(--md-surface-container-high);
 }
 
 .occasion-nav {
@@ -884,6 +958,20 @@ footer {
 
   .hub-breadcrumb {
     margin-bottom: 0.9rem;
+  }
+
+  .conversion-assist {
+    margin-bottom: 1.15rem;
+    padding: 0.9rem;
+  }
+
+  .conversion-assist-copy {
+    font-size: var(--font-size-sm);
+  }
+
+  .conversion-assist-actions {
+    display: grid;
+    grid-template-columns: 1fr;
   }
 
   .occasion-nav {

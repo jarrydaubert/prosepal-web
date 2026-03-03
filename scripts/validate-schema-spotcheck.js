@@ -2,6 +2,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const { SITE_URL, BRAND_LOGO_URL } = require("./lib/metadata");
 
 const ROOT = path.join(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT, "public");
@@ -109,6 +110,63 @@ function normalizeUrl(value) {
 }
 
 /**
+ * Normalize plain text for equality checks.
+ * @param {string} value
+ * @returns {string}
+ */
+function normalizeText(value) {
+  return value.replace(/\s+/g, " ").trim();
+}
+
+/**
+ * Convert a site-relative path to canonical absolute URL.
+ * @param {string} href
+ * @returns {string}
+ */
+function toCanonicalUrl(href) {
+  if (/^https?:\/\//i.test(href)) {
+    return href;
+  }
+  const normalizedPath = href.startsWith("/") ? href : `/${href}`;
+  return `${SITE_URL}${normalizedPath}`;
+}
+
+/**
+ * Decode minimal HTML entities used in headings.
+ * @param {string} value
+ * @returns {string}
+ */
+function decodeHtmlEntities(value) {
+  return value
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;|&apos;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">");
+}
+
+/**
+ * Extract visible URL/title pairs from blog hub cards.
+ * @param {string} html
+ * @returns {{url: string, title: string}[]}
+ */
+function extractBlogHubCards(html) {
+  const cardRegex =
+    /<article class="post-card">[\s\S]*?<a href="([^"]+)">[\s\S]*?<h2 class="post-title">([\s\S]*?)<\/h2>/gi;
+  const cards = [];
+
+  for (const match of html.matchAll(cardRegex)) {
+    const rawTitle = match[2].replace(/<[^>]*>/g, "");
+    cards.push({
+      url: normalizeUrl(toCanonicalUrl(match[1])),
+      title: normalizeText(decodeHtmlEntities(rawTitle)),
+    });
+  }
+
+  return cards;
+}
+
+/**
  * Read the first resolvable Article.image value from JSON-LD.
  * @param {Record<string, unknown>} article
  * @returns {string}
@@ -129,6 +187,29 @@ function resolveArticleImage(article) {
     if (typeof url === "string") {
       return url;
     }
+  }
+
+  return "";
+}
+
+/**
+ * Read publisher.logo URL from a schema object.
+ * @param {Record<string, unknown>} schemaObject
+ * @returns {string}
+ */
+function resolvePublisherLogo(schemaObject) {
+  const publisher = schemaObject.publisher;
+  if (!publisher || typeof publisher !== "object") {
+    return "";
+  }
+
+  const logo = publisher.logo;
+  if (typeof logo === "string") {
+    return logo;
+  }
+
+  if (logo && typeof logo === "object" && typeof logo.url === "string") {
+    return logo.url;
   }
 
   return "";
@@ -257,16 +338,17 @@ function resolveRule(relativePath) {
  * Validate schema blocks for one local file target.
  * @param {string} relativePath
  * @param {{label: string, requiredTypes: string[]}} rule
- * @returns {string[]}
+ * @returns {{errors: string[], notes: string[]}}
  */
 function validateTarget(relativePath, rule) {
   const htmlPath = path.join(PUBLIC_DIR, relativePath);
   const html = fs.readFileSync(htmlPath, "utf8");
   const blocks = extractJsonLdBlocks(html);
   const errors = [];
+  const notes = [];
 
   if (blocks.length === 0) {
-    return [`[${relativePath}] no JSON-LD scripts found`];
+    return { errors: [`[${relativePath}] no JSON-LD scripts found`], notes };
   }
 
   const allTypes = new Set();
@@ -352,7 +434,7 @@ function validateTarget(relativePath, rule) {
     const ogImage = extractMetaProperty(html, "og:image");
     if (!ogImage) {
       errors.push(`[${relativePath}] blog-article missing og:image meta property`);
-      return errors;
+      return { errors, notes };
     }
 
     const articles = [];
@@ -371,9 +453,99 @@ function validateTarget(relativePath, rule) {
         `[${relativePath}] blog-article Article.image must match og:image (${normalizedOgImage})`,
       );
     }
+
+    const hasCanonicalPublisherLogo = articles.some(
+      (article) => normalizeUrl(resolvePublisherLogo(article)) === normalizeUrl(BRAND_LOGO_URL),
+    );
+
+    if (!hasCanonicalPublisherLogo) {
+      errors.push(
+        `[${relativePath}] blog-article publisher.logo must be ${normalizeUrl(BRAND_LOGO_URL)}`,
+      );
+    }
   }
 
-  return errors;
+  if (rule.label === "blog-hub") {
+    const blogCards = extractBlogHubCards(html);
+    const itemLists = [];
+    const collectionPages = [];
+    for (const parsed of parsedBlocks) {
+      collectTypedObjects(parsed, "ItemList", itemLists);
+      collectTypedObjects(parsed, "CollectionPage", collectionPages);
+    }
+
+    if (itemLists.length === 0) {
+      errors.push(`[${relativePath}] blog-hub missing ItemList object`);
+      return { errors, notes };
+    }
+
+    const itemList = itemLists[0];
+    const schemaEntries = Array.isArray(itemList.itemListElement) ? itemList.itemListElement : [];
+    const schemaCount =
+      typeof itemList.numberOfItems === "number"
+        ? itemList.numberOfItems
+        : Number.parseInt(String(itemList.numberOfItems ?? ""), 10);
+
+    if (!Number.isFinite(schemaCount)) {
+      errors.push(`[${relativePath}] blog-hub ItemList.numberOfItems must be numeric`);
+    }
+
+    if (schemaCount !== blogCards.length) {
+      errors.push(
+        `[${relativePath}] blog-hub ItemList.numberOfItems mismatch: expected ${blogCards.length}, found ${schemaCount}`,
+      );
+    }
+
+    if (schemaEntries.length !== blogCards.length) {
+      errors.push(
+        `[${relativePath}] blog-hub itemListElement length mismatch: expected ${blogCards.length}, found ${schemaEntries.length}`,
+      );
+    }
+
+    for (let i = 0; i < Math.min(schemaEntries.length, blogCards.length); i += 1) {
+      const entry = schemaEntries[i];
+      const card = blogCards[i];
+      const entryPosition =
+        typeof entry?.position === "number"
+          ? entry.position
+          : Number.parseInt(String(entry?.position ?? ""), 10);
+      const entryUrl = normalizeUrl(typeof entry?.url === "string" ? entry.url : "");
+      const entryName = normalizeText(typeof entry?.name === "string" ? entry.name : "");
+
+      if (entryPosition !== i + 1) {
+        errors.push(
+          `[${relativePath}] blog-hub itemListElement[${i}] position mismatch: expected ${i + 1}, found ${entryPosition}`,
+        );
+      }
+
+      if (entryUrl !== card.url) {
+        errors.push(
+          `[${relativePath}] blog-hub itemListElement[${i}] url mismatch: expected ${card.url}, found ${entryUrl}`,
+        );
+      }
+
+      if (entryName !== card.title) {
+        errors.push(
+          `[${relativePath}] blog-hub itemListElement[${i}] name mismatch: expected "${card.title}", found "${entryName}"`,
+        );
+      }
+    }
+
+    const hasCanonicalCollectionLogo = collectionPages.some(
+      (page) => normalizeUrl(resolvePublisherLogo(page)) === normalizeUrl(BRAND_LOGO_URL),
+    );
+    if (!hasCanonicalCollectionLogo) {
+      errors.push(
+        `[${relativePath}] blog-hub CollectionPage.publisher.logo must be ${normalizeUrl(BRAND_LOGO_URL)}`,
+      );
+    }
+
+    notes.push(
+      `[${relativePath}] blog-hub parity: visible cards=${blogCards.length}, itemList entries=${schemaEntries.length}, numberOfItems=${schemaCount}`,
+    );
+  }
+
+  return { errors, notes };
 }
 
 /**
@@ -415,13 +587,15 @@ function main() {
   ];
 
   for (const target of scopedTargets) {
-    const errors = validateTarget(target.relativePath, target.rule);
+    const result = validateTarget(target.relativePath, target.rule);
+    const errors = result.errors;
     if (errors.length > 0) {
       allErrors.push(...errors);
       continue;
     }
 
     lines.push(`- ${target.relativePath}: pass`);
+    lines.push(...result.notes.map((note) => `- ${note}`));
   }
 
   if (allErrors.length > 0) {
