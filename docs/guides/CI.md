@@ -1,7 +1,9 @@
 # CI Guide
 
-CI process is now consolidated in:
+CI behavior is consolidated in:
 
 - `docs/guides/OPS_RUNBOOK.md`
 
-Keep this file as a pointer only.
+Why this is a pointer:
+- avoids duplicate instructions drifting out of sync
+- keeps one canonical CI/CD document for contributors and reviewers

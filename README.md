@@ -1,12 +1,21 @@
 # prosepal-web
 
-Marketing website for [Prosepal](https://www.prosepal.app) — a live iOS app. Static HTML/CSS/JS site with script-based page generation, Biome for linting, Playwright for quality checks, and a CI gate that runs on every PR.
+Public marketing website repo for [Prosepal](https://www.prosepal.app).  
+Stack: static HTML/CSS/JS, script-based generation, Bun runtime, Biome linting, Playwright testing.
 
-## What this repo contains
+## Why this repo is run this way
 
-- Static site and page templates in `public/`
-- Programmatic SEO and message page generators in `scripts/`
-- Source content and structured data in `data/` and `templates/`
+- We treat this as production software, not "just a static site".
+- Content and SEO pages are generated, so regressions can break many pages at once.
+- The repository is public, so the workflow and docs are designed to be understandable by external contributors and reviewers.
+- We gate merges with automated checks to keep quality consistent and reduce manual QA drift.
+
+## What lives here
+
+- Site templates and pages: `public/`
+- Generators and validators: `scripts/`
+- Structured content/data inputs: `data/`, `templates/`
+- Integration and visual tests: `tests/`
 
 ## Local development
 
@@ -15,68 +24,60 @@ bun install
 bun run dev
 ```
 
-Site runs at `http://localhost:3000`.
+Local server: `http://localhost:3000`
 
-## Build and quality
+## Quality workflow
 
-Generate site artifacts:
-
-```bash
-bun run build
-```
-
-Run the full quality gate (required before every merge):
-
-```bash
-bun run check
-```
-
-Run the fast local smoke gate (useful before opening a PR):
+Fast pre-PR loop:
 
 ```bash
 bun run check:fast
 ```
 
-Run only critical browser smoke flows:
+Full merge gate:
+
+```bash
+bun run check
+```
+
+Critical browser-smoke subset:
 
 ```bash
 bun run test:interaction:smoke
 ```
 
-Run a repeatability audit for smoke-flow flakiness:
+Repeatability audit for interaction flake detection:
 
 ```bash
 bun run test:interaction:flake-audit
 ```
 
-`check` covers: page generation, Biome linting, metadata tests, SEO artifact validation, local reference/broken-link validation, schema + accessibility + CSP runtime checks, conversion event validation, interaction tests, and style audit thresholds. All checks must pass.
-
-Release QA spot-checks against production metadata and schema:
+Release QA against live metadata/schema:
 
 ```bash
 bun run release:qa
 ```
 
-Prepare semantic release notes:
+Prepare release notes:
 
 ```bash
 bun run release:prepare -- vX.Y.Z
 ```
 
-## Contribution flow
+## Contribution model
 
-1. Branch from `main`.
-2. Open a pull request.
-3. All required checks must pass before merge.
-4. No direct commits to `main`.
+- Branch from `main`.
+- Open a PR.
+- Merge only after required checks are green.
+- No direct pushes to `main`.
 
-## Project docs
+## Documentation map
 
-- `AGENTS.md` - Operating doctrine and quality workflow
-- `docs/guides/OPS_RUNBOOK.md` - Ops and DevOps process (single source of truth)
-- `docs/guides/MARKETING_SKILLS_RUNBOOK.md` - Marketing skills sync, health checks, and upgrade policy
-- `docs/README.md` - Docs index
-- `docs/WEB_REDESIGN_EXECUTION.md` - Implementation standards and definition of done
-- `docs/BACKLOG_WEB.md` - Active backlog and release QA checklist
-- `SECURITY.md` - Security reporting policy
-- `LICENSE` - Proprietary (`All rights reserved`)
+- `AGENTS.md`: contributor and agent operating contract.
+- `docs/guides/OPS_RUNBOOK.md`: DevOps and CI/CD source of truth.
+- `docs/guides/MARKETING_SKILLS_RUNBOOK.md`: skills sync and maintenance flow.
+- `docs/README.md`: documentation index.
+- `docs/WEB_REDESIGN_EXECUTION.md`: implementation standards.
+- `docs/BACKLOG_WEB.md`: open backlog with explicit Definition of Done.
+- `SECURITY.md`: vulnerability reporting policy.
+- `LICENSE`: proprietary license.

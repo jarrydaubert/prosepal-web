@@ -1,7 +1,9 @@
 # Automation Guide
 
-Automation and operations are now consolidated in:
+Automation and operations are consolidated in:
 
 - `docs/guides/OPS_RUNBOOK.md`
 
-Keep this file as a pointer only.
+Why this is a pointer:
+- avoids maintaining parallel automation docs
+- makes operational expectations easier to find for external contributors
