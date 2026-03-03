@@ -266,8 +266,8 @@ html {
 .home-vnext .mobile-menu {
   position: fixed;
   top: 3.9rem;
-  left: 0.75rem;
-  right: 0.75rem;
+  left: 1.5rem;
+  right: 1.5rem;
   z-index: 195;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-soft);
@@ -1107,7 +1107,7 @@ section + section {
 
 @media (max-width: 768px) {
   .home-vnext .nav-inner {
-    padding: 0.72rem 0.75rem;
+    padding: 0.72rem 1.5rem;
   }
 }
 
