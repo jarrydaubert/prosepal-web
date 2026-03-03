@@ -1,6 +1,6 @@
 # prosepal-web
 
-Marketing website for [Prosepal](https://prosepal.com) — a live iOS app. Static HTML/CSS/JS site with script-based page generation, Biome for linting, Playwright for quality checks, and a CI gate that runs on every PR.
+Marketing website for [Prosepal](https://www.prosepal.app) — a live iOS app. Static HTML/CSS/JS site with script-based page generation, Biome for linting, Playwright for quality checks, and a CI gate that runs on every PR.
 
 ## What this repo contains
 
@@ -31,7 +31,25 @@ Run the full quality gate (required before every merge):
 bun run check
 ```
 
-`check` covers: page generation, Biome linting, metadata tests, SEO artifact validation, broken link checks, and style audit thresholds. All checks must pass — no warnings-as-noise.
+Run the fast local smoke gate (useful before opening a PR):
+
+```bash
+bun run check:fast
+```
+
+Run only critical browser smoke flows:
+
+```bash
+bun run test:interaction:smoke
+```
+
+Run a repeatability audit for smoke-flow flakiness:
+
+```bash
+bun run test:interaction:flake-audit
+```
+
+`check` covers: page generation, Biome linting, metadata tests, SEO artifact validation, local reference/broken-link validation, schema + accessibility + CSP runtime checks, conversion event validation, interaction tests, and style audit thresholds. All checks must pass.
 
 Release QA spot-checks against production metadata and schema:
 
