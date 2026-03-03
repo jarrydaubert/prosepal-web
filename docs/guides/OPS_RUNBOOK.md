@@ -19,14 +19,20 @@ Scope: lightweight DevOps and release operations for `prosepal-web` (static mark
 
 1. Branch from `main`.
 2. Make changes.
-3. Run:
+3. Run fast local gate while iterating:
+
+```bash
+bun run check:fast
+```
+
+4. Before opening/merging PR, run full gate:
 
 ```bash
 bun run check
 ```
 
-4. Open PR.
-5. Merge only when required checks are green.
+5. Open PR.
+6. Merge only when required checks are green.
 
 ## 3) Deployment Flow
 
@@ -80,6 +86,12 @@ ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
    - requires repo variable `GH_ADMIN_TOKEN_EXPIRES_ON` (`YYYY-MM-DD` format) to enforce a minimum 30-day expiry buffer
    - authoritative evidence is the successful GitHub Actions run on `main` (run URL/ID), because local evidence files can be stale during transient API outages
 9. Release automation workflow (`Release Automation`) runs on `main` and uses `release-please` to manage release PRs, semantic tags, and GitHub release notes.
+10. Interaction flake audit workflow (`Interaction Flake Audit`) runs weekly and on manual dispatch:
+   - repeats Playwright smoke tests to detect non-deterministic failures
+   - uploads flake logs and Playwright diagnostics artifacts
+11. `Web Quality` uploads diagnostics artifacts on failure:
+   - `/tmp/prosepal-playwright-interaction-results`
+   - `docs/evidence/`
 
 ## 5) Security Controls
 
@@ -185,6 +197,12 @@ bun run validate:csp:runtime
 
 ```bash
 bun run validate:formspree:strategy
+```
+
+12. Optional pre-release stability run for smoke-flow repeatability:
+
+```bash
+bun run test:interaction:flake-audit
 ```
 
 ## 7) Monthly Ops Review

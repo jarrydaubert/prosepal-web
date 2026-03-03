@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
   }, POPUP_DISMISS_KEY);
 });
 
-test("mobile nav opens/closes with focus return on homepage", async ({ page }) => {
+test("@smoke mobile nav opens/closes with focus return on homepage", async ({ page }) => {
   await page.goto("/", { waitUntil: "networkidle" });
 
   const hamburger = page.locator("#nav-hamburger");
@@ -79,7 +79,7 @@ test("demo chips support Arrow/Home/End keyboard navigation", async ({ page }) =
   await expect(first).toHaveAttribute("aria-selected", "true");
 });
 
-test("waitlist form shows success state on 200 response", async ({ page }) => {
+test("@smoke waitlist form shows success state on 200 response", async ({ page }) => {
   await page.route("https://formspree.io/**", async (route) => {
     await route.fulfill({
       status: 200,
@@ -97,7 +97,7 @@ test("waitlist form shows success state on 200 response", async ({ page }) => {
   await expect(status).toContainText("Thanks");
 });
 
-test("waitlist form shows error state on non-200 response", async ({ page }) => {
+test("@smoke waitlist form shows error state on non-200 response", async ({ page }) => {
   await page.route("https://formspree.io/**", async (route) => {
     await route.fulfill({
       status: 500,

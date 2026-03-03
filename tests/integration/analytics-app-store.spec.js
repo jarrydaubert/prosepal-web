@@ -78,7 +78,7 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test("app store clicks include page context on home and content pages", async ({ page }) => {
+test("@smoke app store clicks include page context on home and content pages", async ({ page }) => {
   const cases = [
     { path: "/", selector: "#hero-app-store", pageType: "home" },
     { path: "/blog/", selector: `.cta-section ${APP_STORE_SELECTOR}`, pageType: "blog_hub" },

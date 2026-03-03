@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 const BLOG_WAITLIST_SELECTOR = ".waitlist-inline-form[data-waitlist-surface='blog_hub_waitlist']";
 
-test("blog hub waitlist form shows success state on 200 response", async ({ page }) => {
+test("@smoke blog hub waitlist form shows success state on 200 response", async ({ page }) => {
   await page.route("https://formspree.io/**", async (route) => {
     await route.fulfill({
       status: 200,
@@ -23,7 +23,7 @@ test("blog hub waitlist form shows success state on 200 response", async ({ page
   await expect(status).toContainText("Thanks");
 });
 
-test("blog hub waitlist form shows error state on non-200 response", async ({ page }) => {
+test("@smoke blog hub waitlist form shows error state on non-200 response", async ({ page }) => {
   await page.route("https://formspree.io/**", async (route) => {
     await route.fulfill({
       status: 500,
