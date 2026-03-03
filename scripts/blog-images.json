@@ -1,0 +1,167 @@
+{
+  "generator": {
+    "model": "nano-banana-2",
+    "notes": "Use this JSON as the single source for blog image prompts and output filenames."
+  },
+  "styleGuide": {
+    "description": "Prosepal blog images - warm isometric 3D illustrations with emotional depth",
+    "aspectRatio": "16:9 (1600x900 preferred for generation); 16:10 fallback. Export/crop 1200x630 for OG where possible.",
+    "background": {
+      "base": "#0b0f19",
+      "style": "Deep dark base with subtle radial glow using category accent color at 15-25% opacity from center; cinematic depth"
+    },
+    "illustrationStyle": "3D isometric illustration, clean geometric shapes and platforms, soft glows and gradients, no photoreal people or faces",
+    "lighting": "Soft ambient with category-colored rim lighting and atmospheric bloom; shadows cast on isometric ground plane",
+    "mood": "Warm, emotionally resonant, modern - isometric precision with human warmth",
+    "cameraAngle": "Classic isometric 3-point perspective, slightly elevated, objects centered on platform",
+    "negativeConstraints": [
+      "no text",
+      "no letters",
+      "no logos",
+      "no watermark",
+      "no signatures",
+      "no UI elements",
+      "no photoreal faces"
+    ],
+    "notes": "Do not render words, letters, watermarks, app UI screenshots, logos, or photoreal faces."
+  },
+  "categoryColors": {
+    "sympathy": {
+      "color": "#5e84ff",
+      "accent": "cool blue glow",
+      "rimLight": "cool blue rim light from upper-left"
+    },
+    "birthday": {
+      "color": "#f59e0b",
+      "accent": "warm amber glow",
+      "rimLight": "warm amber rim light from upper-right"
+    },
+    "wedding-love": {
+      "color": "#ec4899",
+      "accent": "rose-magenta glow",
+      "rimLight": "rose-magenta rim light from upper-right"
+    },
+    "thank-you": {
+      "color": "#14b8a6",
+      "accent": "teal glow",
+      "rimLight": "teal rim light from upper-left"
+    },
+    "graduation": {
+      "color": "#7c3aed",
+      "accent": "violet glow",
+      "rimLight": "violet rim light from upper-right"
+    },
+    "decision-guides": {
+      "color": "#22c55e",
+      "accent": "emerald glow",
+      "rimLight": "emerald rim light from upper-left"
+    }
+  },
+  "posts": [
+    {
+      "slug": "what-to-write-in-sympathy-card",
+      "title": "What to Write in a Sympathy Card",
+      "category": "sympathy",
+      "visualConcept": "Isometric floating scene: a single glowing envelope hovering above a dark geometric platform, delicate white flowers on isometric steps below, cool blue light diffusing through soft mist; calm and respectful, not gloomy.",
+      "keywords": [
+        "glowing envelope",
+        "flowers on steps",
+        "soft mist",
+        "sympathy",
+        "isometric platform"
+      ],
+      "outputFilename": "og-sympathy-card.jpg",
+      "targetPage": "/blog/what-to-write-in-sympathy-card.html"
+    },
+    {
+      "slug": "birthday-card-messages",
+      "title": "Birthday Card Messages That Don't Sound Generic",
+      "category": "birthday",
+      "visualConcept": "Isometric celebration platform: stacked geometric gift boxes with ribbon accents, confetti particles suspended mid-air in warm amber glow, a floating open envelope at center radiating soft light; energetic but clean.",
+      "keywords": [
+        "gift boxes",
+        "confetti particles",
+        "floating envelope",
+        "birthday",
+        "isometric celebration"
+      ],
+      "outputFilename": "og-birthday-card.jpg",
+      "targetPage": "/blog/birthday-card-messages.html"
+    },
+    {
+      "slug": "thank-you-card-wording",
+      "title": "Thank You Card Wording for Every Situation",
+      "category": "thank-you",
+      "visualConcept": "Isometric gratitude scene: a glowing fountain pen resting diagonally across stacked note cards on a teal-lit platform, a wrapped gift cube beside it, warm light radiating from behind the card stack.",
+      "keywords": [
+        "fountain pen",
+        "stacked note cards",
+        "gift cube",
+        "gratitude",
+        "isometric platform"
+      ],
+      "outputFilename": "og-thank-you-card.jpg",
+      "targetPage": "/blog/thank-you-card-wording.html"
+    },
+    {
+      "slug": "wedding-card-message",
+      "title": "What to Write in a Wedding Card",
+      "category": "wedding-love",
+      "visualConcept": "Isometric romantic scene: two intertwined geometric ring shapes floating above a card on an elevated platform, rose-magenta bloom light from below, scattered soft petal shapes on isometric steps.",
+      "keywords": [
+        "intertwined rings",
+        "elevated card",
+        "petal shapes",
+        "romantic",
+        "isometric scene"
+      ],
+      "outputFilename": "og-wedding-card.jpg",
+      "targetPage": "/blog/wedding-card-message.html"
+    },
+    {
+      "slug": "graduation-card-messages",
+      "title": "Graduation Card Messages They'll Actually Remember",
+      "category": "graduation",
+      "visualConcept": "Isometric milestone scene: a graduation cap hovering above a diploma scroll on a geometric pedestal, violet particle trails rising upward, celebratory prism-shaped confetti catching the light.",
+      "keywords": [
+        "graduation cap",
+        "diploma scroll",
+        "particle trails",
+        "prism confetti",
+        "isometric pedestal"
+      ],
+      "outputFilename": "og-graduation-card.jpg",
+      "targetPage": "/blog/graduation-card-messages.html"
+    },
+    {
+      "slug": "prosepal-vs-chatgpt-greeting-cards",
+      "title": "Prosepal vs ChatGPT for Greeting Cards",
+      "category": "decision-guides",
+      "visualConcept": "Isometric split comparison: two floating platforms side by side - left has stacked structured input blocks in a card-first flow (emerald accent); right has an open iterative loop of abstract prompt blocks (blue-purple accent); clean separation, no readable text.",
+      "keywords": [
+        "split platforms",
+        "structured blocks",
+        "iterative loop",
+        "comparison",
+        "isometric decision scene"
+      ],
+      "outputFilename": "hero-prosepal-vs-chatgpt.jpg",
+      "targetPage": "/blog/prosepal-vs-chatgpt-greeting-cards.html"
+    },
+    {
+      "slug": "is-prosepal-pro-worth-it",
+      "title": "Is Prosepal Pro Worth It?",
+      "category": "decision-guides",
+      "visualConcept": "Isometric balance scale on a dark platform: one tray holds abstract time symbols (geometric clock faces, motion arcs), other tray holds a glowing gem or coin; emerald light from the heavier tray, practical and trustworthy feel.",
+      "keywords": [
+        "balance scale",
+        "time symbols",
+        "glowing coin",
+        "value tradeoff",
+        "isometric platform"
+      ],
+      "outputFilename": "hero-prosepal-pricing-value.jpg",
+      "targetPage": "/blog/is-prosepal-pro-worth-it.html"
+    }
+  ]
+}

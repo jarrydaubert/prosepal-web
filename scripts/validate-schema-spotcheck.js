@@ -74,6 +74,67 @@ function extractJsonLdBlocks(html) {
 }
 
 /**
+ * Extract one meta property value from HTML.
+ * @param {string} html
+ * @param {string} property
+ * @returns {string}
+ */
+function extractMetaProperty(html, property) {
+  const escapedProperty = property.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const pattern = new RegExp(
+    `<meta\\s+property=["']${escapedProperty}["']\\s+content=(["'])(.*?)\\1`,
+    "i",
+  );
+  const match = html.match(pattern);
+  return match ? match[2].trim() : "";
+}
+
+/**
+ * Normalize URL-like values for logical equality checks.
+ * @param {string} value
+ * @returns {string}
+ */
+function normalizeUrl(value) {
+  if (!value) {
+    return "";
+  }
+
+  try {
+    const parsed = new URL(value);
+    parsed.hash = "";
+    return parsed.href.replace(/\/$/, "");
+  } catch {
+    return value.trim().replace(/\/$/, "");
+  }
+}
+
+/**
+ * Read the first resolvable Article.image value from JSON-LD.
+ * @param {Record<string, unknown>} article
+ * @returns {string}
+ */
+function resolveArticleImage(article) {
+  const image = article.image;
+  if (typeof image === "string") {
+    return image;
+  }
+
+  if (Array.isArray(image)) {
+    const firstString = image.find((entry) => typeof entry === "string");
+    return typeof firstString === "string" ? firstString : "";
+  }
+
+  if (image && typeof image === "object") {
+    const url = image.url;
+    if (typeof url === "string") {
+      return url;
+    }
+  }
+
+  return "";
+}
+
+/**
  * Recursively collect @type values.
  * @param {unknown} node
  * @param {Set<string>} types
@@ -284,6 +345,31 @@ function validateTarget(relativePath, rule) {
 
     if (!hasHowToSteps) {
       errors.push(`[${relativePath}] message-detail HowTo.step must be a non-empty array`);
+    }
+  }
+
+  if (rule.label === "blog-article") {
+    const ogImage = extractMetaProperty(html, "og:image");
+    if (!ogImage) {
+      errors.push(`[${relativePath}] blog-article missing og:image meta property`);
+      return errors;
+    }
+
+    const articles = [];
+    for (const parsed of parsedBlocks) {
+      collectTypedObjects(parsed, "Article", articles);
+    }
+
+    const normalizedOgImage = normalizeUrl(ogImage);
+    const hasMatchingArticleImage = articles.some((article) => {
+      const articleImage = resolveArticleImage(article);
+      return normalizeUrl(articleImage) === normalizedOgImage;
+    });
+
+    if (!hasMatchingArticleImage) {
+      errors.push(
+        `[${relativePath}] blog-article Article.image must match og:image (${normalizedOgImage})`,
+      );
     }
   }
 

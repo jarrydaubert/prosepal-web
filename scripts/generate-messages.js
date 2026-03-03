@@ -7,8 +7,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { CONTENT_DATE } = require("./lib/metadata");
-const { buildMetadata } = require("./lib/metadata");
+const { CONTENT_DATE, buildMetadata } = require("./lib/metadata");
 
 const ROOT_DIR = path.join(__dirname, "..");
 const DATA_FILE = path.join(ROOT_DIR, "data", "messages-pages.json");
@@ -16,18 +15,15 @@ const TEMPLATE_FILE = path.join(ROOT_DIR, "templates", "message-page.html");
 const OUTPUT_DIR = path.join(ROOT_DIR, "public", "messages");
 
 const TODAY = CONTENT_DATE;
-const DISPLAY_DATE = new Date(`${TODAY}T00:00:00Z`).toLocaleDateString("en-US", {
-  month: "long",
-  year: "numeric",
-});
 const FALLBACK_BLOG_BY_OCCASION = {
-  Sympathy: { slug: "what-to-write-in-sympathy-card", title: "50 Sympathy Card Examples" },
-  Birthday: { slug: "birthday-card-messages", title: "80+ Birthday Card Messages" },
+  Sympathy: { slug: "what-to-write-in-sympathy-card", title: "Sympathy Card Writing Guide" },
+  Birthday: { slug: "birthday-card-messages", title: "Birthday Card Message Guide" },
   "Thank You": { slug: "thank-you-card-wording", title: "Thank You Card Wording Guide" },
   Wedding: { slug: "wedding-card-message", title: "Wedding Card Message Ideas" },
   Graduation: { slug: "graduation-card-messages", title: "Graduation Card Message Ideas" },
 };
 const HIGH_INTENT_SLUG_HINTS = ["sympathy", "birthday", "thank-you", "wedding"];
+const MAX_EXCERPT_LENGTH = 120;
 
 function loadData() {
   return JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
@@ -57,6 +53,80 @@ function escapeJsonLd(text) {
     .replace(/\n/g, "\\n")
     .replace(/\r/g, "\\r")
     .replace(/\t/g, "\\t");
+}
+
+function parseIsoDate(dateString) {
+  if (typeof dateString !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+    return null;
+  }
+
+  const parsed = new Date(`${dateString}T00:00:00Z`);
+  if (Number.isNaN(parsed.getTime())) {
+    return null;
+  }
+
+  return parsed;
+}
+
+function formatIsoDate(date) {
+  return date.toISOString().slice(0, 10);
+}
+
+function addDays(date, days) {
+  const next = new Date(date);
+  next.setUTCDate(next.getUTCDate() + days);
+  return next;
+}
+
+function slugSeed(slug) {
+  let hash = 0;
+  for (const char of slug) {
+    hash = (hash * 33 + char.charCodeAt(0)) >>> 0;
+  }
+  return hash;
+}
+
+function resolvePageDates(page) {
+  const baseline = parseIsoDate(CONTENT_DATE) || new Date();
+  const seed = slugSeed(page.slug);
+  const fallbackPublished = addDays(baseline, -30 - (seed % 180));
+  const fallbackModified = addDays(baseline, -(seed % 21));
+
+  const publishedDate = parseIsoDate(page.datePublished) || fallbackPublished;
+  let modifiedDate = parseIsoDate(page.dateModified) || fallbackModified;
+  if (modifiedDate < publishedDate) {
+    modifiedDate = publishedDate;
+  }
+
+  return {
+    datePublished: formatIsoDate(publishedDate),
+    dateModified: formatIsoDate(modifiedDate),
+    dateDisplay: modifiedDate.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
+    }),
+  };
+}
+
+function withIndefiniteArticle(phrase) {
+  if (!phrase) {
+    return "";
+  }
+
+  const article = /^[aeiou]/i.test(phrase.trim()) ? "an" : "a";
+  return `${article} ${phrase}`;
+}
+
+function truncateAtWordBoundary(text, maxLength) {
+  const source = typeof text === "string" ? text.trim() : "";
+  if (!source || source.length <= maxLength) {
+    return source;
+  }
+
+  const truncated = source.slice(0, maxLength);
+  const boundaryIndex = truncated.search(/\s+\S*$/);
+  const safeSlice = boundaryIndex > 0 ? truncated.slice(0, boundaryIndex) : truncated;
+  return `${safeSlice.trimEnd()}...`;
 }
 
 function generateMessagesHtml(messages) {
@@ -233,6 +303,7 @@ function generateBreadcrumbTitle(page) {
 
 function generatePage(page, template, pages) {
   let html = template;
+  const pageDates = resolvePageDates(page);
   const metadata = buildMetadata({
     title: page.metaTitle,
     description: page.metaDescription,
@@ -247,12 +318,13 @@ function generatePage(page, template, pages) {
     "{{title}}": escapeHtml(page.title),
     "{{slug}}": page.slug,
     "{{occasion}}": escapeHtml(page.occasion),
+    "{{occasionWithArticle}}": escapeHtml(withIndefiniteArticle(page.occasion)),
     "{{relationship}}": escapeHtml(page.relationship),
     "{{intro}}": escapeHtml(page.intro),
     "{{whenToSend}}": escapeHtml(page.whenToSend),
-    "{{datePublished}}": TODAY,
-    "{{dateModified}}": TODAY,
-    "{{dateDisplay}}": DISPLAY_DATE,
+    "{{datePublished}}": pageDates.datePublished,
+    "{{dateModified}}": pageDates.dateModified,
+    "{{dateDisplay}}": pageDates.dateDisplay,
     "{{readTime}}": String(calculateReadTime(page)),
     "{{breadcrumbTitle}}": escapeHtml(generateBreadcrumbTitle(page)),
     "{{occasion | lower}}": page.occasion.toLowerCase(),
@@ -314,6 +386,7 @@ function buildMessageCards(pages) {
   let cardsHtml = "";
   for (const occasion of sortedOccasions) {
     for (const page of grouped[occasion]) {
+      const excerpt = truncateAtWordBoundary(page.metaDescription, MAX_EXCERPT_LENGTH);
       cardsHtml += `
       <article class="post-card">
         <a href="/messages/${page.slug}.html">
@@ -321,7 +394,7 @@ function buildMessageCards(pages) {
           <div class="post-content">
             <span class="post-tag">${escapeHtml(page.occasion)}</span>
             <h2 class="post-title">${escapeHtml(page.title)}</h2>
-            <p class="post-excerpt">${escapeHtml(page.metaDescription.slice(0, 120))}...</p>
+            <p class="post-excerpt">${escapeHtml(excerpt)}</p>
             <div class="post-meta">${calculateReadTime(page)} min read</div>
           </div>
         </a>
@@ -349,7 +422,7 @@ function generateHubPage(pages) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHtml(metadata.title)}</title>
   <meta name="description" content="${escapeHtml(metadata.description)}">
-  <meta name="keywords" content="card messages, greeting card examples, what to write in a card, sympathy messages, birthday messages, wedding card messages, card wording 2026">
+  <meta name="keywords" content="card messages, greeting card examples, what to write in a card, sympathy messages, birthday messages, wedding card messages, card wording">
   <meta name="robots" content="index, follow">
 
   <meta property="og:title" content="${escapeHtml(metadata.openGraph.title)}">
@@ -456,7 +529,7 @@ ${pages
         <a href="/messages/">Messages</a>
         <a href="/blog/">Blog</a>
       </div>
-      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="header-cta">Get the App</a>
+      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="header-cta">Write Better Cards</a>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
         <span></span>
         <span></span>
@@ -470,7 +543,7 @@ ${pages
       <a href="/#faq">FAQ</a>
       <a href="/messages/">Messages</a>
       <a href="/blog/">Blog</a>
-      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="header-cta">Get the App</a>
+      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="header-cta">Write Better Cards</a>
     </nav>
   </header>
 
@@ -487,7 +560,7 @@ ${pages
   <section class="cta-section">
     <h2>Need Something More Personal?</h2>
     <p>Prosepal generates personalized card messages for many occasions. Get 3 options in under 30 seconds.</p>
-    <a href="https://apps.apple.com/app/prosepal/id6757088726" class="cta-button">Download Free on iOS</a>
+    <a href="https://apps.apple.com/app/prosepal/id6757088726" class="cta-button">Get 3 Message Options</a>
   </section>
 
   <footer>

@@ -72,7 +72,9 @@ a:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; bor
   left: 0;
   right: 0;
   transform: none;
-  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  width: min(100%, 1120px);
   z-index: 100;
   padding: 0.86rem clamp(1rem, 3vw, 2rem);
   background: rgba(8, 8, 13, 0.68);
@@ -88,7 +90,7 @@ a:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; bor
 .nav-brand {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   text-decoration: none;
 }
 
@@ -107,7 +109,9 @@ a:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; bor
 
 .nav-links {
   display: flex;
-  gap: 1.2rem;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
 }
 
 .nav-links a {

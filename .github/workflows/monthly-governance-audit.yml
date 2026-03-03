@@ -36,6 +36,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_ADMIN_TOKEN }}
         run: node scripts/audit-github-policy-drift.js
 
+      - name: Validate governance token expiry horizon
+        env:
+          GH_ADMIN_TOKEN_EXPIRES_ON: ${{ vars.GH_ADMIN_TOKEN_EXPIRES_ON }}
+          GH_ADMIN_TOKEN_MIN_DAYS: "30"
+        run: node scripts/validate-governance-token-expiry.js
+
       - name: Run CI usage budget audit
         env:
           GH_TOKEN: ${{ secrets.GH_ADMIN_TOKEN }}
@@ -45,5 +51,7 @@ jobs:
         run: |
           echo "---- github-policy-drift.md ----"
           cat docs/evidence/github-policy-drift.md
+          echo "---- governance-token-expiry.md ----"
+          cat docs/evidence/governance-token-expiry.md
           echo "---- ci-usage-budget.md ----"
           cat docs/evidence/ci-usage-budget.md

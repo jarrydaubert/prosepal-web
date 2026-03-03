@@ -1,6 +1,6 @@
 # Accessibility Regression Baseline
 
-Date: 2026-03-02T15:25:29.460Z
+Date: 2026-03-03T11:53:42.009Z
 
 Status: PASS
 - PASS: index.html :: skip link present
@@ -37,21 +37,3 @@ Status: PASS
 - PASS: messages/graduation-card-message-for-child.html :: mobile navigation aria-label
 - PASS: css/home.css :: waitlist input focus-visible outline
 - PASS: css/home.css :: no outline:none on waitlist email focus
-## Manual Keyboard/Focus Checks
-
-Date: 2026-03-02T15:25:38.270Z
-
-Manual Status: PASS
-- PASS: homepage :: skip-link keyboard jump
-- PASS: homepage :: mobile-menu keyboard open/close
-- PASS: homepage :: tips-popup focus/escape behavior
-- PASS: messages-hub :: skip-link keyboard jump
-- PASS: messages-hub :: mobile-menu keyboard open/close
-- PASS: blog-hub :: skip-link keyboard jump
-- PASS: blog-hub :: mobile-menu keyboard open/close
-- PASS: privacy :: skip-link keyboard jump
-- PASS: privacy :: mobile-menu keyboard open/close
-- PASS: terms :: skip-link keyboard jump
-- PASS: terms :: mobile-menu keyboard open/close
-- PASS: support :: skip-link keyboard jump
-- PASS: support :: mobile-menu keyboard open/close

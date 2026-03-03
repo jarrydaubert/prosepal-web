@@ -1,5 +1,6 @@
 (function bootstrapVercelAnalytics() {
   const OPT_OUT_KEY = "prosepal_analytics_opt_out";
+  const APP_STORE_LINK_SELECTOR = "a[href*='apps.apple.com/app/prosepal/id6757088726']";
 
   function isTrackingAllowed() {
     const doNotTrackEnabled =
@@ -76,6 +77,61 @@
     }
   }
 
+  /**
+   * Derive a stable, analytics-friendly page type from the current path.
+   * @param {string} pathname
+   * @returns {string}
+   */
+  function getPageType(pathname) {
+    if (pathname === "/") return "home";
+    if (pathname === "/blog/" || pathname === "/blog/index.html") return "blog_hub";
+    if (pathname.startsWith("/blog/")) return "blog_article";
+    if (pathname === "/messages/" || pathname === "/messages/index.html") return "messages_hub";
+    if (pathname.startsWith("/messages/")) return "message_detail";
+    if (pathname === "/privacy.html" || pathname === "/terms.html") return "legal";
+    if (pathname === "/support.html") return "support";
+    return "other";
+  }
+
+  /**
+   * Derive a stable location value from a clicked App Store link and its context.
+   * @param {HTMLElement} link
+   * @returns {string}
+   */
+  function getAppStoreLocation(link) {
+    const dataLocation = link.getAttribute("data-analytics-location");
+    if (dataLocation) return dataLocation;
+    if (link.id) return link.id;
+    if (link.closest("#mobile-menu")) return "mobile_menu";
+    if (link.closest(".nav") || link.closest(".header-content")) return "header_nav";
+    if (link.closest(".hero-actions")) return "hero_primary";
+    if (link.closest(".final-cta") || link.closest(".cta-section") || link.closest(".cta-box")) {
+      return "content_cta";
+    }
+    if (link.closest("footer")) return "footer";
+    return "inline_link";
+  }
+
+  function setupAppStoreClickTracking() {
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) {
+        return;
+      }
+
+      const link = target.closest(APP_STORE_LINK_SELECTOR);
+      if (!(link instanceof HTMLElement)) {
+        return;
+      }
+
+      trackEvent("app_store_click", {
+        location: getAppStoreLocation(link),
+        page_type: getPageType(window.location.pathname),
+        page_path: window.location.pathname,
+      });
+    });
+  }
+
   window.prosepalAnalytics = {
     isTrackingAllowed,
     trackEvent,
@@ -98,9 +154,17 @@
   };
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", loadVercelAnalytics, { once: true });
+    document.addEventListener(
+      "DOMContentLoaded",
+      () => {
+        loadVercelAnalytics();
+        setupAppStoreClickTracking();
+      },
+      { once: true },
+    );
     return;
   }
 
   loadVercelAnalytics();
+  setupAppStoreClickTracking();
 })();
