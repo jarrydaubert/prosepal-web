@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.2.0](https://github.com/jarrydaubert/prosepal-web/compare/v1.1.0...v1.2.0) (2026-03-03)
+
+
+### Features
+
+* ship backlog quality updates, blog system, and image pipeline ([62db34d](https://github.com/jarrydaubert/prosepal-web/commit/62db34de7b6c742d758bf65e201ce0a37dab99f2))
+
+
+### Bug Fixes
+
+* align mobile nav and content gutters across pages ([11e9db8](https://github.com/jarrydaubert/prosepal-web/commit/11e9db8bf0faa9d786b4bc953c1a2ea4ba62cacb))
+
+
+### Performance Improvements
+
+* **fonts:** defer content-page Google Fonts loading ([a26fe53](https://github.com/jarrydaubert/prosepal-web/commit/a26fe53df09e3e44fb2890dd423e2e3f5962a86c))
+
 ## [1.1.0](https://github.com/jarrydaubert/prosepal-web/compare/v1.0.1...v1.1.0) (2026-03-02)
 
 
