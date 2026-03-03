@@ -137,12 +137,19 @@ function toCanonicalUrl(href) {
  * @returns {string}
  */
 function decodeHtmlEntities(value) {
-  return value
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;|&apos;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
+  const entityMap = {
+    amp: "&",
+    quot: '"',
+    "#039": "'",
+    apos: "'",
+    lt: "<",
+    gt: ">",
+  };
+
+  return value.replace(/&(amp|quot|#039|apos|lt|gt);/g, (match, entity) => {
+    const decoded = entityMap[entity];
+    return typeof decoded === "string" ? decoded : match;
+  });
 }
 
 /**
@@ -152,11 +159,11 @@ function decodeHtmlEntities(value) {
  */
 function extractBlogHubCards(html) {
   const cardRegex =
-    /<article class="post-card">[\s\S]*?<a href="([^"]+)">[\s\S]*?<h2 class="post-title">([\s\S]*?)<\/h2>/gi;
+    /<article class="post-card">[\s\S]*?<a href="([^"]+)">[\s\S]*?<h2 class="post-title">([^<]+)<\/h2>/gi;
   const cards = [];
 
   for (const match of html.matchAll(cardRegex)) {
-    const rawTitle = match[2].replace(/<[^>]*>/g, "");
+    const rawTitle = match[2];
     cards.push({
       url: normalizeUrl(toCanonicalUrl(match[1])),
       title: normalizeText(decodeHtmlEntities(rawTitle)),
