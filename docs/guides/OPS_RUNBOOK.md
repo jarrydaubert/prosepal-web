@@ -38,6 +38,18 @@ Why this split exists:
 - `check:fast` keeps iteration speed high.
 - `check` is the canonical merge-quality contract.
 
+## SERP title guidance
+
+- Keep high-priority page `<title>` tags concise (usually 45-65 characters including brand suffix).
+- Preserve intent keywords when shortening titles (do not remove primary query meaning).
+- Validation command:
+
+```bash
+bun run validate:title:lengths
+```
+
+- If priority landing pages change, update target coverage in `scripts/validate-title-lengths.js`.
+
 ## Deployment flow
 
 - Confirm quality checks are green.
@@ -139,9 +151,32 @@ bun run validate:formspree:strategy
 bun run test:interaction:flake-audit
 ```
 
+- If an experiment is active, complete experiment governance checks before decisioning:
+  - `Assignment consistency`: same user remains in the same variant across reload/session.
+  - `Exposure integrity`: each assigned user emits one `experiment_exposure` event per session with matching `experiment_id` and `variant_id`.
+  - `Anti-peeking policy`: do not declare winners before the pre-defined minimum sample size and decision window.
+
 Evidence expectations:
 - Validation scripts write/update evidence in `docs/evidence/`.
 - For governance controls, use the successful GitHub Actions run on `main` as authoritative evidence.
+
+## Tips popup trigger policy
+
+- Trigger channels:
+  - Timer trigger after 12s.
+  - Exit-intent trigger on top-edge mouseout.
+- Timer guardrail:
+  - Do not auto-open if the user has active hero conversion intent (recent interaction/focus/input on hero CTA or waitlist surfaces within the suppression window).
+- Persistence:
+  - Dismiss = suppress for 14 days.
+  - Successful popup submit = suppress for 90 days.
+- Measurement:
+  - Keep `tips_popup_open`, `tips_popup_dismiss`, and popup submit events wired in analytics checks.
+- Test override:
+  - Integration tests may set `window.__prosepalPopupDelayMs` to shorten timer waits; production behavior remains 12s.
+
+Why this policy exists:
+- It protects first-session conversion flow from interruption while preserving newsletter capture opportunities for disengaging visitors.
 
 ## Security and governance controls
 
@@ -164,6 +199,13 @@ bun run audit:governance:token
 bun run audit:ci:usage
 ```
 
+- Verify crawler policy and generated robots output are still aligned:
+
+```bash
+bun run validate:robots:policy
+```
+
+- Reconfirm `docs/guides/AI_CRAWLER_POLICY.md` assumptions (discovery goals vs training opt-out stance) still match current growth priorities.
 - Confirm required checks in rulesets still match actual workflows.
 - Review dependency automation and pending upgrades.
 - Review CI runtime/storage trends and tune workflow behavior where needed.

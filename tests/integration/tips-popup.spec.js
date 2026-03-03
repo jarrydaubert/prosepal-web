@@ -3,6 +3,29 @@ const { test, expect } = require("@playwright/test");
 const POPUP_DISMISS_KEY = "prosepal_tips_popup_dismissed_until";
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
+test("timer trigger opens popup when no conversion intent is active", async ({ page }) => {
+  await page.addInitScript(() => {
+    window.__prosepalPopupDelayMs = 120;
+  });
+
+  await page.goto("/", { waitUntil: "networkidle" });
+  await expect(page.locator("#tips-popup-overlay")).toHaveClass(/open/, { timeout: 4000 });
+});
+
+test("timer trigger is suppressed during active hero conversion intent", async ({ page }) => {
+  await page.addInitScript(() => {
+    window.__prosepalPopupDelayMs = 1200;
+  });
+
+  await page.goto("/", { waitUntil: "networkidle" });
+  await page.fill("#android-waitlist-email", "qa+intent@prosepal.app");
+  await page.waitForTimeout(1500);
+
+  const overlay = page.locator("#tips-popup-overlay");
+  await expect(overlay).not.toHaveClass(/open/);
+  await expect(overlay).toHaveAttribute("aria-hidden", "true");
+});
+
 async function openPopupFromExitIntent(page) {
   await page.goto("/", { waitUntil: "networkidle" });
   await page.focus(".nav-brand");

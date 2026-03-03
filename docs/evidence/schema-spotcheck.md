@@ -1,12 +1,13 @@
 # Schema Spot-Check
 
-Date: 2026-03-03T14:45:02.786Z
+Date: 2026-03-03T21:13:14.831Z
 
 Status: PASS
 - Scope: 42 local HTML files (homepage, hubs, blog articles, message details)
 - blog/birthday-card-messages.html: pass
 - blog/graduation-card-messages.html: pass
 - blog/index.html: pass
+- [blog/index.html] blog-hub parity: visible cards=7, itemList entries=7, numberOfItems=7
 - blog/is-prosepal-pro-worth-it.html: pass
 - blog/prosepal-vs-chatgpt-greeting-cards.html: pass
 - blog/thank-you-card-wording.html: pass

@@ -79,6 +79,20 @@ test("demo chips support Arrow/Home/End keyboard navigation", async ({ page }) =
   await expect(first).toHaveAttribute("aria-selected", "true");
 });
 
+test("hero presents a single primary CTA row with secondary actions de-emphasized", async ({
+  page,
+}) => {
+  await page.goto("/", { waitUntil: "networkidle" });
+
+  const primaryActions = page.locator(".hero-actions a, .hero-actions button");
+  await expect(primaryActions).toHaveCount(1);
+  await expect(page.locator(".hero-actions #hero-app-store")).toBeVisible();
+
+  const secondaryActions = page.locator(".hero-secondary-links .hero-link-secondary");
+  await expect(secondaryActions).toHaveCount(2);
+  await expect(page.locator(".hero-waitlist")).toBeVisible();
+});
+
 test("@smoke waitlist form shows success state on 200 response", async ({ page }) => {
   await page.route("https://formspree.io/**", async (route) => {
     await route.fulfill({

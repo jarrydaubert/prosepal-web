@@ -1,6 +1,6 @@
 # Product Marketing Context
 
-Last updated: 2026-03-02
+Last updated: 2026-03-03
 
 ## Verification Legend
 
@@ -50,7 +50,7 @@ Last updated: 2026-03-02
 - Phrases already present in copy (`Verified`):
   - "You know what you feel. The words just don't come."
   - "No prompt engineering. No blank-page anxiety."
-  - "Get three heartfelt options in under 10 seconds."
+  - "Get three personalized message options in under 30 seconds."
 
 ## Brand Voice
 

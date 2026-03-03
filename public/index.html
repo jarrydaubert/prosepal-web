@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Greeting Card Message Generator - What to Write in Any Card | Prosepal</title>
-  <meta name="description" content="Staring at a blank card? Get 3 heartfelt messages in seconds. Prosepal writes birthday, sympathy, wedding and thank you cards so you do not have to.">
+  <title>Greeting Card Message Generator for Any Occasion | Prosepal</title>
+  <meta name="description" content="Staring at a blank card? Get 3 heartfelt messages in under 30 seconds. Prosepal writes birthday, sympathy, wedding and thank you cards so you do not have to.">
   <meta name="keywords" content="what to write in a sympathy card, get well soon messages, what to write in a wedding card, ai birthday card generator, greeting card message generator">
 
   <meta property="og:title" content="Prosepal - AI Greeting Card Message Generator">
-  <meta property="og:description" content="Get card messages that sound like you wrote them. Birthday, sympathy, wedding and thank you cards in seconds.">
+  <meta property="og:description" content="Get card messages that sound like you wrote them. Birthday, sympathy, wedding and thank you cards in under 30 seconds.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.prosepal.app">
   <meta property="og:image" content="https://www.prosepal.app/og-image.jpg">
@@ -20,7 +20,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Prosepal - AI Greeting Card Message Generator">
-  <meta name="twitter:description" content="Get card messages that sound like you wrote them in seconds.">
+  <meta name="twitter:description" content="Get card messages that sound like you wrote them in under 30 seconds.">
   <meta name="twitter:image" content="https://www.prosepal.app/og-image.jpg">
   <meta name="twitter:image:alt" content="Prosepal app showing AI-generated greeting card messages">
   <meta name="color-scheme" content="dark">
@@ -62,7 +62,7 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "Prosepal",
-    "description": "AI greeting card message generator. Get 3 heartfelt messages in seconds for birthdays, sympathy, weddings, and thank you cards.",
+    "description": "AI greeting card message generator. Get 3 heartfelt messages in under 30 seconds for birthdays, sympathy, weddings, and thank you cards.",
     "applicationCategory": "LifestyleApplication",
     "operatingSystem": "iOS",
     "offers": {
@@ -98,7 +98,7 @@
         "name": "Is Prosepal free to try?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. You can try Prosepal for free and generate your first card message in seconds."
+          "text": "Yes. You can try Prosepal for free and generate your first card message in under 30 seconds."
         }
       },
       {
@@ -150,7 +150,7 @@
         <a href="/messages/">Messages</a>
         <a href="/blog/">Blog</a>
       </div>
-      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="nav-cta" target="_blank" rel="noopener">Write Better Cards</a>
+      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="nav-cta" target="_blank" rel="noopener">Get 3 Message Options</a>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
         <span></span>
         <span></span>
@@ -175,18 +175,21 @@
       <div class="hero-content">
         <span class="hero-badge">
           <span class="hero-badge-dot"></span>
-          AI-powered card messages
+          <span id="hero-category-badge-text">Greeting card message generator</span>
         </span>
-        <h1>Words that<br><span class="gradient-text">actually land</span></h1>
-        <p class="hero-subtitle">You know what you feel. The words just don't come. Get three heartfelt options in under 30 seconds.</p>
+        <h1 id="hero-headline">Greeting card messages<br><span class="gradient-text">that actually land</span></h1>
+        <p class="hero-subtitle" id="hero-subtitle">Find what to write in any card. Get three personalized message options in under 30 seconds.</p>
         <div class="hero-actions">
           <a href="https://apps.apple.com/app/prosepal/id6757088726" class="store-badge" id="hero-app-store" target="_blank" rel="noopener">
             <img src="/app-store-badge.svg" alt="Get 3 card messages in 30 seconds on iOS">
           </a>
-          <a href="#demo" class="cta-secondary">Preview sample messages</a>
+        </div>
+        <div class="hero-secondary-links" aria-label="Secondary actions">
+          <a href="#demo" class="hero-link-secondary">Preview sample messages</a>
+          <a href="#android-waitlist-email" class="hero-link-secondary">On Android? Join waitlist</a>
         </div>
         <div class="hero-waitlist">
-          <label class="hero-waitlist-label" for="android-waitlist-email">On Android? Join the waitlist.</label>
+          <label class="hero-waitlist-label" for="android-waitlist-email">Android launch waitlist</label>
           <form
             class="hero-waitlist-form"
             id="android-waitlist-form"
@@ -204,7 +207,7 @@
             <input type="hidden" name="_subject" value="Prosepal Android Waitlist Signup">
             <input type="hidden" name="source" value="hero_waitlist">
             <input type="text" name="_gotcha" class="waitlist-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <button type="submit">Notify me</button>
+            <button type="submit">Get Early Access</button>
           </form>
           <p class="hero-waitlist-status" id="android-waitlist-status" aria-live="polite"></p>
         </div>
@@ -223,7 +226,7 @@
       </header>
         <div class="feature-metrics" aria-label="Prosepal highlights">
           <div>
-          <strong>27</strong>
+          <strong>32</strong>
           <span>Message guides</span>
           </div>
           <div>
@@ -394,6 +397,7 @@
     </div>
   </div>
 
+  <script defer src="/js/experiments.js"></script>
   <script defer src="/js/home.js"></script>
   <script defer src="/js/analytics.js"></script>
 </body>

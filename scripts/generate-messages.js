@@ -347,12 +347,16 @@ function generatePage(page, template, pages) {
   const replacements = {
     "{{metaTitle}}": escapeHtml(metadata.title),
     "{{metaDescription}}": escapeHtml(metadata.description),
+    "{{metaDescriptionJsonLd}}": escapeJsonLd(metadata.description),
     "{{targetKeyword}}": escapeHtml(page.targetKeyword),
     "{{title}}": escapeHtml(page.title),
+    "{{titleJsonLd}}": escapeJsonLd(page.title),
     "{{slug}}": page.slug,
     "{{occasion}}": escapeHtml(page.occasion),
     "{{occasionWithArticle}}": escapeHtml(withIndefiniteArticle(page.occasion)),
+    "{{occasionWithArticleJsonLd}}": escapeJsonLd(withIndefiniteArticle(page.occasion)),
     "{{relationship}}": escapeHtml(page.relationship),
+    "{{relationshipJsonLd}}": escapeJsonLd(page.relationship),
     "{{intro}}": escapeHtml(page.intro),
     "{{whenToSend}}": escapeHtml(page.whenToSend),
     "{{datePublished}}": pageDates.datePublished,
@@ -360,6 +364,7 @@ function generatePage(page, template, pages) {
     "{{dateDisplay}}": pageDates.dateDisplay,
     "{{readTime}}": String(calculateReadTime(page)),
     "{{breadcrumbTitle}}": escapeHtml(generateBreadcrumbTitle(page)),
+    "{{breadcrumbTitleJsonLd}}": escapeJsonLd(generateBreadcrumbTitle(page)),
     "{{occasion | lower}}": page.occasion.toLowerCase(),
     "{{tipsHtml}}": generateTipsHtml(page.tips),
     "{{shortMessagesHtml}}": generateMessagesHtml(page.shortMessages),
@@ -595,7 +600,7 @@ ${pages
         <a href="/messages/">Messages</a>
         <a href="/blog/">Blog</a>
       </div>
-      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="header-cta">Write Better Cards</a>
+      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="header-cta">Get 3 Message Options</a>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
         <span></span>
         <span></span>
@@ -609,7 +614,7 @@ ${pages
       <a href="/#faq">FAQ</a>
       <a href="/messages/">Messages</a>
       <a href="/blog/">Blog</a>
-      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="header-cta">Write Better Cards</a>
+      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="header-cta">Get 3 Message Options</a>
     </nav>
   </header>
 
@@ -622,6 +627,14 @@ ${pages
     <nav class="breadcrumb hub-breadcrumb" aria-label="Breadcrumb">
       <a href="/">Home</a> &rsaquo; Messages
     </nav>
+
+    <section class="conversion-assist" aria-label="Quick conversion actions">
+      <p class="conversion-assist-copy">Need a card message now? Generate 3 personalized options in under 30 seconds.</p>
+      <div class="conversion-assist-actions">
+        <a href="https://apps.apple.com/app/prosepal/id6757088726" class="assist-primary" data-analytics-location="messages_hub_top_assist">Get 3 Message Options</a>
+        <a href="#messages-hub-waitlist-form" class="assist-secondary">Android waitlist</a>
+      </div>
+    </section>
 
     <nav class="occasion-nav" aria-label="Message categories">
 ${occasionIndexHtml}
@@ -638,11 +651,11 @@ ${occasionSectionsHtml}
     <a href="https://apps.apple.com/app/prosepal/id6757088726" class="cta-button">Get 3 Message Options</a>
     <div class="waitlist-inline">
       <p class="waitlist-inline-label">On Android? Join the waitlist.</p>
-      <form class="waitlist-inline-form" data-waitlist-surface="messages_hub_waitlist" action="https://formspree.io/f/xgooqzgg" method="POST">
+      <form id="messages-hub-waitlist-form" class="waitlist-inline-form" data-waitlist-surface="messages_hub_waitlist" action="https://formspree.io/f/xgooqzgg" method="POST">
         <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email address for Android waitlist">
         <input type="hidden" name="source" value="messages_hub_waitlist">
         <input type="text" name="_gotcha" class="waitlist-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button type="submit">Notify me</button>
+        <button type="submit">Get Early Access</button>
         <p class="waitlist-inline-status" data-waitlist-status aria-live="polite"></p>
       </form>
     </div>

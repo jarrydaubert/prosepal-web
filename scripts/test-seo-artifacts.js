@@ -4,6 +4,11 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const { SITE_URL } = require("./lib/metadata");
+const {
+  ALLOWED_SEARCH_BOTS,
+  BLOCKED_TRAINING_BOTS,
+  DISALLOW_PATHS,
+} = require("./lib/robots-policy");
 
 const ROOT_DIR = path.join(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT_DIR, "public");
@@ -44,28 +49,7 @@ function readBlogCount() {
 function testRobots() {
   const robots = readPublicFile("robots.txt");
 
-  const allowedBots = [
-    "*",
-    "Googlebot",
-    "Bingbot",
-    "Applebot",
-    "OAI-SearchBot",
-    "Claude-SearchBot",
-    "PerplexityBot",
-  ];
-  const blockedBots = ["GPTBot", "ClaudeBot", "Google-Extended", "Applebot-Extended", "CCBot"];
-  const requiredDisallowPaths = [
-    "/api/",
-    "/admin/",
-    "/_next/data/",
-    "/_vercel/",
-    "/private/",
-    "/offline",
-    "/monitoring",
-    "/tmp/",
-  ];
-
-  for (const bot of allowedBots) {
+  for (const bot of ALLOWED_SEARCH_BOTS) {
     assert.match(
       robots,
       new RegExp(`User-agent: ${bot}`),
@@ -73,7 +57,7 @@ function testRobots() {
     );
   }
 
-  for (const bot of blockedBots) {
+  for (const bot of BLOCKED_TRAINING_BOTS) {
     assert.match(
       robots,
       new RegExp(`User-agent: ${bot}[\\s\\S]*?Disallow: /`),
@@ -81,7 +65,7 @@ function testRobots() {
     );
   }
 
-  for (const disallowPath of requiredDisallowPaths) {
+  for (const disallowPath of DISALLOW_PATHS) {
     assert.match(
       robots,
       new RegExp(`Disallow: ${disallowPath.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`),

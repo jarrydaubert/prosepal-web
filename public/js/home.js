@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         selectDemo(key, chip);
-        trackEvent("demo_chip_click", { variant: key });
+        trackEvent("demo_chip_click", { variant: key, interaction: "click" });
       });
 
       chip.addEventListener("keydown", (event) => {
@@ -186,6 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         selectDemo(key, nextChip);
         nextChip.focus();
+        trackEvent("demo_chip_click", { variant: key, interaction: "keyboard" });
       });
     });
   }
@@ -248,6 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (waitlistForm && waitlistStatus && waitlistButton instanceof HTMLButtonElement) {
     waitlistForm.addEventListener("submit", async (event) => {
       event.preventDefault();
+      trackEvent("waitlist_submit_start", { surface: "hero_waitlist" });
 
       waitlistButton.disabled = true;
       const defaultButtonLabel = waitlistButton.textContent;
@@ -275,6 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } catch {
         waitlistStatus.dataset.state = "error";
         waitlistStatus.textContent = "Submission failed. Please try again in a moment.";
+        trackEvent("waitlist_submit_error", { surface: "hero_waitlist" });
       } finally {
         waitlistButton.disabled = false;
         waitlistButton.textContent = defaultButtonLabel;
@@ -303,12 +306,39 @@ document.addEventListener("DOMContentLoaded", () => {
     tipsPopupDialog
   ) {
     const POPUP_DISMISS_KEY = "prosepal_tips_popup_dismissed_until";
-    const POPUP_DELAY_MS = 12000;
+    const configuredPopupDelay = Number(window.__prosepalPopupDelayMs);
+    const POPUP_DELAY_MS =
+      Number.isFinite(configuredPopupDelay) && configuredPopupDelay >= 0
+        ? configuredPopupDelay
+        : 12000;
+    const POPUP_INTENT_SUPPRESS_MS = 45000;
     const POPUP_DISMISS_DAYS = 14;
     const POPUP_SUBMIT_DAYS = 90;
+    const CONVERSION_INTENT_SELECTOR =
+      "#android-waitlist-form, .hero-actions, .hero-secondary-links";
     let popupOpen = false;
     let popupSeen = false;
     let previousFocusedElement = null;
+    let lastConversionIntentAt = 0;
+
+    function markConversionIntent() {
+      lastConversionIntentAt = Date.now();
+    }
+
+    function hasRecentConversionIntent() {
+      if (Date.now() - lastConversionIntentAt < POPUP_INTENT_SUPPRESS_MS) {
+        return true;
+      }
+
+      const activeElement = document.activeElement;
+      return (
+        activeElement instanceof Element && Boolean(activeElement.closest("#android-waitlist-form"))
+      );
+    }
+
+    function isConversionIntentTarget(target) {
+      return target instanceof Element && Boolean(target.closest(CONVERSION_INTENT_SELECTOR));
+    }
 
     function getDismissedUntil() {
       try {
@@ -332,13 +362,14 @@ document.addEventListener("DOMContentLoaded", () => {
       return Date.now() > getDismissedUntil();
     }
 
-    function openPopup() {
+    function openPopup(trigger = "unknown") {
       if (popupOpen || popupSeen || !shouldShowPopup()) {
         return;
       }
 
       popupOpen = true;
       popupSeen = true;
+      trackEvent("tips_popup_open", { surface: "tips_popup", trigger });
       previousFocusedElement =
         document.activeElement instanceof HTMLElement ? document.activeElement : null;
       tipsPopupOverlay.classList.add("open");
@@ -350,8 +381,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    function closePopup(persistDays) {
+    function closePopup(persistDays, reason = "unknown") {
+      if (!popupOpen) {
+        return;
+      }
+
       popupOpen = false;
+      trackEvent("tips_popup_dismiss", { surface: "tips_popup", reason });
       tipsPopupOverlay.classList.remove("open");
       tipsPopupOverlay.setAttribute("aria-hidden", "true");
       document.body.classList.remove("modal-open");
@@ -366,27 +402,50 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (shouldShowPopup()) {
-      window.setTimeout(openPopup, POPUP_DELAY_MS);
+      window.setTimeout(() => {
+        if (hasRecentConversionIntent()) {
+          return;
+        }
+        openPopup("timer");
+      }, POPUP_DELAY_MS);
     }
+
+    document.addEventListener("pointerdown", (event) => {
+      if (isConversionIntentTarget(event.target)) {
+        markConversionIntent();
+      }
+    });
+
+    document.addEventListener("focusin", (event) => {
+      if (isConversionIntentTarget(event.target)) {
+        markConversionIntent();
+      }
+    });
+
+    document.addEventListener("input", (event) => {
+      if (isConversionIntentTarget(event.target)) {
+        markConversionIntent();
+      }
+    });
 
     document.addEventListener("mouseout", (event) => {
       if (event.clientY > 0) {
         return;
       }
-      openPopup();
+      openPopup("exit_intent");
     });
 
     tipsPopupClose.addEventListener("click", () => {
-      closePopup(POPUP_DISMISS_DAYS);
+      closePopup(POPUP_DISMISS_DAYS, "close_button");
     });
 
     tipsPopupDismiss.addEventListener("click", () => {
-      closePopup(POPUP_DISMISS_DAYS);
+      closePopup(POPUP_DISMISS_DAYS, "dismiss_button");
     });
 
     tipsPopupOverlay.addEventListener("click", (event) => {
       if (event.target === tipsPopupOverlay) {
-        closePopup(POPUP_DISMISS_DAYS);
+        closePopup(POPUP_DISMISS_DAYS, "overlay_click");
       }
     });
 
@@ -396,7 +455,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (event.key === "Escape") {
-        closePopup(POPUP_DISMISS_DAYS);
+        closePopup(POPUP_DISMISS_DAYS, "escape_key");
         return;
       }
 
@@ -433,6 +492,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     tipsPopupForm.addEventListener("submit", async (event) => {
       event.preventDefault();
+      markConversionIntent();
+      trackEvent("waitlist_submit_start", { surface: "tips_popup" });
 
       tipsPopupButton.disabled = true;
       const defaultLabel = tipsPopupButton.textContent;
@@ -458,10 +519,11 @@ document.addEventListener("DOMContentLoaded", () => {
         tipsPopupStatus.textContent = "Thanks. Check your inbox soon.";
         trackEvent("waitlist_submit_success", { surface: "tips_popup" });
         setDismissed(POPUP_SUBMIT_DAYS);
-        window.setTimeout(() => closePopup(), 1200);
+        window.setTimeout(() => closePopup(undefined, "submit_success"), 1200);
       } catch {
         tipsPopupStatus.dataset.state = "error";
         tipsPopupStatus.textContent = "Could not submit right now. Please try again.";
+        trackEvent("waitlist_submit_error", { surface: "tips_popup" });
       } finally {
         tipsPopupButton.disabled = false;
         tipsPopupButton.textContent = defaultLabel;
