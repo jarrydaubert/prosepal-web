@@ -8,7 +8,7 @@ const ROOT_DIR = path.join(__dirname, "..");
 const LOG_DIR = path.join(ROOT_DIR, "docs", "evidence");
 const LOG_FILE = path.join(LOG_DIR, "csp-runtime-verification.md");
 
-const PAGES = ["https://www.prosepal.app/", "https://www.prosepal.app/privacy.html"];
+const PAGES = ["https://www.prosepal.app/", "https://www.prosepal.app/privacy"];
 
 const ANALYTICS_SCRIPT_PATHS = ["/_vercel/insights/script.js", "/_vercel/speed-insights/script.js"];
 const ANALYTICS_CONNECT_HOSTS = ["vitals.vercel-insights.com", "vitals.vercel-analytics.com"];

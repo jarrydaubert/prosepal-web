@@ -7,6 +7,11 @@ const { CONTENT_DATE, SITE_URL } = require("./lib/metadata");
 const ROOT_DIR = path.join(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT_DIR, "public");
 const OUTPUT_FILE = path.join(PUBLIC_DIR, "sitemap.xml");
+const CLEAN_URL_OVERRIDES = {
+  "privacy.html": "/privacy",
+  "terms.html": "/terms",
+  "support.html": "/support",
+};
 
 /**
  * Recursively collect all HTML files under a directory.
@@ -48,6 +53,10 @@ function toPublicPath(fullPath) {
  * @returns {string|null}
  */
 function toUrlPath(publicPath) {
+  if (CLEAN_URL_OVERRIDES[publicPath]) {
+    return CLEAN_URL_OVERRIDES[publicPath];
+  }
+
   if (publicPath === "index.html") {
     return "/";
   }
@@ -128,8 +137,8 @@ function getPriority(urlPath) {
     return "0.76";
   }
 
-  if (urlPath === "/support.html") return "0.40";
-  if (urlPath === "/privacy.html" || urlPath === "/terms.html") return "0.20";
+  if (urlPath === "/support") return "0.40";
+  if (urlPath === "/privacy" || urlPath === "/terms") return "0.20";
   return "0.5";
 }
 
@@ -145,7 +154,7 @@ function getChangeFreq(urlPath) {
     return "monthly";
   }
 
-  if (urlPath === "/privacy.html" || urlPath === "/terms.html") {
+  if (urlPath === "/privacy" || urlPath === "/terms") {
     return "yearly";
   }
 

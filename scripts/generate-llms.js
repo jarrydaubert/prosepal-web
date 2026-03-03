@@ -170,9 +170,9 @@ Prosepal helps users turn blank-card anxiety into clear, natural wording. The we
 - [Home](${SITE_URL}/): Landing page and app download links
 - [Messages Hub](${SITE_URL}/messages/): Message examples by occasion and relationship
 - [Blog Hub](${SITE_URL}/blog/): Writing guides and card wording help
-- [Privacy](${SITE_URL}/privacy.html)
-- [Terms](${SITE_URL}/terms.html)
-- [Support](${SITE_URL}/support.html)
+- [Privacy](${SITE_URL}/privacy)
+- [Terms](${SITE_URL}/terms)
+- [Support](${SITE_URL}/support)
 
 ## Coverage Snapshot
 

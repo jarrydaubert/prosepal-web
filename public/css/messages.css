@@ -565,6 +565,68 @@ footer {
   padding: 0 2rem 3rem;
 }
 
+.hub-breadcrumb {
+  margin-bottom: 1rem;
+}
+
+.occasion-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+}
+
+.occasion-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--md-surface-container-lowest);
+  color: var(--md-on-surface-variant);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.occasion-chip:hover {
+  color: var(--md-on-surface);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.occasion-chip strong {
+  color: var(--md-on-surface);
+  font-size: var(--font-size-xs-wide);
+  font-weight: 700;
+}
+
+.occasion-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.occasion-section {
+  scroll-margin-top: 8rem;
+}
+
+.occasion-header {
+  margin-bottom: 1rem;
+}
+
+.occasion-header h2 {
+  font-size: var(--font-size-xl-plus);
+  font-weight: 750;
+  color: var(--md-on-surface);
+  margin-bottom: 0.35rem;
+}
+
+.occasion-header p {
+  color: var(--md-on-surface-variant);
+  font-size: var(--font-size-md);
+}
+
 .posts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -818,6 +880,23 @@ footer {
 
   .posts-section {
     padding: 0 1.5rem 2rem;
+  }
+
+  .hub-breadcrumb {
+    margin-bottom: 0.9rem;
+  }
+
+  .occasion-nav {
+    margin-bottom: 1.6rem;
+  }
+
+  .occasion-chip {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .occasion-sections {
+    gap: 1.5rem;
   }
 
   .posts-grid {

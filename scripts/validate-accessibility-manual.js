@@ -14,9 +14,9 @@ const PAGE_TARGETS = [
   { label: "homepage", url: "https://www.prosepal.app/" },
   { label: "messages-hub", url: "https://www.prosepal.app/messages/" },
   { label: "blog-hub", url: "https://www.prosepal.app/blog/" },
-  { label: "privacy", url: "https://www.prosepal.app/privacy.html" },
-  { label: "terms", url: "https://www.prosepal.app/terms.html" },
-  { label: "support", url: "https://www.prosepal.app/support.html" },
+  { label: "privacy", url: "https://www.prosepal.app/privacy" },
+  { label: "terms", url: "https://www.prosepal.app/terms" },
+  { label: "support", url: "https://www.prosepal.app/support" },
 ];
 
 /**

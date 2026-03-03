@@ -600,6 +600,10 @@ footer {
   padding: 0 2rem 3rem;
 }
 
+.hub-breadcrumb {
+  margin-bottom: 1rem;
+}
+
 .posts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -877,6 +881,10 @@ footer {
 
   .posts-section {
     padding: 0 1.5rem 2rem;
+  }
+
+  .hub-breadcrumb {
+    margin-bottom: 0.9rem;
   }
 
   .posts-grid {

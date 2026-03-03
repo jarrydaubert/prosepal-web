@@ -6,6 +6,11 @@ const { SITE_URL } = require("./lib/metadata");
 
 const ROOT_DIR = path.join(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT_DIR, "public");
+const CLEAN_URL_OVERRIDES = {
+  "privacy.html": "/privacy",
+  "terms.html": "/terms",
+  "support.html": "/support",
+};
 
 /**
  * Recursively collect all HTML files under the given directory.
@@ -46,6 +51,10 @@ function relativeToPublic(filePath) {
  * @returns {string}
  */
 function htmlToUrlPath(relativePath) {
+  if (CLEAN_URL_OVERRIDES[relativePath]) {
+    return CLEAN_URL_OVERRIDES[relativePath];
+  }
+
   if (relativePath === "index.html") return "/";
   if (relativePath.endsWith("/index.html")) {
     return `/${relativePath.replace(/\/index\.html$/, "/")}`;
@@ -72,8 +81,13 @@ function countMatches(text, regex) {
 function pathExistsFromWebPath(webPath) {
   const clean = webPath.split("?")[0].split("#")[0];
   const asPath = clean.startsWith("/") ? clean.slice(1) : clean;
+  const hasExtension = path.extname(asPath) !== "";
 
   const candidates = [path.join(PUBLIC_DIR, asPath), path.join(PUBLIC_DIR, asPath, "index.html")];
+
+  if (!hasExtension) {
+    candidates.push(path.join(PUBLIC_DIR, `${asPath}.html`));
+  }
 
   return candidates.some((candidate) => fs.existsSync(candidate));
 }

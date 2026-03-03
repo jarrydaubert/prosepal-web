@@ -245,6 +245,22 @@ a:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; bor
   width: 100%;
 }
 
+.breadcrumb {
+  font-size: var(--font-size-xs-wide);
+  color: var(--md-on-surface-variant);
+  margin-bottom: 1rem;
+}
+
+.breadcrumb a {
+  color: var(--md-on-surface-variant);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--md-primary);
+  text-decoration: none;
+}
+
 h1 {
   font-size: var(--font-size-heading-fluid);
   font-weight: 800;

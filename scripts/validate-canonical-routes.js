@@ -10,9 +10,9 @@ const LOG_DIR = path.join(ROOT, "docs", "evidence");
 const LOG_FILE = path.join(LOG_DIR, "canonical-route-validation.md");
 
 const EXPECTED_ROUTES = [
-  { alias: "/privacy", destination: "/privacy.html", file: "privacy.html" },
-  { alias: "/terms", destination: "/terms.html", file: "terms.html" },
-  { alias: "/support", destination: "/support.html", file: "support.html" },
+  { cleanPath: "/privacy", htmlPath: "/privacy.html", file: "privacy.html" },
+  { cleanPath: "/terms", htmlPath: "/terms.html", file: "terms.html" },
+  { cleanPath: "/support", htmlPath: "/support.html", file: "support.html" },
 ];
 
 /**
@@ -64,20 +64,30 @@ function main() {
 
   const vercel = JSON.parse(fs.readFileSync(VERCEL_CONFIG, "utf8"));
   const redirects = Array.isArray(vercel.redirects) ? vercel.redirects : [];
+  const rewrites = Array.isArray(vercel.rewrites) ? vercel.rewrites : [];
 
   for (const route of EXPECTED_ROUTES) {
     const redirect = redirects.find(
-      (entry) => entry.source === route.alias && entry.destination === route.destination,
+      (entry) => entry.source === route.htmlPath && entry.destination === route.cleanPath,
     );
 
     if (!redirect || redirect.permanent !== true) {
-      errors.push(`missing permanent redirect ${route.alias} -> ${route.destination}`);
+      errors.push(`missing permanent redirect ${route.htmlPath} -> ${route.cleanPath}`);
+      continue;
+    }
+
+    const rewrite = rewrites.find(
+      (entry) => entry.source === route.cleanPath && entry.destination === route.htmlPath,
+    );
+
+    if (!rewrite) {
+      errors.push(`missing rewrite ${route.cleanPath} -> ${route.htmlPath}`);
       continue;
     }
 
     const htmlPath = path.join(PUBLIC_DIR, route.file);
     const html = fs.readFileSync(htmlPath, "utf8");
-    const expectedUrl = `${siteOrigin}${route.destination}`;
+    const expectedUrl = `${siteOrigin}${route.cleanPath}`;
     const canonical = extractCanonical(html);
     const ogUrl = extractOgUrl(html);
 
