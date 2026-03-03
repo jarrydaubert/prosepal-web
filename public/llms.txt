@@ -2,7 +2,7 @@
 
 > AI-powered greeting card message generator for birthdays, sympathy, thank-you notes, weddings, and more.
 
-Last updated: 2026-02-25
+Last updated: 2026-03-03
 
 Prosepal helps users turn blank-card anxiety into clear, natural wording. The web experience is content-led (message examples and blog guides) with App Store conversion as the primary product CTA.
 
@@ -17,8 +17,8 @@ Prosepal helps users turn blank-card anxiety into clear, natural wording. The we
 
 ## Coverage Snapshot
 
-- Message detail pages: 27
-- Blog guides: 5
+- Message detail pages: 32
+- Blog guides: 7
 - Primary platform: iOS
 
 ## Message Guides by Occasion
@@ -43,7 +43,8 @@ Prosepal helps users turn blank-card anxiety into clear, natural wording. The we
 - [Wedding Card Messages for a Friend | Prosepal](https://www.prosepal.app/messages/wedding-card-message-for-friend.html): Find heartfelt wedding card messages for a friend. 10 examples from funny to sincere, plus tips for writing something they'll actually treasure.
 - [Wedding Card Messages for Brother or Sister | Prosepal](https://www.prosepal.app/messages/wedding-card-message-for-sibling.html): Find heartfelt wedding card messages for your brother or sister. 10 examples plus tips for celebrating your sibling's big day.
 
-### Graduation (1)
+### Graduation (2)
+- [Graduation Card Messages for a Friend | Prosepal](https://www.prosepal.app/messages/graduation-card-message-for-friend.html): Find graduation card messages for a friend. 10 examples plus tips for writing something proud, personal, and memorable.
 - [Graduation Messages for Your Son or Daughter | Prosepal](https://www.prosepal.app/messages/graduation-card-message-for-child.html): Find heartfelt graduation card messages for your child. 10 examples for high school, college, and beyond, plus tips for capturing this moment.
 
 ### Get Well (2)
@@ -58,7 +59,8 @@ Prosepal helps users turn blank-card anxiety into clear, natural wording. The we
 - [Retirement Card Messages for a Coworker | Prosepal](https://www.prosepal.app/messages/retirement-card-message-for-coworker.html): Find retirement card messages for a coworker. 10 examples plus tips for writing a message that feels respectful and personal.
 - [Retirement Card Messages for Your Boss | Prosepal](https://www.prosepal.app/messages/retirement-card-message-for-boss.html): Find thoughtful retirement card messages for your boss. 10 examples plus tips for celebrating their career and wishing them well.
 
-### Christmas (1)
+### Christmas (2)
+- [Christmas Card Messages for a Coworker | Prosepal](https://www.prosepal.app/messages/christmas-card-message-for-coworker.html): Find Christmas card messages for a coworker. 10 examples plus tips for writing holiday wishes that are warm, inclusive, and professional.
 - [Christmas Card Messages for Family | Prosepal](https://www.prosepal.app/messages/christmas-card-message-for-family.html): Find warm Christmas card messages for family. 10 examples plus tips for writing festive, personal holiday notes.
 
 ### Valentine's Day (1)
@@ -70,13 +72,16 @@ Prosepal helps users turn blank-card anxiety into clear, natural wording. The we
 ### Father's Day (1)
 - [Father's Day Card Messages for Dad | Prosepal](https://www.prosepal.app/messages/fathers-day-card-message-for-dad.html): Find thoughtful Father’s Day card messages for dad. 10 examples plus tips for writing a message that is warm, personal, and real.
 
-### Anniversary (1)
+### Anniversary (2)
 - [Anniversary Card Messages for Your Parents | Prosepal](https://www.prosepal.app/messages/anniversary-card-message-for-parents.html): Find heartfelt anniversary card messages for your parents. 10 examples plus tips for celebrating their love and partnership.
+- [Anniversary Card Messages for Your Spouse | Prosepal](https://www.prosepal.app/messages/anniversary-card-message-for-spouse.html): Find anniversary card messages for your spouse. 10 examples plus tips for writing something romantic, specific, and true to your relationship.
 
-### Apology (1)
+### Apology (2)
 - [Apology Card Messages for a Friend | Prosepal](https://www.prosepal.app/messages/apology-card-message-for-friend.html): Find sincere apology card messages for a friend. 10 examples plus tips for saying sorry in a way that actually heals.
+- [Apology Card Messages for Your Partner | Prosepal](https://www.prosepal.app/messages/apology-card-message-for-partner.html): Find apology card messages for your partner. 10 examples plus tips for saying sorry with accountability and care.
 
-### Encouragement (1)
+### Encouragement (2)
+- [Encouragement Card Messages for a Coworker | Prosepal](https://www.prosepal.app/messages/encouragement-card-message-for-coworker.html): Find encouragement card messages for a coworker. 10 examples plus tips for being supportive without sounding generic or overbearing.
 - [Encouragement Card Messages for a Friend | Prosepal](https://www.prosepal.app/messages/encouragement-card-message-for-friend.html): Find uplifting encouragement card messages for a friend. 10 examples plus tips for supporting them through challenges.
 
 ### Farewell (1)
@@ -86,6 +91,8 @@ Prosepal helps users turn blank-card anxiety into clear, natural wording. The we
 
 - [Birthday Card Messages That Don't Sound Generic | Prosepal](https://www.prosepal.app/blog/birthday-card-messages.html): Skip the cliches. Find birthday card messages for mom, dad, friends, coworkers & more that actually sound like you wrote them. 60+ examples inside.
 - [Graduation Card Messages They'll Actually Remember | Prosepal](https://www.prosepal.app/blog/graduation-card-messages.html): Skip 'Congrats grad!' Find graduation card messages for high school, college, and beyond. 50+ examples for sons, daughters, friends, and more.
+- [Is Prosepal Pro Worth It? A Practical Pricing-Value Guide | Prosepal](https://www.prosepal.app/blog/is-prosepal-pro-worth-it.html): Is Prosepal Pro worth paying for? Use this practical pricing-value guide to decide based on your card-writing frequency and use cases.
+- [Prosepal vs ChatGPT for Greeting Cards: Which Should You Use? | Prosepal](https://www.prosepal.app/blog/prosepal-vs-chatgpt-greeting-cards.html): Compare Prosepal vs ChatGPT for greeting card writing. See differences in speed, personalization flow, editing control, and when each option is best.
 - [Thank You Card Wording for Every Situation | Prosepal](https://www.prosepal.app/blog/thank-you-card-wording.html): Find the right thank you card wording for gifts, hospitality, job interviews, teachers, and more. 50+ examples that go beyond 'thanks so much!'
 - [What to Write in a Wedding Card: 50+ Message Examples | Prosepal](https://www.prosepal.app/blog/wedding-card-message.html): Find the perfect wedding card message for friends, family, or coworkers. 50+ examples from heartfelt to funny, plus tips on what to avoid.
 - [What to Write in a Sympathy Card: 50 Thoughtful Examples | Prosepal](https://www.prosepal.app/blog/what-to-write-in-sympathy-card.html): Struggling with what to write in a sympathy card? Find 50 heartfelt condolence messages for friends, family, coworkers & more. Plus tips to avoid cliches.

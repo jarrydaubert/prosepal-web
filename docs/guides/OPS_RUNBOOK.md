@@ -9,7 +9,7 @@ Scope: lightweight DevOps and release operations for `prosepal-web` (static mark
 3. Required checks: `SEO + QA Gate`, `CodeQL`.
 4. Hosting: Vercel origin + Cloudflare edge.
 5. Primary local gate: `bun run check`.
-6. SEO artifact date source: `PROSEPAL_CONTENT_DATE` (defaults to `2026-02-25`) for deterministic generated outputs.
+6. SEO artifact date source: `PROSEPAL_CONTENT_DATE` (defaults to current UTC date). Set it explicitly when deterministic generated outputs are required.
 7. CI budget targets (30-day window):
    - total workflow runtime <= `180m`
    - `Web Quality` average runtime <= `3m`
@@ -74,8 +74,10 @@ ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
    - cache hit/miss status is visible in workflow logs via the `Cache Bun package cache` step
 8. Monthly governance workflow (`Monthly Governance Audit`) runs:
    - GitHub policy drift audit (`bun run audit:github:policy`)
+   - governance token expiry horizon check (`bun run audit:governance:token`)
    - CI usage budget audit (`bun run audit:ci:usage`)
    - requires repo secret `GH_ADMIN_TOKEN` (fine-grained PAT with Administration read + Actions read)
+   - requires repo variable `GH_ADMIN_TOKEN_EXPIRES_ON` (`YYYY-MM-DD` format) to enforce a minimum 30-day expiry buffer
    - authoritative evidence is the successful GitHub Actions run on `main` (run URL/ID), because local evidence files can be stale during transient API outages
 9. Release automation workflow (`Release Automation`) runs on `main` and uses `release-please` to manage release PRs, semantic tags, and GitHub release notes.
 
@@ -191,6 +193,7 @@ bun run validate:formspree:strategy
 
 ```bash
 bun run audit:github:policy
+bun run audit:governance:token
 bun run audit:ci:usage
 ```
 
@@ -233,6 +236,7 @@ bun run validate:formspree:strategy
    - Action path:
      - Create new fine-grained PAT with `Administration (read)` and `Actions (read)` for `jarrydaubert/prosepal-web`.
      - Update repo secret `GH_ADMIN_TOKEN` in GitHub settings.
+     - Update repo variable `GH_ADMIN_TOKEN_EXPIRES_ON` to the new token expiry date (`YYYY-MM-DD`).
      - Trigger workflow rerun:
 
 ```bash

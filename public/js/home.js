@@ -118,20 +118,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const demoMessage = document.getElementById("demo-message");
   const copyButton = document.getElementById("demo-copy");
   const analytics = window.prosepalAnalytics;
-  const appStoreLinks = document.querySelectorAll(
-    "a[href*='apps.apple.com/app/prosepal/id6757088726']",
-  );
 
   function trackEvent(name, properties = {}) {
     analytics?.trackEvent?.(name, properties);
   }
-
-  appStoreLinks.forEach((link) => {
-    link.addEventListener("click", () => {
-      const location = link.id || link.className || "app_store_link";
-      trackEvent("app_store_click", { location });
-    });
-  });
 
   function selectDemo(key, selectedChip) {
     const value = demoData[key];
