@@ -1,31 +1,36 @@
 # Prosepal Web Docs Index
 
-This folder holds execution and quality docs for the web project.
+This folder holds execution and quality docs for `prosepal-web`.
+
+Docs are intentionally structured for public readability:
+- one canonical source per operational topic
+- minimal duplication
+- instructions tied to real repo scripts/workflows
 
 ## Core docs
 
-1. `../README.md`
-   - Public root overview (what the repo is, local run, contribution flow).
-2. `../AGENTS.md`
-   - Canonical operations guide, including skills source and sync process.
-3. `../SECURITY.md`
-   - Security reporting process and private vulnerability channel.
-4. `WEB_REDESIGN_EXECUTION.md`
-   - Source of truth for redesign scope, architecture decisions, and Definition of Done.
-5. `BACKLOG_WEB.md`
-   - TODO-only backlog with explicit Definition of Done per item.
-6. `guides/OPS_RUNBOOK.md`
-   - Single source of truth for DevOps, CI/CD, release operations, and monthly ops review.
-7. `guides/MARKETING_SKILLS_RUNBOOK.md`
-   - Canonical skills setup, sync, health-check, and upgrade process.
-8. `evidence/`
-   - Latest release QA evidence outputs (social/schema/canonical, accessibility baseline). For governance/CI usage, treat successful `Monthly Governance Audit` run URL/ID as authoritative evidence.
-9. `releases/`
-   - Versioned release notes files.
+- `../README.md`
+  Public project overview and contributor entrypoint.
+- `../AGENTS.md`
+  Operating contract for contributors and coding agents.
+- `../SECURITY.md`
+  Vulnerability reporting policy.
+- `WEB_REDESIGN_EXECUTION.md`
+  Implementation standards and redesign decisions.
+- `BACKLOG_WEB.md`
+  Open backlog only, with explicit Definition of Done per item.
+- `guides/OPS_RUNBOOK.md`
+  Single source of truth for DevOps, CI/CD, release flow, and operations.
+- `guides/MARKETING_SKILLS_RUNBOOK.md`
+  Skills sync and maintenance workflow.
+- `evidence/`
+  Validation artifacts produced by checks and release QA.
+- `releases/`
+  Versioned release notes.
 
 ## Working rule
 
-1. Update `WEB_REDESIGN_EXECUTION.md` when standards, thresholds, or scope change.
-2. Update `BACKLOG_WEB.md` only for open TODO items (no completed/status sections).
-3. Keep SEO artifact policy and tests aligned with generators (`scripts/generate-*` + `scripts/test-seo-artifacts.js`).
-4. Keep `guides/OPS_RUNBOOK.md` aligned when workflow scripts, deployment commands, or GitHub policy changes.
+- Update `WEB_REDESIGN_EXECUTION.md` when standards or scope change.
+- Keep `BACKLOG_WEB.md` as TODO-only (no completed/status sections).
+- Keep generator policy and tests aligned (`scripts/generate-*`, `scripts/test-seo-artifacts.js`).
+- Update `guides/OPS_RUNBOOK.md` whenever workflow scripts, deployment behavior, or GitHub policy changes.

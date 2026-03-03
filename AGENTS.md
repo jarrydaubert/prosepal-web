@@ -2,25 +2,32 @@
 
 ## Purpose
 
-Lightweight operating guide for contributors and coding agents in `prosepal-web`.
+Operating guide for contributors and coding agents in `prosepal-web`.
 
 ## Project snapshot
 
-1. Static marketing site (HTML/CSS/JS) with generated SEO artifacts.
-2. Hosted on Vercel behind Cloudflare.
-3. Public GitHub repo with required CI checks.
+- Static marketing site (HTML/CSS/JS) with generated SEO artifacts.
+- Hosted on Vercel behind Cloudflare.
+- Public GitHub repo with enforced CI checks.
+
+## Operating principles
+
+- Prefer deterministic automation over manual "spot checks".
+- Keep docs aligned with code so external contributors can trust what they read.
+- Optimize for safe, reviewable changes: PR flow, clear gates, reproducible commands.
+- Treat content, SEO, and analytics correctness as first-class product behavior.
 
 ## Non-negotiables
 
-1. Run `bun run check` before merge or production deploy.
-2. Always run `bun run vercel:check-link` before `vercel` deploy commands.
-3. Default production path is merge-to-main; local production CLI deploy is emergency-only:
+- Run `bun run check` before merge or production deploy.
+- Run `bun run vercel:check-link` before any `vercel` deploy command.
+- Default production path is merge-to-main; local production CLI deploy is emergency-only:
 
 ```bash
 ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
 ```
 
-4. If linked to the wrong Vercel project, relink first:
+- If linked to the wrong Vercel project, relink first:
 
 ```bash
 vercel link --project prosepal-web
@@ -28,37 +35,37 @@ vercel link --project prosepal-web
 
 ## Standard workflow
 
-1. Branch from `main`.
-2. Implement change using existing patterns in `public/`, `scripts/`, and tokens.
-3. Run relevant checks, then full gate:
+- Branch from `main`.
+- Implement change using existing patterns in `public/`, `scripts/`, and design tokens.
+- Run relevant checks, then the full gate:
 
 ```bash
 bun run check
 ```
 
-4. Update docs/backlog when standards, scope, or open TODO items change.
-5. Report files changed, commands run, and pass/fail outcomes.
+- Update docs/backlog when standards, scope, or open TODO items change.
+- Report files changed, commands run, and pass/fail outcomes.
 
 ## Definition of done
 
-1. Behavior meets acceptance criteria.
-2. Relevant checks pass (or any unrun checks are explicitly stated with reason).
-3. Regenerated artifacts are up to date when generators are affected.
-4. Documentation and backlog remain consistent with the change.
+- Behavior meets acceptance criteria.
+- Relevant checks pass, or any unrun checks are explicitly called out with reason.
+- Regenerated artifacts are current when generators are affected.
+- Documentation and backlog stay consistent with the change.
 
 ## Canonical docs
 
-1. `CLAUDE.md`: minimal pointer to this file.
-2. `docs/guides/OPS_RUNBOOK.md`: DevOps and release operations source of truth.
-3. `docs/BACKLOG_WEB.md`: TODO-only backlog, each item with explicit Definition of Done.
-4. `docs/WEB_REDESIGN_EXECUTION.md`: implementation standards and redesign decisions.
-5. `docs/guides/MARKETING_SKILLS_RUNBOOK.md`: skills sync, validation, and upgrade workflow.
+- `CLAUDE.md`: minimal pointer.
+- `docs/guides/OPS_RUNBOOK.md`: DevOps and release operations source of truth.
+- `docs/BACKLOG_WEB.md`: TODO-only backlog with explicit Definition of Done.
+- `docs/WEB_REDESIGN_EXECUTION.md`: implementation standards and redesign decisions.
+- `docs/guides/MARKETING_SKILLS_RUNBOOK.md`: skills sync, validation, and upgrade workflow.
 
 ## Skills and command sync
 
-1. Skills source: `https://github.com/coreyhaines31/marketingskills` (pinned `v1.3.0`).
-2. Local skills path: `.agents/skills/`.
-3. Refresh commands:
+- Skills source: `https://github.com/coreyhaines31/marketingskills` (pinned `v1.3.0`).
+- Local skills path: `.agents/skills/`.
+- Refresh commands:
 
 ```bash
 scripts/sync-marketing-skills.sh --check
@@ -67,10 +74,10 @@ scripts/apply-marketing-skill-profile.sh --apply
 scripts/validate-marketing-skills-setup.sh
 ```
 
-4. Upgrade preview for a new tag:
+- Upgrade preview for a new tag:
 
 ```bash
 scripts/sync-marketing-skills.sh --check --tag vX.Y.Z --commit <full_commit_sha>
 ```
 
-5. Project slash commands are in `.claude/commands/`.
+- Project slash commands are in `.claude/commands/`.

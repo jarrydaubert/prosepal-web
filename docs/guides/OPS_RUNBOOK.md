@@ -1,213 +1,162 @@
 # Ops Runbook (Single Source of Truth)
 
-Scope: lightweight DevOps and release operations for `prosepal-web` (static marketing site).
+Scope: DevOps, CI/CD, release, and operational quality practices for `prosepal-web`.
 
-## 1) Operational Baseline
+## Purpose and principles
 
-1. Default branch: `main` (protected).
-2. Merge model: PR-only.
-3. Required checks: `SEO + QA Gate`, `CodeQL`.
-4. Hosting: Vercel origin + Cloudflare edge.
-5. Primary local gate: `bun run check`.
-6. SEO artifact date source: `PROSEPAL_CONTENT_DATE` (defaults to current UTC date). Set it explicitly when deterministic generated outputs are required.
-7. CI budget targets (30-day window):
-   - total workflow runtime <= `180m`
-   - `Web Quality` average runtime <= `3m`
-   - `CodeQL` average runtime <= `8m`
+- Keep production changes safe through repeatable automation.
+- Keep releases auditable by requiring PR-based delivery and green checks.
+- Keep docs trustworthy by matching instructions to current scripts/workflows.
+- Keep this runbook evergreen by documenting process and intent, while leaving tunable thresholds in code/config.
 
-## 2) Daily Developer Flow
+## Operating model
 
-1. Branch from `main`.
-2. Make changes.
-3. Run fast local gate while iterating:
+- Default branch is `main`.
+- Delivery model is PR-first.
+- `main` is protected by rulesets and required checks.
+- Hosting path is Vercel origin behind Cloudflare edge.
+- Primary local quality gate is `bun run check`.
+- SEO generation date source is `PROSEPAL_CONTENT_DATE`.
+  Use it when deterministic generator output is needed for review or release prep.
+
+## Daily engineering flow
+
+- Branch from `main`.
+- Iterate with the fast local gate:
 
 ```bash
 bun run check:fast
 ```
 
-4. Before opening/merging PR, run full gate:
+- Before opening or merging a PR, run the full gate:
 
 ```bash
 bun run check
 ```
 
-5. Open PR.
-6. Merge only when required checks are green.
+Why this split exists:
+- `check:fast` keeps iteration speed high.
+- `check` is the canonical merge-quality contract.
 
-## 3) Deployment Flow
+## Deployment flow
 
-1. Confirm quality gate passes.
-2. Verify correct Vercel project link:
+- Confirm quality checks are green.
+- Confirm the local Vercel link targets the correct project:
 
 ```bash
 bun run vercel:check-link
 ```
 
-3. Production policy:
-   - default: Git-based release flow (merge to `main`)
-   - local CLI production deploy is blocked unless owner emergency override is explicit:
+- Default production path is merge-to-main.
+- Local CLI production deploy is emergency-only and explicitly gated:
 
 ```bash
 ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
 ```
 
-4. Canonical route policy:
-   - legal/support canonical pages remain `.html` paths
-   - clean aliases must redirect permanently:
-     - `/privacy` -> `/privacy.html`
-     - `/terms` -> `/terms.html`
-     - `/support` -> `/support.html`
+Why this policy exists:
+- Merge-to-main keeps deploy history reviewable and consistent with CI evidence.
+- Emergency CLI deploy remains available for incident response without normalizing bypasses.
 
-## 4) CI/CD Controls
+## CI/CD map
 
-1. Web quality workflow runs `bun run check`.
-2. CodeQL scanning is required on `main`.
-3. Lighthouse budget workflow (`Lighthouse Budget`) runs on `main` changes and manual dispatch.
-4. Actions policy:
-   - selected actions only
-   - SHA pinning required
-   - read-only default `GITHUB_TOKEN`
-   - external contributor workflow approval enabled
-5. Dependabot updates:
-   - npm weekly (grouped as `npm-all`)
-   - GitHub Actions weekly (grouped as `github-actions-all`)
-6. Style audit guardrails:
-   - `audit:styles:strict` is part of `bun run check`
-   - current `hardcoded-color-rgba` threshold is `<=120`
-7. Bun dependency caching in CI:
-   - `Web Quality` and `Lighthouse Budget` use SHA-pinned `actions/cache` for `~/.bun/install/cache`
-   - cache key is deterministic: `${{ runner.os }}-bun-cache-${{ hashFiles('bun.lock') }}`
-   - cache hit/miss status is visible in workflow logs via the `Cache Bun package cache` step
-8. Monthly governance workflow (`Monthly Governance Audit`) runs:
-   - GitHub policy drift audit (`bun run audit:github:policy`)
-   - governance token expiry horizon check (`bun run audit:governance:token`)
-   - CI usage budget audit (`bun run audit:ci:usage`)
-   - requires repo secret `GH_ADMIN_TOKEN` (fine-grained PAT with Administration read + Actions read)
-   - requires repo variable `GH_ADMIN_TOKEN_EXPIRES_ON` (`YYYY-MM-DD` format) to enforce a minimum 30-day expiry buffer
-   - authoritative evidence is the successful GitHub Actions run on `main` (run URL/ID), because local evidence files can be stale during transient API outages
-9. Release automation workflow (`Release Automation`) runs on `main` and uses `release-please` to manage release PRs, semantic tags, and GitHub release notes.
-10. Interaction flake audit workflow (`Interaction Flake Audit`) runs weekly and on manual dispatch:
-   - repeats Playwright smoke tests to detect non-deterministic failures
-   - uploads flake logs and Playwright diagnostics artifacts
-11. `Web Quality` uploads diagnostics artifacts on failure:
-   - `/tmp/prosepal-playwright-interaction-results`
-   - `docs/evidence/`
+`Web Quality`
+- Runs the full local contract (`bun run check`).
+- Catches content, SEO, schema, accessibility, runtime CSP, analytics-event, interaction, and style regressions in one gate.
+- Uploads diagnostics artifacts on failure to speed triage.
 
-## 5) Security Controls
+`Visual Regression`
+- Detects unintended UI drift via snapshots.
+- Protects design consistency during content and CSS iteration.
 
-1. Secret scanning enabled.
-2. Push protection enabled.
-3. Private vulnerability reporting enabled.
-4. Security reporting policy in root `SECURITY.md`.
-5. Proprietary license in root `LICENSE`.
+`Lighthouse Budget`
+- Guards user-facing quality trends in performance, accessibility, and SEO.
+- Keeps quality drift visible over time.
 
-## 6) Release Checklist
+`CodeQL`
+- Performs security-oriented static analysis on supported languages in the repo.
 
-1. `bun run check` passes.
-2. Required PR checks pass on GitHub.
-3. Accessibility baseline gate passes:
+`Monthly Governance Audit`
+- Audits policy drift, governance token health, and CI usage patterns.
+- Prevents silent process erosion and expired-credential surprises.
+
+`Release Automation`
+- Handles release PR/version/tag/release-note flow.
+- Reduces manual release steps and metadata drift.
+
+`Interaction Flake Audit`
+- Re-runs critical browser smoke flows repeatedly.
+- Detects non-deterministic behavior before it reaches users.
+
+## Release readiness checklist
+
+- Full gate passes locally:
 
 ```bash
-bun run validate:a11y:baseline
+bun run check
 ```
 
-Manual keyboard/focus regression also passes:
-
-```bash
-bun run validate:a11y:manual
-```
-
-4. Production preview metadata checks pass:
+- Required GitHub checks are green on the PR.
+- Release QA checks pass against production-facing metadata/schema/canonicals:
 
 ```bash
 bun run release:qa
 ```
 
-Evidence files are written to:
-
-1. `docs/evidence/social-preview-validation.md`
-2. `docs/evidence/schema-spotcheck.md`
-3. `docs/evidence/canonical-route-validation.md`
-4. `docs/evidence/accessibility-regression.md`
-5. `docs/evidence/lighthouse-budget.md`
-6. `docs/evidence/security-headers-validation.md`
-7. `docs/evidence/permissions-policy-validation.md`
-8. `docs/evidence/csp-runtime-verification.md`
-9. `docs/evidence/conversion-events-verification.md`
-10. `docs/evidence/formspree-endpoint-strategy.md`
-11. `docs/evidence/homepage-css-path-optimization.md`
-12. `docs/evidence/ci-bun-cache-validation.md`
-13. `docs/evidence/release-automation.md`
-14. `docs/evidence/visual-regression-pilot.md`
-15. `docs/evidence/marketing-claims.md`
-16. `docs/evidence/nonblocking-font-loading.md`
-17. `docs/evidence/interaction-regression.md`
-18. `docs/evidence/tips-popup-regression.md`
-19. `docs/evidence/hsts-preload.md`
-
-Schema validation runs against local generated HTML scope (homepage, hubs, blog articles, and message detail pages).
-
-5. Lighthouse budget workflow is green for current `main`:
+- Accessibility baseline validation passes:
 
 ```bash
-gh run list --workflow "Lighthouse Budget" --limit 1 --repo jarrydaubert/prosepal-web
+bun run validate:a11y:baseline
 ```
 
-6. Release automation workflow is healthy on `main`:
+- Manual keyboard/focus sanity pass is run for key journeys:
 
 ```bash
-gh run list --workflow "Release Automation" --limit 1 --repo jarrydaubert/prosepal-web
+bun run validate:a11y:manual
 ```
 
-7. Latest release state is visible in GitHub (tag + notes generated by automation):
-
-```bash
-gh api repos/jarrydaubert/prosepal-web/releases --jq '.[0] | {tag_name, draft, prerelease, published_at, html_url}'
-```
-
-8. Conversion event smoke check on preview:
-   - verify custom events fire for:
-     - `app_store_click`
-     - `waitlist_submit_success`
-     - `demo_chip_click`
-
-```bash
-bun run validate:events:conversion
-```
-
-9. Security header smoke check on production:
-
-```bash
-curl -sS -I https://www.prosepal.app | rg -i "strict-transport-security|permissions-policy"
-curl -sS -I https://prosepal.app | rg -i "strict-transport-security|permissions-policy|location"
-```
-
-Expected result:
-
-- `www` responses include both `Strict-Transport-Security` (with `preload`) and `Permissions-Policy`.
-- apex redirect must include `location` and `Strict-Transport-Security`; if apex `Permissions-Policy` differs, document the external redirect-owner constraint in ops notes.
-
-10. Runtime CSP smoke check for analytics scripts:
+- Runtime CSP behavior is verified:
 
 ```bash
 bun run validate:csp:runtime
 ```
 
-11. Formspree single-endpoint strategy verification:
+- Conversion event wiring is verified:
+
+```bash
+bun run validate:events:conversion
+```
+
+- Form endpoint strategy is verified:
 
 ```bash
 bun run validate:formspree:strategy
 ```
 
-12. Optional pre-release stability run for smoke-flow repeatability:
+- Optional repeatability pass for interaction stability:
 
 ```bash
 bun run test:interaction:flake-audit
 ```
 
-## 7) Monthly Ops Review
+Evidence expectations:
+- Validation scripts write/update evidence in `docs/evidence/`.
+- For governance controls, use the successful GitHub Actions run on `main` as authoritative evidence.
 
-1. Run governance audits:
+## Security and governance controls
+
+- Secret scanning enabled.
+- Push protection enabled.
+- Private vulnerability reporting enabled.
+- Security disclosure flow documented in `SECURITY.md`.
+- Monthly governance audit maintained and monitored.
+
+Why this matters:
+- Public repos need defensive defaults; these controls reduce accidental secret exposure and policy drift risk.
+
+## Monthly operations review
+
+- Run governance audits:
 
 ```bash
 bun run audit:github:policy
@@ -215,65 +164,43 @@ bun run audit:governance:token
 bun run audit:ci:usage
 ```
 
-2. Confirm required check names still match actual CI contexts.
-3. Verify Actions allowlist and token restrictions.
-4. Review Dependabot backlog and merge/update policy.
-5. Review CI runtime/storage usage and adjust thresholds/retention.
-6. Verify style-audit thresholds are still calibrated (no blind spots, no noisy false positives).
-7. Record latest successful `Monthly Governance Audit` run URL/ID in ops notes when closing governance backlog items.
+- Confirm required checks in rulesets still match actual workflows.
+- Review dependency automation and pending upgrades.
+- Review CI runtime/storage trends and tune workflow behavior where needed.
+- Record latest successful governance run URL/ID when closing governance backlog work.
 
-## 8) Troubleshooting
+## Troubleshooting
 
-1. GitHub API outage during governance audits:
-   - Symptom: `bun run audit:github:policy` or `bun run audit:ci:usage` reports API connection failures.
-   - Action path:
+GitHub API issues during audits
+- Symptom: governance audit scripts fail due to API connectivity.
+- Action:
 
 ```bash
 gh run list --workflow "Monthly Governance Audit" --limit 1 --repo jarrydaubert/prosepal-web
 ```
 
-   - If latest `main` run is `success`, treat that run URL/ID as authoritative and defer local rerun until GitHub status recovers.
-   - If latest run is not `success`, rerun workflow from Actions UI once GitHub API is healthy and capture new run URL/ID in ops notes.
+- If latest `main` run is successful, use that run as authoritative and rerun local checks later.
 
-2. Stale local evidence files:
-   - Symptom: local files under `docs/evidence/` show `SKIP` or old timestamps after transient failures.
-   - Action path:
+Stale local evidence files
+- Symptom: evidence files show skip states or old timestamps after transient failures.
+- Action: rerun release/validation commands, then commit refreshed evidence.
 
-```bash
-bun run release:qa
-bun run validate:a11y:baseline
-bun run validate:csp:runtime
-bun run validate:events:conversion
-bun run validate:formspree:strategy
-```
+Governance token expiry or permission failure
+- Symptom: monthly governance workflow fails token checks or GitHub API access.
+- Action:
+  - Rotate `GH_ADMIN_TOKEN` with the required repo permissions.
+  - Update `GH_ADMIN_TOKEN_EXPIRES_ON`.
+  - Rerun `Monthly Governance Audit` and record the successful run URL/ID.
 
-   - Commit updated evidence only after commands pass and timestamps reflect current run date.
-
-3. `GH_ADMIN_TOKEN` expiry or rotation failure:
-   - Symptom: `Monthly Governance Audit` fails at token validation or GitHub API calls.
-   - Action path:
-     - Create new fine-grained PAT with `Administration (read)` and `Actions (read)` for `jarrydaubert/prosepal-web`.
-     - Update repo secret `GH_ADMIN_TOKEN` in GitHub settings.
-     - Update repo variable `GH_ADMIN_TOKEN_EXPIRES_ON` to the new token expiry date (`YYYY-MM-DD`).
-     - Trigger workflow rerun:
-
-```bash
-gh workflow run "Monthly Governance Audit" --repo jarrydaubert/prosepal-web
-gh run list --workflow "Monthly Governance Audit" --limit 1 --repo jarrydaubert/prosepal-web
-```
-
-   - Record new token expiry date and successful run URL/ID in ops notes/backlog.
-
-4. Vercel/Cloudflare rollback path:
-   - Symptom: production regression after deploy or edge-header misbehavior.
-   - Action path:
-     - Inspect recent Vercel deployments and identify last known-good target.
-     - Promote/rollback from Vercel dashboard to last known-good deployment.
-     - Verify header/canonical sanity immediately:
+Production rollback
+- Symptom: production regression after deploy.
+- Action:
+  - Roll back/promote last known good deployment in Vercel.
+  - Re-verify headers/canonical behavior immediately:
 
 ```bash
 curl -sS -I https://www.prosepal.app | rg -i "strict-transport-security|permissions-policy|content-security-policy|location"
 curl -sS -I https://prosepal.app | rg -i "strict-transport-security|permissions-policy|location"
 ```
 
-   - If apex redirect headers still diverge, escalate to apex-domain owner/Cloudflare admin and document incident notes.
+- Escalate to apex-domain owner/Cloudflare admin if redirect-layer headers differ from expected policy.

@@ -1,7 +1,9 @@
 # Deployment Guide
 
-Deployment process is now consolidated in:
+Deployment process is consolidated in:
 
 - `docs/guides/OPS_RUNBOOK.md`
 
-Keep this file as a pointer only.
+Why this is a pointer:
+- prevents release instructions from diverging across multiple files
+- keeps deployment policy and incident response in one place
