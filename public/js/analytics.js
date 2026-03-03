@@ -89,8 +89,15 @@
     if (pathname.startsWith("/blog/")) return "blog_article";
     if (pathname === "/messages/" || pathname === "/messages/index.html") return "messages_hub";
     if (pathname.startsWith("/messages/")) return "message_detail";
-    if (pathname === "/privacy.html" || pathname === "/terms.html") return "legal";
-    if (pathname === "/support.html") return "support";
+    if (
+      pathname === "/privacy" ||
+      pathname === "/terms" ||
+      pathname === "/privacy.html" ||
+      pathname === "/terms.html"
+    ) {
+      return "legal";
+    }
+    if (pathname === "/support" || pathname === "/support.html") return "support";
     return "other";
   }
 

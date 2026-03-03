@@ -22,6 +22,34 @@ const FALLBACK_BLOG_BY_OCCASION = {
   Wedding: { slug: "wedding-card-message", title: "Wedding Card Message Ideas" },
   Graduation: { slug: "graduation-card-messages", title: "Graduation Card Message Ideas" },
 };
+const DECISION_GUIDE_LINKS = [
+  {
+    slug: "prosepal-vs-chatgpt-greeting-cards",
+    title: "Prosepal vs ChatGPT for Greeting Cards",
+  },
+  {
+    slug: "is-prosepal-pro-worth-it",
+    title: "Is Prosepal Pro Worth It?",
+  },
+];
+const OCCASION_SUMMARY_BY_NAME = {
+  Sympathy: "Supportive wording for loss, condolence, and difficult moments.",
+  Birthday: "Messages that feel personal for family, friends, and coworkers.",
+  "Valentine's Day": "Romantic, playful, and heartfelt notes for your partner.",
+  "Mother's Day": "Warm card ideas that celebrate and appreciate mom.",
+  "Father's Day": "Personal notes for dads, stepdads, and father figures.",
+  "Thank You": "Gratitude messages for mentors, teachers, and everyday kindness.",
+  Wedding: "Congratulatory notes for newlyweds, close friends, and family.",
+  Christmas: "Festive holiday wording for loved ones and work relationships.",
+  "New Baby": "Sweet welcome messages for growing families and new parents.",
+  "Get Well": "Encouraging messages that balance warmth and sensitivity.",
+  Retirement: "Celebrate career milestones with genuine and specific praise.",
+  Graduation: "Proud, encouraging card wording for every graduation stage.",
+  Anniversary: "Meaningful notes for couples, spouses, and parents.",
+  Apology: "Sincere ways to acknowledge mistakes and rebuild trust.",
+  Encouragement: "Uplifting words for hard seasons and major transitions.",
+  Farewell: "Thoughtful send-off messages for coworkers and friends.",
+};
 const HIGH_INTENT_SLUG_HINTS = ["sympathy", "birthday", "thank-you", "wedding"];
 const MAX_EXCERPT_LENGTH = 120;
 
@@ -276,6 +304,11 @@ function generateRelatedLinksHtml(page, pages) {
     addLink("/blog/", "Browse Writing Guides on the Blog");
   }
 
+  const decisionGuide = DECISION_GUIDE_LINKS[slugSeed(page.slug) % DECISION_GUIDE_LINKS.length];
+  if (decisionGuide && decisionGuide.slug !== relatedBlog?.slug) {
+    addLink(`/blog/${decisionGuide.slug}.html`, decisionGuide.title);
+  }
+
   addLink("/messages/", "All Message Guides");
 
   return links.join("\n");
@@ -345,7 +378,7 @@ function generatePage(page, template, pages) {
   return html;
 }
 
-function buildMessageCards(pages) {
+function buildMessageSections(pages) {
   const grouped = {};
   for (const page of pages) {
     if (!grouped[page.occasion]) {
@@ -383,12 +416,29 @@ function buildMessageCards(pages) {
     return indexA - indexB;
   });
 
-  let cardsHtml = "";
+  const occasionIndexItems = [];
+  const occasionSections = [];
+
   for (const occasion of sortedOccasions) {
-    for (const page of grouped[occasion]) {
-      const excerpt = truncateAtWordBoundary(page.metaDescription, MAX_EXCERPT_LENGTH);
-      cardsHtml += `
-      <article class="post-card">
+    const pagesForOccasion = grouped[occasion]
+      .slice()
+      .sort((a, b) => a.title.localeCompare(b.title));
+    const occasionId = `occasion-${occasion
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")}`;
+    const occasionSummary =
+      OCCASION_SUMMARY_BY_NAME[occasion] ||
+      `Browse ${pagesForOccasion.length} message guides for ${occasion.toLowerCase()}.`;
+
+    occasionIndexItems.push(
+      `      <a href="#${occasionId}" class="occasion-chip"><span>${escapeHtml(occasion)}</span><strong>${pagesForOccasion.length}</strong></a>`,
+    );
+
+    const cardsHtml = pagesForOccasion
+      .map((page) => {
+        const excerpt = truncateAtWordBoundary(page.metaDescription, MAX_EXCERPT_LENGTH);
+        return `      <article class="post-card">
         <a href="/messages/${page.slug}.html">
           <div class="post-emoji">${page.emoji}</div>
           <div class="post-content">
@@ -399,10 +449,25 @@ function buildMessageCards(pages) {
           </div>
         </a>
       </article>`;
-    }
+      })
+      .join("\n");
+
+    occasionSections.push(`
+    <section class="occasion-section" id="${occasionId}">
+      <header class="occasion-header">
+        <h2>${escapeHtml(occasion)} Messages</h2>
+        <p>${escapeHtml(occasionSummary)}</p>
+      </header>
+      <div class="posts-grid">
+${cardsHtml}
+      </div>
+    </section>`);
   }
 
-  return cardsHtml;
+  return {
+    occasionIndexHtml: occasionIndexItems.join("\n"),
+    occasionSectionsHtml: occasionSections.join("\n"),
+  };
 }
 
 function generateHubPage(pages) {
@@ -413,7 +478,7 @@ function generateHubPage(pages) {
     pathname: "/messages/",
   });
 
-  const cardsHtml = buildMessageCards(pages);
+  const { occasionIndexHtml, occasionSectionsHtml } = buildMessageSections(pages);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -554,7 +619,16 @@ ${pages
   </section>
 
   <main class="posts-section" id="main-content">
-    <div class="posts-grid">${cardsHtml}
+    <nav class="breadcrumb hub-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo; Messages
+    </nav>
+
+    <nav class="occasion-nav" aria-label="Message categories">
+${occasionIndexHtml}
+    </nav>
+
+    <div class="occasion-sections">
+${occasionSectionsHtml}
     </div>
   </main>
 
@@ -583,9 +657,9 @@ ${pages
         <a href="/">Home</a>
         <a href="/messages/">Messages</a>
         <a href="/blog/">Blog</a>
-        <a href="/privacy.html">Privacy Policy</a>
-        <a href="/terms.html">Terms of Use</a>
-        <a href="/support.html">Support</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Use</a>
+        <a href="/support">Support</a>
       </nav>
       <div class="copyright">&copy; 2026 Prosepal. All rights reserved.</div>
     </div>

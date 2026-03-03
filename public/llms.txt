@@ -11,9 +11,9 @@ Prosepal helps users turn blank-card anxiety into clear, natural wording. The we
 - [Home](https://www.prosepal.app/): Landing page and app download links
 - [Messages Hub](https://www.prosepal.app/messages/): Message examples by occasion and relationship
 - [Blog Hub](https://www.prosepal.app/blog/): Writing guides and card wording help
-- [Privacy](https://www.prosepal.app/privacy.html)
-- [Terms](https://www.prosepal.app/terms.html)
-- [Support](https://www.prosepal.app/support.html)
+- [Privacy](https://www.prosepal.app/privacy)
+- [Terms](https://www.prosepal.app/terms)
+- [Support](https://www.prosepal.app/support)
 
 ## Coverage Snapshot
 
