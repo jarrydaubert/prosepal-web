@@ -58,7 +58,6 @@ bun run check
 - `CLAUDE.md`: minimal pointer.
 - `docs/guides/OPS_RUNBOOK.md`: DevOps and release operations source of truth.
 - `docs/BACKLOG_WEB.md`: TODO-only backlog with explicit Definition of Done.
-- `docs/WEB_REDESIGN_EXECUTION.md`: implementation standards and redesign decisions.
 - `docs/guides/MARKETING_SKILLS_RUNBOOK.md`: skills sync, validation, and upgrade workflow.
 
 ## Skills and command sync

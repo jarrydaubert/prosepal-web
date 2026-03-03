@@ -77,7 +77,6 @@ bun run release:prepare -- vX.Y.Z
 - `docs/guides/OPS_RUNBOOK.md`: DevOps and CI/CD source of truth.
 - `docs/guides/MARKETING_SKILLS_RUNBOOK.md`: skills sync and maintenance flow.
 - `docs/README.md`: documentation index.
-- `docs/WEB_REDESIGN_EXECUTION.md`: implementation standards.
 - `docs/BACKLOG_WEB.md`: open backlog with explicit Definition of Done.
 - `SECURITY.md`: vulnerability reporting policy.
 - `LICENSE`: proprietary license.

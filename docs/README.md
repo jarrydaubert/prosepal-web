@@ -15,8 +15,6 @@ Docs are intentionally structured for public readability:
   Operating contract for contributors and coding agents.
 - `../SECURITY.md`
   Vulnerability reporting policy.
-- `WEB_REDESIGN_EXECUTION.md`
-  Implementation standards and redesign decisions.
 - `BACKLOG_WEB.md`
   Open backlog only, with explicit Definition of Done per item.
 - `guides/OPS_RUNBOOK.md`
@@ -30,7 +28,6 @@ Docs are intentionally structured for public readability:
 
 ## Working rule
 
-- Update `WEB_REDESIGN_EXECUTION.md` when standards or scope change.
+- Update `guides/OPS_RUNBOOK.md` whenever standards, scope, workflow scripts, deployment behavior, or GitHub policy changes.
 - Keep `BACKLOG_WEB.md` as TODO-only (no completed/status sections).
 - Keep generator policy and tests aligned (`scripts/generate-*`, `scripts/test-seo-artifacts.js`).
-- Update `guides/OPS_RUNBOOK.md` whenever workflow scripts, deployment behavior, or GitHub policy changes.
