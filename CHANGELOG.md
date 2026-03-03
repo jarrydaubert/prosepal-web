@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/jarrydaubert/prosepal-web/compare/v1.2.0...v1.3.0) (2026-03-03)
+
+
+### Features
+
+* add content waitlist path and expand smart app banner coverage ([b52d534](https://github.com/jarrydaubert/prosepal-web/commit/b52d5342112c1352deffc352ccdc2a64a2cc3d6e))
+
 ## [1.2.0](https://github.com/jarrydaubert/prosepal-web/compare/v1.1.0...v1.2.0) (2026-03-03)
 
 
