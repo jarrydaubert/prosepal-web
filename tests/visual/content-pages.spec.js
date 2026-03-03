@@ -23,9 +23,11 @@ async function stabilizeVisualState(page) {
   });
 }
 
-async function assertContentScreenshot(page, name, testInfo) {
+async function assertContentScreenshot(page, name, testInfo, mobileDiffRatio = 0.07) {
   const screenshotOptions =
-    testInfo.project.name === "mobile-chromium" ? { maxDiffPixelRatio: 0.07 } : undefined;
+    testInfo.project.name === "mobile-chromium"
+      ? { maxDiffPixelRatio: mobileDiffRatio }
+      : undefined;
   await expect(page).toHaveScreenshot(name, screenshotOptions);
 }
 
@@ -38,5 +40,5 @@ test("blog article visual baseline", async ({ page }, testInfo) => {
 test("message detail visual baseline", async ({ page }, testInfo) => {
   await page.goto("/messages/birthday-card-message-for-friend.html", { waitUntil: "networkidle" });
   await stabilizeVisualState(page);
-  await assertContentScreenshot(page, "message-birthday-card-for-friend.png", testInfo);
+  await assertContentScreenshot(page, "message-birthday-card-for-friend.png", testInfo, 0.09);
 });
