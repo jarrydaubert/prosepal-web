@@ -420,6 +420,7 @@ function generateHubPage(pages) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-itunes-app" content="app-id=6757088726">
   <title>${escapeHtml(metadata.title)}</title>
   <meta name="description" content="${escapeHtml(metadata.description)}">
   <meta name="keywords" content="card messages, greeting card examples, what to write in a card, sympathy messages, birthday messages, wedding card messages, card wording">
@@ -561,6 +562,16 @@ ${pages
     <h2>Need Something More Personal?</h2>
     <p>Prosepal generates personalized card messages for many occasions. Get 3 options in under 30 seconds.</p>
     <a href="https://apps.apple.com/app/prosepal/id6757088726" class="cta-button">Get 3 Message Options</a>
+    <div class="waitlist-inline">
+      <p class="waitlist-inline-label">On Android? Join the waitlist.</p>
+      <form class="waitlist-inline-form" data-waitlist-surface="messages_hub_waitlist" action="https://formspree.io/f/xgooqzgg" method="POST">
+        <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email address for Android waitlist">
+        <input type="hidden" name="source" value="messages_hub_waitlist">
+        <input type="text" name="_gotcha" class="waitlist-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit">Notify me</button>
+        <p class="waitlist-inline-status" data-waitlist-status aria-live="polite"></p>
+      </form>
+    </div>
   </section>
 
   <footer>

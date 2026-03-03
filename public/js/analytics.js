@@ -1,6 +1,7 @@
 (function bootstrapVercelAnalytics() {
   const OPT_OUT_KEY = "prosepal_analytics_opt_out";
   const APP_STORE_LINK_SELECTOR = "a[href*='apps.apple.com/app/prosepal/id6757088726']";
+  const CONTENT_WAITLIST_FORM_SELECTOR = ".waitlist-inline-form[data-waitlist-surface]";
 
   function isTrackingAllowed() {
     const doNotTrackEnabled =
@@ -132,6 +133,71 @@
     });
   }
 
+  function setupContentWaitlistForms() {
+    const forms = document.querySelectorAll(CONTENT_WAITLIST_FORM_SELECTOR);
+    for (const formElement of forms) {
+      if (!(formElement instanceof HTMLFormElement)) {
+        continue;
+      }
+
+      if (formElement.dataset.waitlistBound === "1") {
+        continue;
+      }
+      formElement.dataset.waitlistBound = "1";
+
+      const surface = formElement.dataset.waitlistSurface || "content_waitlist";
+      const submitButton = formElement.querySelector("button[type='submit']");
+      const statusElement = formElement.querySelector("[data-waitlist-status]");
+
+      formElement.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        let defaultButtonLabel = "Notify me";
+        if (submitButton instanceof HTMLButtonElement) {
+          defaultButtonLabel = submitButton.textContent || defaultButtonLabel;
+          submitButton.disabled = true;
+          submitButton.textContent = "Submitting...";
+        }
+
+        if (statusElement instanceof HTMLElement) {
+          statusElement.textContent = "";
+          statusElement.removeAttribute("data-state");
+        }
+
+        try {
+          const response = await fetch(formElement.action, {
+            method: formElement.method || "POST",
+            body: new FormData(formElement),
+            headers: {
+              Accept: "application/json",
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error("Waitlist submission failed");
+          }
+
+          formElement.reset();
+          if (statusElement instanceof HTMLElement) {
+            statusElement.dataset.state = "success";
+            statusElement.textContent = "Thanks, you are on the Android waitlist.";
+          }
+          trackEvent("waitlist_submit_success", { surface });
+        } catch {
+          if (statusElement instanceof HTMLElement) {
+            statusElement.dataset.state = "error";
+            statusElement.textContent = "Submission failed. Please try again in a moment.";
+          }
+        } finally {
+          if (submitButton instanceof HTMLButtonElement) {
+            submitButton.disabled = false;
+            submitButton.textContent = defaultButtonLabel;
+          }
+        }
+      });
+    }
+  }
+
   window.prosepalAnalytics = {
     isTrackingAllowed,
     trackEvent,
@@ -159,6 +225,7 @@
       () => {
         loadVercelAnalytics();
         setupAppStoreClickTracking();
+        setupContentWaitlistForms();
       },
       { once: true },
     );
@@ -167,4 +234,5 @@
 
   loadVercelAnalytics();
   setupAppStoreClickTracking();
+  setupContentWaitlistForms();
 })();
