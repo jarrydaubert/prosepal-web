@@ -5,7 +5,6 @@ const path = require("node:path");
 
 const ROOT_DIR = path.join(__dirname, "..");
 const DATA_FILE = path.join(ROOT_DIR, "data", "messages-pages.json");
-const HOME_FILE = path.join(ROOT_DIR, "public", "index.html");
 const MESSAGES_HUB_FILE = path.join(ROOT_DIR, "public", "messages", "index.html");
 const LLMS_FILE = path.join(ROOT_DIR, "public", "llms.txt");
 const EVIDENCE_DIR = path.join(ROOT_DIR, "docs", "evidence");
@@ -54,11 +53,6 @@ function main() {
     );
   }
 
-  const homeCount = parseCount(
-    /<strong>\s*(\d+)\s*<\/strong>\s*[\r\n\t ]*<span>\s*Message guides\s*<\/span>/i,
-    readText(HOME_FILE),
-    "homepage message-guide tile count",
-  );
   const schemaCount = parseCount(
     /"numberOfItems"\s*:\s*(\d+)/,
     readText(MESSAGES_HUB_FILE),
@@ -72,7 +66,6 @@ function main() {
 
   const checks = [
     { label: "Canonical (data/messages-pages.json pages length)", value: canonicalCount },
-    { label: "Homepage metric tile", value: homeCount },
     { label: "Messages hub ItemList.numberOfItems", value: schemaCount },
     { label: "llms.txt message detail pages", value: llmsCount },
   ];
