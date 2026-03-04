@@ -52,6 +52,12 @@ Repeatability audit for interaction flake detection:
 bun run test:interaction:flake-audit
 ```
 
+Repeatability audit for visual regression stability:
+
+```bash
+bun run test:visual:flake-audit
+```
+
 Release QA against live metadata/schema:
 
 ```bash
