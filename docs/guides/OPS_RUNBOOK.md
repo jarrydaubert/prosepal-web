@@ -17,7 +17,8 @@ Scope: DevOps, CI/CD, release, and operational quality practices for `prosepal-w
 - Hosting path is Vercel origin behind Cloudflare edge.
 - Primary local quality gate is `bun run check`.
 - SEO generation date source is `PROSEPAL_CONTENT_DATE`.
-  Use it when deterministic generator output is needed for review or release prep.
+  By default, `bun run generate:site` resolves this from repo content metadata (messages data + llms fallback) to avoid date-only CI churn.
+  Set `PROSEPAL_CONTENT_DATE=YYYY-MM-DD` explicitly only when you need an override.
 
 ## Daily engineering flow
 
@@ -100,6 +101,10 @@ Why this policy exists:
 - Re-runs critical browser smoke flows repeatedly.
 - Detects non-deterministic behavior before it reaches users.
 
+`Visual Flake Audit`
+- Re-runs visual snapshots repeatedly with fixed workers.
+- Detects intermittent rendering diffs before they become noisy PR failures.
+
 ## Release readiness checklist
 
 - Full gate passes locally:
@@ -149,6 +154,12 @@ bun run validate:formspree:strategy
 
 ```bash
 bun run test:interaction:flake-audit
+```
+
+- Optional repeatability pass for visual snapshot stability:
+
+```bash
+bun run test:visual:flake-audit
 ```
 
 - If an experiment is active, complete experiment governance checks before decisioning:
