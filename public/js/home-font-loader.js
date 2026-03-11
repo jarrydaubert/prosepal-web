@@ -1,6 +1,6 @@
 (() => {
   const fontStylesheetHref =
-    "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap";
+    "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap";
 
   if (document.querySelector(`link[href="${fontStylesheetHref}"]`)) {
     return;

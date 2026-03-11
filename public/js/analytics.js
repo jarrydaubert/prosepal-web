@@ -70,6 +70,31 @@
     loadScript("/_vercel/speed-insights/script.js");
   }
 
+  let vercelAnalyticsScheduled = false;
+
+  function scheduleVercelAnalyticsLoad() {
+    if (vercelAnalyticsScheduled || !isTrackingAllowed()) {
+      return;
+    }
+
+    vercelAnalyticsScheduled = true;
+    const load = () => {
+      loadVercelAnalytics();
+    };
+
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(load, { timeout: 2500 });
+      return;
+    }
+
+    if (document.readyState === "complete") {
+      window.setTimeout(load, 0);
+      return;
+    }
+
+    window.addEventListener("load", load, { once: true });
+  }
+
   function readStoredAttribution() {
     try {
       const raw = window.localStorage.getItem(ATTRIBUTION_KEY);
@@ -419,7 +444,7 @@
       }
 
       if (!value) {
-        loadVercelAnalytics();
+        scheduleVercelAnalyticsLoad();
       }
     },
   };
@@ -429,7 +454,7 @@
     document.addEventListener(
       "DOMContentLoaded",
       () => {
-        loadVercelAnalytics();
+        scheduleVercelAnalyticsLoad();
         setupAppStoreClickTracking();
         setupContentWaitlistForms();
       },
@@ -438,7 +463,7 @@
     return;
   }
 
-  loadVercelAnalytics();
+  scheduleVercelAnalyticsLoad();
   setupAppStoreClickTracking();
   setupContentWaitlistForms();
 })();
