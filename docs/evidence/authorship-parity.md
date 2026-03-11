@@ -1,6 +1,6 @@
 # Authorship Parity Validation
 
-Date: 2026-03-11T20:47:47.679Z
+Date: 2026-03-11T20:50:24.855Z
 
 Checks:
 - blog sample: public/blog/what-to-write-in-sympathy-card.html
