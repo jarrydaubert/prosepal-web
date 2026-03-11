@@ -51,6 +51,23 @@ test("timer trigger is suppressed during active hero conversion intent", async (
   await expect(overlay).toHaveAttribute("aria-hidden", "true");
 });
 
+test("timer trigger retries after hero conversion intent suppression expires", async ({ page }) => {
+  await page.addInitScript(() => {
+    window.__prosepalPopupDelayMs = 1200;
+    window.__prosepalPopupIntentSuppressMs = 1800;
+  });
+
+  await page.goto("/", { waitUntil: "networkidle" });
+  await page.fill("#android-waitlist-email", "qa+intent-retry@prosepal.app");
+  await page.focus(".nav-brand");
+
+  const overlay = page.locator("#tips-popup-overlay");
+  await page.waitForTimeout(700);
+  await expect(overlay).not.toHaveClass(/open/);
+  await expect(overlay).toHaveClass(/open/, { timeout: 3000 });
+  await expect(overlay).toHaveAttribute("aria-hidden", "false");
+});
+
 async function openPopupFromExitIntent(page) {
   await page.goto("/", { waitUntil: "networkidle" });
   await page.focus(".nav-brand");

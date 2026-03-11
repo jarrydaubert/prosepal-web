@@ -358,7 +358,11 @@ document.addEventListener("DOMContentLoaded", () => {
       Number.isFinite(configuredPopupDelay) && configuredPopupDelay >= 0
         ? configuredPopupDelay
         : 12000;
-    const POPUP_INTENT_SUPPRESS_MS = 45000;
+    const configuredIntentSuppressMs = Number(window.__prosepalPopupIntentSuppressMs);
+    const POPUP_INTENT_SUPPRESS_MS =
+      Number.isFinite(configuredIntentSuppressMs) && configuredIntentSuppressMs >= 0
+        ? configuredIntentSuppressMs
+        : 45000;
     const POPUP_DISMISS_DAYS = 14;
     const POPUP_SUBMIT_DAYS = 90;
     const CONVERSION_INTENT_SELECTOR =
@@ -368,6 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let popupSeen = false;
     let previousFocusedElement = null;
     let lastConversionIntentAt = 0;
+    let popupTimerId = null;
 
     function markConversionIntent() {
       lastConversionIntentAt = Date.now();
@@ -410,6 +415,31 @@ document.addEventListener("DOMContentLoaded", () => {
       return Date.now() > getDismissedUntil();
     }
 
+    function schedulePopupOpen(delay = POPUP_DELAY_MS) {
+      if (popupOpen || popupSeen || !shouldShowPopup() || popupTimerId !== null) {
+        return;
+      }
+
+      popupTimerId = window.setTimeout(() => {
+        popupTimerId = null;
+
+        if (popupOpen || popupSeen || !shouldShowPopup()) {
+          return;
+        }
+
+        if (hasRecentConversionIntent()) {
+          const retryDelay = Math.max(
+            POPUP_INTENT_SUPPRESS_MS - (Date.now() - lastConversionIntentAt),
+            400,
+          );
+          schedulePopupOpen(retryDelay);
+          return;
+        }
+
+        openPopup("timer");
+      }, delay);
+    }
+
     function openPopup(trigger = "unknown") {
       if (popupOpen || popupSeen || !shouldShowPopup()) {
         return;
@@ -449,15 +479,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    if (shouldShowPopup()) {
-      window.setTimeout(() => {
-        if (hasRecentConversionIntent()) {
-          return;
-        }
-
-        openPopup("timer");
-      }, POPUP_DELAY_MS);
-    }
+    schedulePopupOpen();
 
     document.addEventListener("pointerdown", (event) => {
       if (isConversionIntentTarget(event.target)) {

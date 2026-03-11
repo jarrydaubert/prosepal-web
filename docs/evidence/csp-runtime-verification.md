@@ -1,6 +1,6 @@
 # CSP Runtime Verification
 
-Date: 2026-03-11T22:05:34.890Z
+Date: 2026-03-11T22:20:30.624Z
 
 Status: PASS
 
@@ -15,7 +15,7 @@ Status: PASS
 ## https://www.prosepal.app/privacy
 - window.va type: `function`
 - window.si type: `function`
-- analytics script responses: `200 https://www.prosepal.app/_vercel/insights/script.js`, `200 https://www.prosepal.app/_vercel/speed-insights/script.js`
+- analytics script responses: `200 https://www.prosepal.app/_vercel/speed-insights/script.js`, `200 https://www.prosepal.app/_vercel/insights/script.js`
 - CSP console violations: none
 - page errors: none
 - analytics request failures: none
