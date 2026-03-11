@@ -1,6 +1,6 @@
 # Blog Image Audit
 
-- Date: 2026-03-11T21:09:11.356Z
+- Date: 2026-03-11T22:05:29.186Z
 - Scope: 7 blog article pages
 - Minimum width: 1200px
 - Allowed ratios: OG 1200x630, 16:9, 16:10, square

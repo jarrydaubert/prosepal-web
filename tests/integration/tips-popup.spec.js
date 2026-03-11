@@ -12,6 +12,31 @@ test("timer trigger opens popup when no conversion intent is active", async ({ p
   await expect(page.locator("#tips-popup-overlay")).toHaveClass(/open/, { timeout: 4000 });
 });
 
+test("popup stays hidden before deferred stylesheet loads", async ({ page }) => {
+  await page.route("**/css/home-deferred.css", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "text/css",
+      body: "",
+    });
+  });
+
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+
+  const styles = await page.locator("#tips-popup-overlay").evaluate((node) => {
+    const computed = getComputedStyle(node);
+    return {
+      opacity: computed.opacity,
+      pointerEvents: computed.pointerEvents,
+      position: computed.position,
+    };
+  });
+
+  expect(styles.opacity).toBe("0");
+  expect(styles.pointerEvents).toBe("none");
+  expect(styles.position).toBe("fixed");
+});
+
 test("timer trigger is suppressed during active hero conversion intent", async ({ page }) => {
   await page.addInitScript(() => {
     window.__prosepalPopupDelayMs = 1200;
