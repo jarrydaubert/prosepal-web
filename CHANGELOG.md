@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.3.0](https://github.com/jarrydaubert/prosepal-web/compare/v1.2.0...v1.3.0) (2026-03-11)
+
+
+### Features
+
+* add content waitlist path and expand smart app banner coverage ([b52d534](https://github.com/jarrydaubert/prosepal-web/commit/b52d5342112c1352deffc352ccdc2a64a2cc3d6e))
+* harden analytics, experiments, and content quality gates ([4f45fed](https://github.com/jarrydaubert/prosepal-web/commit/4f45fed0fe282c2adb4235d7503547691d3328b9))
+* improve site IA and standardize legal clean routes ([5ae1348](https://github.com/jarrydaubert/prosepal-web/commit/5ae1348a439f993044bdbd7a93c23fb6231af2d6))
+
+
+### Bug Fixes
+
+* harden schema validator sanitization for CodeQL ([80fbbfc](https://github.com/jarrydaubert/prosepal-web/commit/80fbbfc2584b079e1a8bfe112bf76d393ff62988))
+
 ## [1.2.0](https://github.com/jarrydaubert/prosepal-web/compare/v1.1.0...v1.2.0) (2026-03-03)
 
 
