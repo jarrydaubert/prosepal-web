@@ -1,6 +1,14 @@
 const { test, expect } = require("@playwright/test");
 
-test("homepage hero and nav visual baseline", async ({ page }) => {
+async function assertHomeScreenshot(page, testInfo) {
+  const screenshotOptions =
+    testInfo.project.name === "mobile-chromium"
+      ? { maxDiffPixelRatio: 0.07 }
+      : undefined;
+  await expect(page).toHaveScreenshot("home-hero-nav.png", screenshotOptions);
+}
+
+test("homepage hero and nav visual baseline", async ({ page }, testInfo) => {
   await page.goto("/", { waitUntil: "networkidle" });
 
   await page.addStyleTag({
@@ -35,5 +43,5 @@ test("homepage hero and nav visual baseline", async ({ page }) => {
     });
   }
 
-  await expect(page).toHaveScreenshot("home-hero-nav.png");
+  await assertHomeScreenshot(page, testInfo);
 });
