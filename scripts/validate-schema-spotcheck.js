@@ -159,7 +159,7 @@ function decodeHtmlEntities(value) {
  */
 function extractBlogHubCards(html) {
   const cardRegex =
-    /<article class="post-card">[\s\S]*?<a href="([^"]+)">[\s\S]*?<h2 class="post-title">([^<]+)<\/h2>/gi;
+    /<article class="[^"]*\bpost-card\b[^"]*">[\s\S]*?<a href="([^"]+)">[\s\S]*?<h2 class="post-title">([^<]+)<\/h2>/gi;
   const cards = [];
 
   for (const match of html.matchAll(cardRegex)) {

@@ -125,6 +125,27 @@
   --traffic-yellow: #febc2e;
   --traffic-green: #28c840;
   --color-white: #ffffff;
+
+  /* Semantic aliases for shared site chrome */
+  --surface-nav: rgba(21, 28, 38, 0.82);
+  --surface-mobile-menu: rgba(21, 28, 38, 0.96);
+  --surface-panel-strong: rgba(255, 255, 255, 0.11);
+  --border-soft: var(--glass-border-soft);
+  --border-strong: var(--glass-border-hard);
+  --text-main: var(--glass-text-main);
+  --text-secondary: var(--glass-text-secondary);
+  --text-muted: var(--glass-text-muted);
+  --accent-primary: var(--glass-accent-peach);
+  --accent-primary-hover: var(--glass-accent-peach-strong);
+  --accent-pro: var(--glass-accent-gold);
+  --accent-pro-soft: rgba(251, 191, 36, 0.15);
+  --brand-coral: var(--glass-accent-peach);
+  --brand-coral-strong: var(--glass-accent-peach-strong);
+  --brand-coral-deep: var(--glass-accent-peach-deep);
+  --brand-coral-light: var(--glass-accent-peach-light);
+  --brand-coral-glow: rgba(212, 115, 107, 0.35);
+  --brand-slate-mid: #283648;
+  --brand-slate-light: #324458;
 }
 
 /*
