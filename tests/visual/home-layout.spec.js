@@ -2,9 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 async function assertHomeScreenshot(page, testInfo) {
   const screenshotOptions =
-    testInfo.project.name === "mobile-chromium"
-      ? { maxDiffPixelRatio: 0.07 }
-      : undefined;
+    testInfo.project.name === "mobile-chromium" ? { maxDiffPixelRatio: 0.07 } : undefined;
   await expect(page).toHaveScreenshot("home-hero-nav.png", screenshotOptions);
 }
 
