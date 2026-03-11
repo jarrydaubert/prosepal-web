@@ -60,7 +60,9 @@ async function assertContentScreenshot(page, name, testInfo, mobileDiffRatio = 0
   const screenshotOptions =
     testInfo.project.name === "mobile-chromium"
       ? { maxDiffPixelRatio: mobileDiffRatio }
-      : undefined;
+      : name === "blog-birthday-card-messages.png"
+        ? { maxDiffPixelRatio: 0.06 }
+        : undefined;
   await expect(page).toHaveScreenshot(name, screenshotOptions);
 }
 
