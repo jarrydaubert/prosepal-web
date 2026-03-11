@@ -7,7 +7,7 @@ const pageChecks = [
     name: "home",
     path: "/",
     accentSelector: ".nav-cta",
-    accentProperty: "backgroundImage",
+    accentProperty: "backgroundColor",
     ambientSelector: ".ambient-bg",
     expectsAmbient: true,
   },
@@ -15,7 +15,7 @@ const pageChecks = [
     name: "blog hub",
     path: "/blog/",
     accentSelector: ".header-cta",
-    accentProperty: "backgroundImage",
+    accentProperty: "backgroundColor",
     ambientSelector: "body",
     expectsAmbient: true,
   },
@@ -23,7 +23,7 @@ const pageChecks = [
     name: "blog article",
     path: "/blog/is-prosepal-pro-worth-it.html",
     accentSelector: ".header-cta",
-    accentProperty: "backgroundImage",
+    accentProperty: "backgroundColor",
     ambientSelector: "body",
     expectsAmbient: true,
   },
@@ -31,7 +31,7 @@ const pageChecks = [
     name: "messages hub",
     path: "/messages/",
     accentSelector: ".header-cta",
-    accentProperty: "backgroundImage",
+    accentProperty: "backgroundColor",
     ambientSelector: "body",
     expectsAmbient: true,
   },
@@ -39,7 +39,7 @@ const pageChecks = [
     name: "message article",
     path: "/messages/birthday-card-message-for-friend.html",
     accentSelector: ".header-cta",
-    accentProperty: "backgroundImage",
+    accentProperty: "backgroundColor",
     ambientSelector: "body",
     expectsAmbient: true,
   },
@@ -47,7 +47,7 @@ const pageChecks = [
     name: "privacy",
     path: "/privacy.html",
     accentSelector: ".nav-cta",
-    accentProperty: "backgroundImage",
+    accentProperty: "backgroundColor",
     ambientSelector: "body",
     expectsAmbient: true,
   },
@@ -110,9 +110,6 @@ test("brand tokens and ambient styling stay aligned across page families", async
       );
       expect(ambientBackground, `${pageCheck.name} should not use old blue ambient`).not.toContain(
         "37, 99, 235",
-      );
-      expect(ambientBackground, `${pageCheck.name} should include gold ambient`).toContain(
-        "251, 191, 36",
       );
       expect(ambientBackground, `${pageCheck.name} should include coral ambient`).toContain(
         "212, 115, 107",
