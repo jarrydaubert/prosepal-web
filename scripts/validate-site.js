@@ -2,7 +2,7 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { SITE_URL } = require("./lib/metadata");
+const { DEFAULT_OG_IMAGE, SITE_URL } = require("./lib/metadata");
 
 const ROOT_DIR = path.join(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT_DIR, "public");
@@ -90,6 +90,180 @@ function pathExistsFromWebPath(webPath) {
   }
 
   return candidates.some((candidate) => fs.existsSync(candidate));
+}
+
+/**
+ * Resolve a site-relative web path to a public file path.
+ * @param {string} webPath
+ * @returns {string | null}
+ */
+function resolvePublicPathFromWebPath(webPath) {
+  const clean = webPath.split("?")[0].split("#")[0];
+  const asPath = clean.startsWith("/") ? clean.slice(1) : clean;
+  const hasExtension = path.extname(asPath) !== "";
+
+  const candidates = [path.join(PUBLIC_DIR, asPath), path.join(PUBLIC_DIR, asPath, "index.html")];
+
+  if (!hasExtension) {
+    candidates.push(path.join(PUBLIC_DIR, `${asPath}.html`));
+  }
+
+  return candidates.find((candidate) => fs.existsSync(candidate)) || null;
+}
+
+/**
+ * Extract width and height from a PNG file.
+ * @param {Buffer} buffer
+ * @returns {{width: number, height: number}}
+ */
+function readPngDimensions(buffer) {
+  if (buffer.length < 24 || buffer.toString("ascii", 1, 4) !== "PNG") {
+    throw new Error("invalid PNG header");
+  }
+
+  return {
+    width: buffer.readUInt32BE(16),
+    height: buffer.readUInt32BE(20),
+  };
+}
+
+/**
+ * Extract width and height from a JPEG file.
+ * @param {Buffer} buffer
+ * @returns {{width: number, height: number}}
+ */
+function readJpegDimensions(buffer) {
+  if (buffer.length < 4 || buffer[0] !== 0xff || buffer[1] !== 0xd8) {
+    throw new Error("invalid JPEG header");
+  }
+
+  let offset = 2;
+  const sofMarkers = new Set([
+    0xc0, 0xc1, 0xc2, 0xc3, 0xc5, 0xc6, 0xc7, 0xc9, 0xca, 0xcb, 0xcd, 0xce, 0xcf,
+  ]);
+
+  while (offset < buffer.length) {
+    if (buffer[offset] !== 0xff) {
+      offset += 1;
+      continue;
+    }
+
+    while (buffer[offset] === 0xff) {
+      offset += 1;
+    }
+
+    const marker = buffer[offset];
+    offset += 1;
+
+    if (marker === 0xd9 || marker === 0xda) {
+      break;
+    }
+
+    if (offset + 1 >= buffer.length) {
+      break;
+    }
+
+    const segmentLength = buffer.readUInt16BE(offset);
+    if (segmentLength < 2 || offset + segmentLength > buffer.length) {
+      break;
+    }
+
+    if (sofMarkers.has(marker)) {
+      return {
+        height: buffer.readUInt16BE(offset + 3),
+        width: buffer.readUInt16BE(offset + 5),
+      };
+    }
+
+    offset += segmentLength;
+  }
+
+  throw new Error("missing JPEG size segment");
+}
+
+/**
+ * Extract width and height from an SVG file.
+ * @param {string} svg
+ * @returns {{width: number, height: number}}
+ */
+function readSvgDimensions(svg) {
+  const widthMatch = svg.match(/\bwidth="([0-9.]+)(?:px)?"/i);
+  const heightMatch = svg.match(/\bheight="([0-9.]+)(?:px)?"/i);
+
+  if (widthMatch && heightMatch) {
+    return {
+      width: Number.parseFloat(widthMatch[1]),
+      height: Number.parseFloat(heightMatch[1]),
+    };
+  }
+
+  const viewBoxMatch = svg.match(/\bviewBox="([0-9.\s-]+)"/i);
+  if (!viewBoxMatch) {
+    throw new Error("missing SVG dimensions");
+  }
+
+  const parts = viewBoxMatch[1]
+    .trim()
+    .split(/\s+/)
+    .map((value) => Number.parseFloat(value));
+  if (parts.length !== 4 || parts.some((value) => !Number.isFinite(value))) {
+    throw new Error("invalid SVG viewBox");
+  }
+
+  return {
+    width: parts[2],
+    height: parts[3],
+  };
+}
+
+/**
+ * Extract width and height from an image file.
+ * @param {string} filePath
+ * @returns {{width: number, height: number}}
+ */
+function readImageDimensions(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  if (ext === ".png") {
+    return readPngDimensions(fs.readFileSync(filePath));
+  }
+
+  if (ext === ".jpg" || ext === ".jpeg") {
+    return readJpegDimensions(fs.readFileSync(filePath));
+  }
+
+  if (ext === ".svg") {
+    return readSvgDimensions(fs.readFileSync(filePath, "utf8"));
+  }
+
+  throw new Error(`unsupported image type: ${ext || "(no extension)"}`);
+}
+
+/**
+ * Validate the shared default OG image exists and matches declared metadata size.
+ * @param {string[]} errors
+ * @returns {void}
+ */
+function validateDefaultOgImage(errors) {
+  const defaultOgPath = new URL(DEFAULT_OG_IMAGE).pathname;
+  const filePath = resolvePublicPathFromWebPath(defaultOgPath);
+
+  if (!filePath) {
+    errors.push(`default OG image missing -> ${DEFAULT_OG_IMAGE}`);
+    return;
+  }
+
+  try {
+    const { width, height } = readImageDimensions(filePath);
+    if (width !== 1200 || height !== 630) {
+      errors.push(
+        `default OG image must be 1200x630, found ${width}x${height} -> ${path.relative(ROOT_DIR, filePath)}`,
+      );
+    }
+  } catch (error) {
+    errors.push(
+      `default OG image dimensions could not be read -> ${path.relative(ROOT_DIR, filePath)} (${error.message})`,
+    );
+  }
 }
 
 /**
@@ -293,6 +467,7 @@ function main() {
   }
 
   validateSitemapCoverage(htmlFiles, errors);
+  validateDefaultOgImage(errors);
 
   if (errors.length > 0) {
     console.error("Site validation failed:\n");
