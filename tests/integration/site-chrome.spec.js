@@ -42,3 +42,53 @@ test("content-heavy pages start with an opaque navigation backdrop", async ({ pa
     expect(alpha).toBeGreaterThan(0);
   }
 });
+
+test("light brand containers keep dark readable text on hub and article surfaces", async ({
+  page,
+}) => {
+  const checks = [
+    {
+      path: "/messages/",
+      surfaceSelector: ".post-tag",
+      textSelector: ".post-tag",
+    },
+    {
+      path: "/messages/sympathy-card-message-for-coworker.html",
+      surfaceSelector: ".tips-box",
+      textSelector: ".tips-box h3",
+    },
+    {
+      path: "/blog/what-to-write-in-sympathy-card.html",
+      surfaceSelector: ".tips-box",
+      textSelector: ".tips-box h3",
+    },
+  ];
+
+  for (const check of checks) {
+    await page.goto(check.path, { waitUntil: "networkidle" });
+
+    const surfaceStyles = await page
+      .locator(check.surfaceSelector)
+      .first()
+      .evaluate((node) => {
+        const computed = getComputedStyle(node);
+        return {
+          backgroundColor: computed.backgroundColor,
+        };
+      });
+
+    const textStyles = await page
+      .locator(check.textSelector)
+      .first()
+      .evaluate((node) => {
+        const computed = getComputedStyle(node);
+        return {
+          color: computed.color,
+        };
+      });
+
+    expect(surfaceStyles.backgroundColor).toContain("252, 233, 231");
+    expect(textStyles.color).toContain("40, 54, 72");
+    expect(textStyles.color).not.toContain("255, 255, 255");
+  }
+});
