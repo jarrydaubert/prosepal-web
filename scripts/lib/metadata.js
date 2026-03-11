@@ -1,6 +1,6 @@
 const SITE_URL = "https://www.prosepal.app";
 const SITE_NAME = "Prosepal";
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image-v4.jpg`;
+const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image-v5.jpg`;
 const BRAND_LOGO_URL = `${SITE_URL}/logo.png`;
 const CONTENT_DATE = process.env.PROSEPAL_CONTENT_DATE || new Date().toISOString().slice(0, 10);
 

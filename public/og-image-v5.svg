@@ -1,0 +1,28 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="106" y1="42" x2="1096" y2="588" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#081528"/>
+      <stop offset="1" stop-color="#111D30"/>
+    </linearGradient>
+    <radialGradient id="glowLeft" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(210 132) rotate(38) scale(356 248)">
+      <stop stop-color="#122C4F"/>
+      <stop offset="1" stop-color="#122C4F" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowRight" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(946 104) rotate(137) scale(290 220)">
+      <stop stop-color="#D4736B" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#D4736B" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" rx="36" fill="url(#bg)"/>
+  <rect width="1200" height="630" rx="36" fill="url(#glowLeft)"/>
+  <rect width="1200" height="630" rx="36" fill="url(#glowRight)"/>
+
+  <text x="600" y="128" text-anchor="middle" fill="#FFF8F3" font-family="Arial, sans-serif" font-size="34" font-weight="700">Prosepal</text>
+  <text x="600" y="264" text-anchor="middle" fill="#FFF8F3" font-family="Georgia, 'Times New Roman', serif" font-size="92" font-weight="700" letter-spacing="-2">The right words,</text>
+  <text x="600" y="358" text-anchor="middle" fill="#D4736B" font-family="Georgia, 'Times New Roman', serif" font-size="92" font-weight="700" letter-spacing="-2">right now</text>
+  <text x="600" y="444" text-anchor="middle" fill="#CFD8E3" font-family="Arial, sans-serif" font-size="30" font-weight="500">For birthdays, sympathy, thank yous, weddings, and more.</text>
+
+  <line x1="270" y1="512" x2="930" y2="512" stroke="#D4736B" stroke-width="4" stroke-linecap="round" stroke-opacity="0.9"/>
+  <text x="600" y="566" text-anchor="middle" fill="#A8BED6" font-family="Arial, sans-serif" font-size="34" font-weight="700">prosepal.app</text>
+</svg>
