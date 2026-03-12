@@ -1,6 +1,10 @@
 # AI Crawler Policy Review
 
+<<<<<<< HEAD
 Date: 2026-03-11T22:40:09.587Z
+=======
+Date: 2026-03-12T17:29:08.551Z
+>>>>>>> 2a2a77c (Fix desktop CTA contrast and refresh docs)
 
 Policy source of truth: scripts/lib/robots-policy.js
 

@@ -17,6 +17,12 @@ Operating guide for contributors and coding agents in `prosepal-web`.
 - Optimize for safe, reviewable changes: PR flow, clear gates, reproducible commands.
 - Treat content, SEO, and analytics correctness as first-class product behavior.
 
+## Verification
+
+- Do not present guesses as facts.
+- Verify files, commands, and behavior before claiming they exist or passed.
+- If something is uncertain or unverified, say so clearly.
+
 ## Non-negotiables
 
 - Run `bun run check` before merge or production deploy.

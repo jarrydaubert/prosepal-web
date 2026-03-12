@@ -1,6 +1,10 @@
 # CSP Runtime Verification
 
+<<<<<<< HEAD
 Date: 2026-03-11T22:40:16.226Z
+=======
+Date: 2026-03-12T17:29:15.563Z
+>>>>>>> 2a2a77c (Fix desktop CTA contrast and refresh docs)
 
 Status: PASS
 

@@ -1,6 +1,10 @@
 # CTA Copy Consistency
 
+<<<<<<< HEAD
 Date: 2026-03-11T22:40:09.744Z
+=======
+Date: 2026-03-12T17:29:08.709Z
+>>>>>>> 2a2a77c (Fix desktop CTA contrast and refresh docs)
 
 Targets scanned: 42 HTML files
 

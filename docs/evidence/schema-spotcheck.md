@@ -1,6 +1,10 @@
 # Schema Spot-Check
 
+<<<<<<< HEAD
 Date: 2026-03-11T22:40:09.551Z
+=======
+Date: 2026-03-12T17:29:08.516Z
+>>>>>>> 2a2a77c (Fix desktop CTA contrast and refresh docs)
 
 Status: PASS
 - Scope: 42 local HTML files (homepage, hubs, blog articles, message details)

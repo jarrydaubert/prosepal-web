@@ -1,9 +1,16 @@
 # Conversion Event Verification
 
+<<<<<<< HEAD
 Date: 2026-03-11T22:40:23.397Z
 
 Status: PASS
 Target: http://127.0.0.1:64686/
+=======
+Date: 2026-03-12T17:29:25.549Z
+
+Status: PASS
+Target: http://127.0.0.1:51784/
+>>>>>>> 2a2a77c (Fix desktop CTA contrast and refresh docs)
 Mode: local static server
 
 Required base events:

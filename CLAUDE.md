@@ -1,6 +1,7 @@
 # prosepal-web
 
 Canonical project guidance lives in `AGENTS.md`.
+Do not invent facts, files, or validation results; verify or state uncertainty.
 
 ## Quick Start
 
