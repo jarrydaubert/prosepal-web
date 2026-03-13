@@ -2,7 +2,8 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { CONTENT_DATE, SITE_URL } = require("./lib/metadata");
+const { SITE_URL } = require("./lib/metadata");
+const { getEditorialDatesForPath, loadEditorialMetadata } = require("./lib/editorial-dates");
 
 const ROOT_DIR = path.join(__dirname, "..");
 const PUBLIC_DIR = path.join(ROOT_DIR, "public");
@@ -162,12 +163,18 @@ function getChangeFreq(urlPath) {
 }
 
 /**
- * File mtime converted to `YYYY-MM-DD`.
+ * Resolve per-page editorial lastmod.
  * @param {string} filePath
+ * @param {string} urlPath
+ * @param {{ pages: Record<string, {datePublished: string, dateModified: string}> }} editorialMetadata
  * @returns {string}
  */
-function toLastMod() {
-  return CONTENT_DATE;
+function toLastMod(filePath, urlPath, editorialMetadata) {
+  return getEditorialDatesForPath(urlPath, {
+    metadata: editorialMetadata,
+    htmlFile: filePath,
+    allowInlineHtml: true,
+  }).dateModified;
 }
 
 /**
@@ -207,6 +214,7 @@ function buildXml(entries) {
  * @returns {void}
  */
 function main() {
+  const editorialMetadata = loadEditorialMetadata();
   const htmlFiles = getHtmlFiles(PUBLIC_DIR);
   const entries = htmlFiles
     .map((filePath) => {
@@ -223,7 +231,7 @@ function main() {
 
       return {
         loc: `${SITE_URL}${urlPath}`,
-        lastmod: toLastMod(filePath),
+        lastmod: toLastMod(filePath, urlPath, editorialMetadata),
         changefreq: getChangeFreq(urlPath),
         priority: getPriority(urlPath),
       };

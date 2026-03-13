@@ -17,8 +17,15 @@ Scope: DevOps, CI/CD, release, and operational quality practices for `prosepal-w
 - Hosting path is Vercel origin behind Cloudflare edge.
 - Primary local quality gate is `bun run check`.
 - SEO generation date source is `PROSEPAL_CONTENT_DATE`.
-  By default, `bun run generate:site` resolves this from repo content metadata (messages data + llms fallback) to avoid date-only CI churn.
+  By default, `bun run generate:site` resolves this from explicit editorial metadata in `data/editorial-metadata.json` plus inline `datePublished`/`dateModified` values on static blog articles.
   Set `PROSEPAL_CONTENT_DATE=YYYY-MM-DD` explicitly only when you need an override.
+
+## Editorial date contract
+
+- Generated message detail pages and metadata-only static pages (`/`, hubs, legal/support pages) source dates from `data/editorial-metadata.json`.
+- Static blog articles keep explicit inline `datePublished` and `dateModified` values in the page HTML.
+- `public/sitemap.xml` `lastmod` values must resolve from one of those two sources; no global build-date fallback is allowed.
+- Missing or invalid editorial dates are build failures, not warning-only conditions.
 
 ## Daily engineering flow
 
@@ -76,6 +83,7 @@ Why this policy exists:
 `Web Quality`
 - Runs the full local contract (`bun run check`).
 - Catches content, SEO, schema, accessibility, runtime CSP, analytics-event, interaction, and style regressions in one gate.
+- Also triggers when only interaction tests or `playwright.interaction.config.js` change, so PRs that modify the required QA surface still emit the required `SEO + QA Gate` status check.
 - Uploads diagnostics artifacts on failure to speed triage.
 
 `Visual Regression`

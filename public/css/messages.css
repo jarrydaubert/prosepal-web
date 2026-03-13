@@ -87,8 +87,16 @@ a:focus-visible {
 }
 
 .article-meta {
-  font-size: var(--font-size-sm);
-  color: var(--md-on-surface-variant);
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.38rem 0.78rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--brand-gold-border);
+  background: var(--brand-gold-soft);
+  color: var(--brand-gold);
+  font-size: var(--font-size-xs-wide);
+  font-weight: 600;
 }
 
 .article-byline {
@@ -298,11 +306,11 @@ a:focus-visible {
 .related-links a[href*="is-prosepal-pro-worth-it"] {
   background: var(--accent-pro-soft);
   color: var(--accent-pro);
-  border: 1px solid rgba(251, 191, 36, 0.2);
+  border: 1px solid var(--brand-gold-border);
 }
 
 .related-links a[href*="is-prosepal-pro-worth-it"]:hover {
-  background: rgba(251, 191, 36, 0.2);
+  background: color-mix(in srgb, var(--brand-gold-soft) 100%, transparent);
   color: var(--accent-pro);
 }
 
@@ -338,7 +346,24 @@ a:focus-visible {
 }
 
 .hub-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+  padding: 0.38rem 0.78rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--brand-gold-border);
+  background: var(--brand-gold-soft);
+  color: var(--brand-gold);
   margin-bottom: 1rem;
+}
+
+.hub-breadcrumb a {
+  color: inherit;
+}
+
+.hub-breadcrumb a:hover {
+  color: var(--brand-gold-strong);
 }
 
 .conversion-assist {

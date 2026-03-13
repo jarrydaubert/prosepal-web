@@ -77,3 +77,15 @@ test("message detail visual baseline", async ({ page }, testInfo) => {
   await stabilizeVisualState(page);
   await assertContentScreenshot(page, "message-birthday-card-for-friend.png", testInfo, 0.09);
 });
+
+test("privacy page visual baseline", async ({ page }, testInfo) => {
+  await page.goto("/privacy.html", { waitUntil: "networkidle" });
+  await stabilizeVisualState(page);
+  await assertContentScreenshot(page, "privacy-page.png", testInfo, 0.08);
+});
+
+test("support page visual baseline", async ({ page }, testInfo) => {
+  await page.goto("/support.html", { waitUntil: "networkidle" });
+  await stabilizeVisualState(page);
+  await assertContentScreenshot(page, "support-page.png", testInfo, 0.08);
+});

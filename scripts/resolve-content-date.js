@@ -2,14 +2,10 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
+const { getAllEditorialDates, isIsoDate, loadEditorialMetadata } = require("./lib/editorial-dates");
 
 const ROOT_DIR = path.join(__dirname, "..");
-const DATA_FILE = path.join(ROOT_DIR, "data", "messages-pages.json");
-const LLMS_FILE = path.join(ROOT_DIR, "public", "llms.txt");
-
-function isIsoDate(value) {
-  return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value);
-}
+const PUBLIC_DIR = path.join(ROOT_DIR, "public");
 
 function toTime(value) {
   if (!isIsoDate(value)) {
@@ -39,49 +35,19 @@ function getMaxDate(values) {
   return winner;
 }
 
-function readDatesFromMessagesData(filePath) {
-  try {
-    const raw = fs.readFileSync(filePath, "utf8");
-    const parsed = JSON.parse(raw);
-    const pages = Array.isArray(parsed?.pages) ? parsed.pages : [];
-    const dates = [];
+function getBlogHtmlFiles(publicDir = PUBLIC_DIR) {
+  const blogDir = path.join(publicDir, "blog");
 
-    for (const page of pages) {
-      if (!page || typeof page !== "object") {
-        continue;
-      }
-      if (isIsoDate(page.datePublished)) {
-        dates.push(page.datePublished);
-      }
-      if (isIsoDate(page.dateModified)) {
-        dates.push(page.dateModified);
-      }
-    }
-
-    return dates;
-  } catch {
-    return [];
-  }
-}
-
-function readLastUpdatedFromLlms(filePath) {
-  try {
-    const raw = fs.readFileSync(filePath, "utf8");
-    const match = raw.match(/Last updated:\s*(\d{4}-\d{2}-\d{2})/);
-    return match ? match[1] : null;
-  } catch {
-    return null;
-  }
-}
-
-function todayUtcIso() {
-  return new Date().toISOString().slice(0, 10);
+  return fs
+    .readdirSync(blogDir)
+    .filter((name) => name.endsWith(".html") && name !== "index.html")
+    .map((name) => path.join(blogDir, name));
 }
 
 function resolveContentDate({
   envContentDate = process.env.PROSEPAL_CONTENT_DATE,
-  dataFile = DATA_FILE,
-  llmsFile = LLMS_FILE,
+  metadata = loadEditorialMetadata(),
+  blogHtmlFiles = getBlogHtmlFiles(),
 } = {}) {
   if (envContentDate) {
     if (!isIsoDate(envContentDate)) {
@@ -90,15 +56,17 @@ function resolveContentDate({
     return envContentDate;
   }
 
-  const candidates = [];
-  candidates.push(...readDatesFromMessagesData(dataFile));
+  const candidates = getAllEditorialDates({
+    metadata,
+    htmlFiles: blogHtmlFiles,
+  });
+  const resolved = getMaxDate(candidates);
 
-  const llmsDate = readLastUpdatedFromLlms(llmsFile);
-  if (llmsDate) {
-    candidates.push(llmsDate);
+  if (!resolved) {
+    throw new Error("Unable to resolve PROSEPAL_CONTENT_DATE from editorial metadata.");
   }
 
-  return getMaxDate(candidates) || todayUtcIso();
+  return resolved;
 }
 
 if (require.main === module) {
@@ -106,9 +74,8 @@ if (require.main === module) {
 }
 
 module.exports = {
+  getBlogHtmlFiles,
   resolveContentDate,
   isIsoDate,
-  readDatesFromMessagesData,
-  readLastUpdatedFromLlms,
   getMaxDate,
 };

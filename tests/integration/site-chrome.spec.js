@@ -92,3 +92,56 @@ test("light brand containers keep dark readable text on hub and article surfaces
     expect(textStyles.color).not.toContain("255, 255, 255");
   }
 });
+
+test("gold accent metadata and badges stay present across core surfaces", async ({ page }) => {
+  const checks = [
+    {
+      path: "/",
+      selector: ".hero-badge",
+      property: "borderColor",
+    },
+    {
+      path: "/privacy.html",
+      selector: ".updated",
+      property: "backgroundColor",
+    },
+    {
+      path: "/support.html",
+      selector: ".updated",
+      property: "backgroundColor",
+    },
+    {
+      path: "/blog/",
+      selector: ".hub-breadcrumb",
+      property: "backgroundColor",
+    },
+    {
+      path: "/blog/birthday-card-messages.html",
+      selector: ".article-meta",
+      property: "backgroundColor",
+    },
+    {
+      path: "/messages/",
+      selector: ".hub-breadcrumb",
+      property: "backgroundColor",
+    },
+    {
+      path: "/messages/birthday-card-message-for-friend.html",
+      selector: ".article-meta",
+      property: "backgroundColor",
+    },
+  ];
+
+  for (const check of checks) {
+    await page.goto(check.path, { waitUntil: "networkidle" });
+
+    const value = await page
+      .locator(check.selector)
+      .first()
+      .evaluate((node, property) => {
+        return getComputedStyle(node)[property];
+      }, check.property);
+
+    expect(value, `${check.path} should retain the gold accent`).toContain("251, 191, 36");
+  }
+});

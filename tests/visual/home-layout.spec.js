@@ -1,5 +1,7 @@
 const { test, expect } = require("@playwright/test");
 
+const POPUP_DISMISS_KEY = "prosepal_tips_popup_dismissed_until";
+
 async function waitForAsyncFonts(page) {
   await page.waitForFunction(() => {
     const asyncFontLinks = Array.from(document.querySelectorAll("link[data-async-fonts='true']"));
@@ -43,6 +45,12 @@ async function assertHomeScreenshot(page, testInfo) {
   await expect(page).toHaveScreenshot("home-hero-nav.png", screenshotOptions);
 }
 
+async function assertPopupScreenshot(page, testInfo) {
+  const screenshotOptions =
+    testInfo.project.name === "mobile-chromium" ? { maxDiffPixelRatio: 0.08 } : undefined;
+  await expect(page).toHaveScreenshot("home-tips-popup.png", screenshotOptions);
+}
+
 test("homepage hero and nav visual baseline", async ({ page }, testInfo) => {
   await page.goto("/", { waitUntil: "networkidle" });
 
@@ -75,4 +83,46 @@ test("homepage hero and nav visual baseline", async ({ page }, testInfo) => {
   }
 
   await assertHomeScreenshot(page, testInfo);
+});
+
+test("homepage tips popup visual baseline", async ({ page }, testInfo) => {
+  await page.addInitScript((key) => {
+    try {
+      localStorage.removeItem(key);
+    } catch {
+      // Ignore storage restrictions.
+    }
+  }, POPUP_DISMISS_KEY);
+
+  await page.goto("/", { waitUntil: "networkidle" });
+
+  await page.addStyleTag({
+    content: `
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+        caret-color: transparent !important;
+      }
+
+      .scroll-progress,
+      .hero-scroll-arrow {
+        display: none !important;
+      }
+    `,
+  });
+
+  await waitForAsyncFonts(page);
+
+  await page.evaluate(() => {
+    const overlay = document.getElementById("tips-popup-overlay");
+    if (!overlay) {
+      return;
+    }
+
+    overlay.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+  });
+
+  await assertPopupScreenshot(page, testInfo);
 });

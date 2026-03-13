@@ -78,8 +78,16 @@ h1 {
 }
 
 .updated {
-  color: var(--md-on-surface-variant);
-  font-size: var(--font-size-sm);
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.38rem 0.78rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--brand-gold-border);
+  background: var(--brand-gold-soft);
+  color: var(--brand-gold);
+  font-size: var(--font-size-xs-wide);
+  font-weight: 600;
   margin-bottom: 2.5rem;
 }
 
