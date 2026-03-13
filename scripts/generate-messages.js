@@ -7,14 +7,18 @@
 
 const fs = require("node:fs");
 const path = require("node:path");
-const { CONTENT_DATE, buildMetadata } = require("./lib/metadata");
+const { buildMetadata } = require("./lib/metadata");
+const {
+  getEditorialDatesForPath,
+  loadEditorialMetadata,
+  parseIsoDate,
+} = require("./lib/editorial-dates");
 
 const ROOT_DIR = path.join(__dirname, "..");
 const DATA_FILE = path.join(ROOT_DIR, "data", "messages-pages.json");
 const TEMPLATE_FILE = path.join(ROOT_DIR, "templates", "message-page.html");
 const OUTPUT_DIR = path.join(ROOT_DIR, "public", "messages");
 
-const TODAY = CONTENT_DATE;
 const FALLBACK_BLOG_BY_OCCASION = {
   Sympathy: { slug: "what-to-write-in-sympathy-card", title: "Sympathy Card Writing Guide" },
   Birthday: { slug: "birthday-card-messages", title: "Birthday Card Message Guide" },
@@ -83,29 +87,6 @@ function escapeJsonLd(text) {
     .replace(/\t/g, "\\t");
 }
 
-function parseIsoDate(dateString) {
-  if (typeof dateString !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
-    return null;
-  }
-
-  const parsed = new Date(`${dateString}T00:00:00Z`);
-  if (Number.isNaN(parsed.getTime())) {
-    return null;
-  }
-
-  return parsed;
-}
-
-function formatIsoDate(date) {
-  return date.toISOString().slice(0, 10);
-}
-
-function addDays(date, days) {
-  const next = new Date(date);
-  next.setUTCDate(next.getUTCDate() + days);
-  return next;
-}
-
 function slugSeed(slug) {
   let hash = 0;
   for (const char of slug) {
@@ -114,21 +95,19 @@ function slugSeed(slug) {
   return hash;
 }
 
-function resolvePageDates(page) {
-  const baseline = parseIsoDate(CONTENT_DATE) || new Date();
-  const seed = slugSeed(page.slug);
-  const fallbackPublished = addDays(baseline, -30 - (seed % 180));
-  const fallbackModified = addDays(baseline, -(seed % 21));
+function resolvePageDates(page, editorialMetadata) {
+  const dates = getEditorialDatesForPath(`/messages/${page.slug}.html`, {
+    metadata: editorialMetadata,
+  });
+  const modifiedDate = parseIsoDate(dates.dateModified);
 
-  const publishedDate = parseIsoDate(page.datePublished) || fallbackPublished;
-  let modifiedDate = parseIsoDate(page.dateModified) || fallbackModified;
-  if (modifiedDate < publishedDate) {
-    modifiedDate = publishedDate;
+  if (!modifiedDate) {
+    throw new Error(`Unable to parse dateModified for /messages/${page.slug}.html`);
   }
 
   return {
-    datePublished: formatIsoDate(publishedDate),
-    dateModified: formatIsoDate(modifiedDate),
+    datePublished: dates.datePublished,
+    dateModified: dates.dateModified,
     dateDisplay: modifiedDate.toLocaleDateString("en-US", {
       month: "long",
       year: "numeric",
@@ -334,9 +313,9 @@ function generateBreadcrumbTitle(page) {
   return `${page.occasion} for ${page.relationship}`;
 }
 
-function generatePage(page, template, pages) {
+function generatePage(page, template, pages, editorialMetadata) {
   let html = template;
-  const pageDates = resolvePageDates(page);
+  const pageDates = resolvePageDates(page, editorialMetadata);
   const metadata = buildMetadata({
     title: page.metaTitle,
     description: page.metaDescription,
@@ -475,13 +454,14 @@ ${cardsHtml}
   };
 }
 
-function generateHubPage(pages) {
+function generateHubPage(pages, editorialMetadata) {
   const metadata = buildMetadata({
     title: "Card Message Examples for Every Occasion",
     description:
       "Find the perfect words for any greeting card. Browse message examples for sympathy, birthday, wedding, thank you cards and more.",
     pathname: "/messages/",
   });
+  const hubDates = getEditorialDatesForPath("/messages/", { metadata: editorialMetadata });
 
   const { occasionIndexHtml, occasionSectionsHtml } = buildMessageSections(pages);
 
@@ -531,8 +511,8 @@ function generateHubPage(pages) {
     "name": "Card Message Examples for Every Occasion",
     "description": "${escapeJsonLd(metadata.description)}",
     "url": "${metadata.canonical}",
-    "datePublished": "${TODAY}",
-    "dateModified": "${TODAY}",
+    "datePublished": "${hubDates.datePublished}",
+    "dateModified": "${hubDates.dateModified}",
     "publisher": {
       "@type": "Organization",
       "name": "Prosepal",
@@ -690,19 +670,20 @@ function main() {
   const data = loadData();
   const template = loadTemplate();
   const pages = data.pages;
+  const editorialMetadata = loadEditorialMetadata();
 
   if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   }
 
   for (const [index, page] of pages.entries()) {
-    const html = generatePage(page, template, pages);
+    const html = generatePage(page, template, pages, editorialMetadata);
     const outputPath = path.join(OUTPUT_DIR, `${page.slug}.html`);
     fs.writeFileSync(outputPath, html, "utf8");
     console.log(`${index + 1}. generated ${page.slug}.html`);
   }
 
-  const hubHtml = generateHubPage(pages);
+  const hubHtml = generateHubPage(pages, editorialMetadata);
   fs.writeFileSync(path.join(OUTPUT_DIR, "index.html"), hubHtml, "utf8");
   console.log(`Generated ${pages.length + 1} pages total.`);
 }
