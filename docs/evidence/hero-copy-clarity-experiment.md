@@ -1,4 +1,4 @@
-# Hero Copy Clarity Experiment Decision
+# Hero Copy Experiment Decision
 
 Last updated: 2026-03-03
 
@@ -6,11 +6,11 @@ Last updated: 2026-03-03
 
 - Experiment ID: `hero_copy_clarity_v1`
 - Control copy:
-  - Badge: `AI-powered card messages`
-  - Headline: `Words that actually land`
-- Treatment copy:
   - Badge: `Greeting card message generator`
   - Headline: `Greeting card messages that actually land`
+- Treatment copy:
+  - Badge: `For hard-to-write cards`
+  - Headline: `What to write when the words matter most`
 
 ## Measurement Contract (defined before launch)
 
@@ -26,7 +26,7 @@ Last updated: 2026-03-03
 
 ## Current Decision
 
-- Selected variant: `treatment` (clarity-forward category framing).
+- Selected variant: `treatment` (hard-to-write-moments positioning while keeping broad occasion discovery elsewhere).
 - Production behavior:
   - Homepage static copy reflects treatment.
   - Experiment assignment defaults to treatment.

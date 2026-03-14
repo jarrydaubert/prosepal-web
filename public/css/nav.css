@@ -111,9 +111,9 @@ body:not(.home-vnext) .nav {
   justify-content: center;
   border-radius: var(--radius-pill);
   padding: 0.5rem 1.1rem;
-  font-size: var(--font-size-xs-tight);
-  font-weight: 600;
-  color: var(--color-white);
+  font-size: var(--font-size-xs-wide);
+  font-weight: 700;
+  color: var(--brand-slate-deep);
   background: var(--accent-primary);
   border: 1px solid transparent;
   text-decoration: none;
@@ -127,8 +127,9 @@ body:not(.home-vnext) .nav {
 .nav-cta:focus-visible,
 .header-cta:hover,
 .header-cta:focus-visible {
-  color: var(--color-white);
-  background: var(--accent-primary-hover);
+  color: var(--brand-slate-deep);
+  background: var(--accent-primary);
+  box-shadow: 0 10px 24px rgba(212, 115, 107, 0.22);
   transform: translateY(-1px);
   text-decoration: none;
 }

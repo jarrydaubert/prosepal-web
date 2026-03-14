@@ -42,7 +42,8 @@ test("timer trigger is suppressed during active hero conversion intent", async (
     window.__prosepalPopupDelayMs = 1200;
   });
 
-  await page.goto("/", { waitUntil: "networkidle" });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await expect(page.locator("#android-waitlist-email")).toBeVisible();
   await page.fill("#android-waitlist-email", "qa+intent@prosepal.app");
   await page.waitForTimeout(1500);
 
@@ -57,7 +58,8 @@ test("timer trigger retries after hero conversion intent suppression expires", a
     window.__prosepalPopupIntentSuppressMs = 1800;
   });
 
-  await page.goto("/", { waitUntil: "networkidle" });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await expect(page.locator("#android-waitlist-email")).toBeVisible();
   await page.fill("#android-waitlist-email", "qa+intent-retry@prosepal.app");
   await page.focus(".nav-brand");
 

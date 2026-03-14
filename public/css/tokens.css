@@ -96,9 +96,9 @@
   --md-shadow-2: 0 2px 6px 2px rgba(21, 28, 38, 0.18), 0 1px 2px rgba(21, 28, 38, 0.28);
   --md-shadow-3: 0 4px 8px 3px rgba(21, 28, 38, 0.2), 0 1px 3px rgba(21, 28, 38, 0.3);
 
-  --v5-gradient-gold: linear-gradient(135deg, #FBBF24 0%, #FFD86A 50%, #F6B514 100%);
-  --v5-gradient-plum: linear-gradient(135deg, #222E3D 0%, #324458 100%);
-  --v5-gradient-plum-strong: linear-gradient(135deg, #283648 0%, #324458 100%);
+  --brand-gradient-gold: linear-gradient(135deg, #FBBF24 0%, #FFD86A 50%, #F6B514 100%);
+  --brand-gradient-slate: linear-gradient(135deg, #222E3D 0%, #324458 100%);
+  --brand-gradient-slate-strong: linear-gradient(135deg, #283648 0%, #324458 100%);
 
   --glass-bg-page: #151C26;
   --glass-bg-surface: rgba(34, 46, 61, 0.74);
@@ -115,9 +115,6 @@
   --glass-accent-peach-soft: #fce9e7;
   --glass-accent-gold: #fbbf24;
   --glass-accent-gold-soft: #fff4cf;
-  --glass-accent-purple: #324458;
-  --glass-accent-cyan: #283648;
-  --glass-accent-blue: #222e3d;
   --glass-shadow-soft: 0 18px 60px rgba(10, 15, 24, 0.42);
   --glass-text-contrast: #101018;
   --status-success: #22c55e;
@@ -144,8 +141,14 @@
   --brand-coral-deep: var(--glass-accent-peach-deep);
   --brand-coral-light: var(--glass-accent-peach-light);
   --brand-coral-glow: rgba(212, 115, 107, 0.35);
+  --brand-gold: var(--glass-accent-gold);
+  --brand-gold-strong: var(--md-tertiary-dark);
+  --brand-gold-soft: rgba(251, 191, 36, 0.15);
+  --brand-gold-border: rgba(251, 191, 36, 0.26);
+  --brand-gold-glow: rgba(251, 191, 36, 0.18);
   --brand-slate-mid: #283648;
   --brand-slate-light: #324458;
+  --brand-slate-deep: #151C26;
 }
 
 /*

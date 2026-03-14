@@ -17,8 +17,15 @@ Scope: DevOps, CI/CD, release, and operational quality practices for `prosepal-w
 - Hosting path is Vercel origin behind Cloudflare edge.
 - Primary local quality gate is `bun run check`.
 - SEO generation date source is `PROSEPAL_CONTENT_DATE`.
-  By default, `bun run generate:site` resolves this from repo content metadata (messages data + llms fallback) to avoid date-only CI churn.
+  By default, `bun run generate:site` resolves this from explicit editorial metadata in `data/editorial-metadata.json` plus inline `datePublished`/`dateModified` values on static blog articles.
   Set `PROSEPAL_CONTENT_DATE=YYYY-MM-DD` explicitly only when you need an override.
+
+## Editorial date contract
+
+- Generated message detail pages and metadata-only static pages (`/`, hubs, legal/support pages) source dates from `data/editorial-metadata.json`.
+- Static blog articles keep explicit inline `datePublished` and `dateModified` values in the page HTML.
+- `public/sitemap.xml` `lastmod` values must resolve from one of those two sources; no global build-date fallback is allowed.
+- Missing or invalid editorial dates are build failures, not warning-only conditions.
 
 ## Daily engineering flow
 
@@ -76,6 +83,7 @@ Why this policy exists:
 `Web Quality`
 - Runs the full local contract (`bun run check`).
 - Catches content, SEO, schema, accessibility, runtime CSP, analytics-event, interaction, and style regressions in one gate.
+- Also triggers when only interaction tests or `playwright.interaction.config.js` change, so PRs that modify the required QA surface still emit the required `SEO + QA Gate` status check.
 - Uploads diagnostics artifacts on failure to speed triage.
 
 `Visual Regression`
@@ -87,10 +95,15 @@ Why this policy exists:
 - Keeps quality drift visible over time.
 
 `CodeQL`
-- Performs security-oriented static analysis on supported languages in the repo.
+- Runs via GitHub code scanning default setup for this repository; there is currently no in-repo `.github/workflows/codeql*.yml` source of truth.
+- Produces the required `CodeQL` check on `main`/PRs and backs the active `code_scanning` ruleset requirement.
+- Current live configuration is expected to stay `configured` with supported repo languages and weekly schedule unless the owner intentionally changes GitHub security settings.
 
 `Monthly Governance Audit`
 - Audits policy drift, governance token health, and CI usage patterns.
+- Runs on five paths: manual dispatch, the monthly schedule, a weekly schedule, governance-sensitive PRs to `main`, and governance-sensitive pushes to `main` (`.github/workflows/**`, audit scripts, token-expiry validation, runbook/security policy docs).
+- `CI usage` evidence is only trustworthy when the audit proves it paginated far enough to cover the full 30-day window; truncation or API failure must leave a visible `FAIL`/`SKIP`, not a partial count.
+- CI budget overage still records `FAIL` evidence on every path, but only scheduled/manual/`main` governance audits enforce that overage as a failing workflow outcome. PR review-loop runs warn instead so branch review is not blocked by a pre-existing monthly budget breach.
 - Prevents silent process erosion and expired-credential surprises.
 
 `Release Automation`
@@ -218,6 +231,9 @@ bun run validate:robots:policy
 
 - Reconfirm `docs/guides/AI_CRAWLER_POLICY.md` assumptions (discovery goals vs training opt-out stance) still match current growth priorities.
 - Confirm required checks in rulesets still match actual workflows.
+- Confirm GitHub default code scanning is still configured for `CodeQL` and still matches the `main` ruleset requirement.
+- Confirm `docs/evidence/ci-usage-budget.md` shows page coverage details (`Pages fetched`, `API page size`, `Oldest fetched run updated_at`) and did not silently truncate inside the 30-day window.
+- If governance-sensitive files changed, confirm `Monthly Governance Audit` ran on the shorter review-loop path (PR to `main`) and, after merge, on the corresponding `push` to `main`.
 - Review dependency automation and pending upgrades.
 - Review CI runtime/storage trends and tune workflow behavior where needed.
 - Record latest successful governance run URL/ID when closing governance backlog work.
@@ -237,6 +253,14 @@ gh run list --workflow "Monthly Governance Audit" --limit 1 --repo jarrydaubert/
 Stale local evidence files
 - Symptom: evidence files show skip states or old timestamps after transient failures.
 - Action: rerun release/validation commands, then commit refreshed evidence.
+
+Stale local Git index lock
+- Symptom: local `git add`, `git commit`, or `git rebase --continue` fails with `.git/index.lock`.
+- Action:
+  - Verify no other `git` process or editor prompt is still active.
+  - If no live `git` process is holding the repo, remove the stale `.git/index.lock` file and rerun the command.
+  - Avoid overlapping local mutating `git` commands; run `git add`, `git commit`, and `git rebase --continue` sequentially.
+  - If local signing or editor hooks are hanging, rerun explicitly with the intended editor/signing settings rather than starting a second `git` command in parallel.
 
 Governance token expiry or permission failure
 - Symptom: monthly governance workflow fails token checks or GitHub API access.

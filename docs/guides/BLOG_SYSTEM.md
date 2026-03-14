@@ -56,6 +56,12 @@ bun run validate:blog:images
 bun run validate:schema:local
 ```
 
+## Editorial dates
+
+- Blog article pages must keep explicit `datePublished` and `dateModified` values in their inline JSON-LD.
+- Do not rely on global build timestamps for freshness signals.
+- Pages that do not carry inline article dates use `data/editorial-metadata.json` instead; keep that file aligned when homepage, hub, legal, support, or generated message-page dates change.
+
 ## Ongoing maintenance
 
 - Refresh older images that no longer match current visual direction.

@@ -1,13 +1,16 @@
 # GitHub Policy Drift Audit
 
-Authoritative latest result: GitHub Actions run `22454373915` on `main` completed with `success` on February 26, 2026.
-Run URL: https://github.com/jarrydaubert/prosepal-web/actions/runs/22454373915
-
-Date: 2026-02-26T15:49:22.547Z
+Date: 2026-03-14T09:42:20.907Z
 Repository: jarrydaubert/prosepal-web
 
-Status: SKIP
-- SKIP: GitHub API temporarily unavailable (Command failed: gh api repos/jarrydaubert/prosepal-web/rulesets
-error connecting to api.github.com
-check your internet connection or https://githubstatus.com
-)
+Status: PASS
+- PASS: Main branch ruleset (Protect main is active)
+- PASS: Branch protection hardening (requires no force-push, no deletion, linear history)
+- PASS: Required status checks (found: CodeQL, SEO + QA Gate)
+- PASS: Actions policy (allowed_actions=selected; sha_pinning_required=true)
+- PASS: Workflow token permissions (default=read; can_approve_pr=true)
+- PASS: Selected actions allowlist (patterns=5)
+- PASS: Fork PR workflow approval policy (approval_policy=all_external_contributors)
+- PASS: Private vulnerability reporting (enabled=true)
+- PASS: Main ruleset code scanning tools (tools=CodeQL)
+- PASS: GitHub default CodeQL setup (state=configured; languages=actions, javascript, javascript-typescript, python, typescript; schedule=weekly)
