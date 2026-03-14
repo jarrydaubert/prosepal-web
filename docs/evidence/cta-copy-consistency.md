@@ -1,18 +1,6 @@
 # CTA Copy Consistency
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-Date: 2026-03-11T22:40:09.744Z
-=======
-Date: 2026-03-12T17:29:08.709Z
->>>>>>> 2a2a77c (Fix desktop CTA contrast and refresh docs)
-=======
-Date: 2026-03-14T09:51:13.978Z
->>>>>>> 6c0a3e0 (Advance backlog: governance audits and homepage positioning)
-=======
-Date: 2026-03-14T09:59:14.888Z
->>>>>>> 6d3d008 (Tighten governance audit trigger coverage)
+Date: 2026-03-14T13:44:48.022Z
 
 Targets scanned: 42 HTML files
 

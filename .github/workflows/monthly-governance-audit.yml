@@ -3,6 +3,8 @@ name: Monthly Governance Audit
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     paths:
       - ".github/workflows/**"
       - "scripts/audit-*.js"
@@ -60,11 +62,18 @@ jobs:
         run: node scripts/validate-governance-token-expiry.js
 
       - name: Run CI usage budget audit
+        id: ci_usage_budget
         env:
           GH_TOKEN: ${{ secrets.GH_ADMIN_TOKEN }}
-        run: node scripts/audit-ci-usage-budget.js
+        run: |
+          set +e
+          node scripts/audit-ci-usage-budget.js
+          exit_code=$?
+          echo "exit_code=$exit_code" >> "$GITHUB_OUTPUT"
+          exit 0
 
       - name: Print audit evidence
+        if: always()
         run: |
           echo "---- github-policy-drift.md ----"
           cat docs/evidence/github-policy-drift.md
@@ -72,3 +81,14 @@ jobs:
           cat docs/evidence/governance-token-expiry.md
           echo "---- ci-usage-budget.md ----"
           cat docs/evidence/ci-usage-budget.md
+
+      - name: Enforce CI usage budget on authoritative audit runs
+        if: steps.ci_usage_budget.outputs.exit_code != '0' && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || github.ref == 'refs/heads/main')
+        run: |
+          echo "::error::CI usage budget audit failed. Review docs/evidence/ci-usage-budget.md."
+          exit 1
+
+      - name: Warn on CI usage budget overage during PR review loops
+        if: steps.ci_usage_budget.outputs.exit_code != '0' && !(github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || github.ref == 'refs/heads/main')
+        run: |
+          echo "::warning::CI usage budget audit is over budget. Review docs/evidence/ci-usage-budget.md. Scheduled, manual, and push-to-main governance audits remain authoritative enforcement points."
