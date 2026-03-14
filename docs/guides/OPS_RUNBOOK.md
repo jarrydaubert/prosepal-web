@@ -253,6 +253,14 @@ Stale local evidence files
 - Symptom: evidence files show skip states or old timestamps after transient failures.
 - Action: rerun release/validation commands, then commit refreshed evidence.
 
+Stale local Git index lock
+- Symptom: local `git add`, `git commit`, or `git rebase --continue` fails with `.git/index.lock`.
+- Action:
+  - Verify no other `git` process or editor prompt is still active.
+  - If no live `git` process is holding the repo, remove the stale `.git/index.lock` file and rerun the command.
+  - Avoid overlapping local mutating `git` commands; run `git add`, `git commit`, and `git rebase --continue` sequentially.
+  - If local signing or editor hooks are hanging, rerun explicitly with the intended editor/signing settings rather than starting a second `git` command in parallel.
+
 Governance token expiry or permission failure
 - Symptom: monthly governance workflow fails token checks or GitHub API access.
 - Action:
