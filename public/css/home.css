@@ -205,10 +205,18 @@ section + section {
 .hero-actions {
   margin-top: 1.95rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 0.75rem;
   align-items: center;
   justify-content: center;
+}
+
+.hero-cta-note {
+  margin: 0;
+  max-width: 34ch;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  line-height: 1.45;
 }
 
 .store-badge {
@@ -562,6 +570,10 @@ section + section {
 
   .hero-subtitle {
     max-width: 42ch;
+  }
+
+  .hero-cta-note {
+    max-width: 38ch;
   }
 
   .store-badge img {

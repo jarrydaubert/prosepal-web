@@ -159,11 +159,11 @@ function main() {
 
   const content = `# Prosepal
 
-> AI-powered greeting card message generator for birthdays, sympathy, thank-you notes, weddings, and more.
+> Card-writing help for sympathy, apologies, milestone moments, thank-you notes, weddings, and more.
 
 Last updated: ${CONTENT_DATE}
 
-Prosepal helps users turn blank-card anxiety into clear, natural wording. The web experience is content-led (message examples and blog guides) with App Store conversion as the primary product CTA.
+Prosepal helps users get through hard-to-write, tone-sensitive cards without sounding generic. The web experience stays content-led (message examples and blog guides) so broad occasion discovery remains intact while the homepage and app CTA lead with higher-stakes writing moments.
 
 ## Main Pages
 

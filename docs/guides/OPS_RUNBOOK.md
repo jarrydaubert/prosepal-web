@@ -95,10 +95,14 @@ Why this policy exists:
 - Keeps quality drift visible over time.
 
 `CodeQL`
-- Performs security-oriented static analysis on supported languages in the repo.
+- Runs via GitHub code scanning default setup for this repository; there is currently no in-repo `.github/workflows/codeql*.yml` source of truth.
+- Produces the required `CodeQL` check on `main`/PRs and backs the active `code_scanning` ruleset requirement.
+- Current live configuration is expected to stay `configured` with supported repo languages and weekly schedule unless the owner intentionally changes GitHub security settings.
 
 `Monthly Governance Audit`
 - Audits policy drift, governance token health, and CI usage patterns.
+- Runs on three paths: manual dispatch, the monthly schedule, and a shorter governance-sensitive review loop (weekly plus PRs to `main` that change governance workflows/scripts/runbook/security policy).
+- `CI usage` evidence is only trustworthy when the audit proves it paginated far enough to cover the full 30-day window; truncation or API failure must leave a visible `FAIL`/`SKIP`, not a partial count.
 - Prevents silent process erosion and expired-credential surprises.
 
 `Release Automation`
@@ -226,6 +230,9 @@ bun run validate:robots:policy
 
 - Reconfirm `docs/guides/AI_CRAWLER_POLICY.md` assumptions (discovery goals vs training opt-out stance) still match current growth priorities.
 - Confirm required checks in rulesets still match actual workflows.
+- Confirm GitHub default code scanning is still configured for `CodeQL` and still matches the `main` ruleset requirement.
+- Confirm `docs/evidence/ci-usage-budget.md` shows page coverage details (`Pages fetched`, `API page size`, `Oldest fetched run updated_at`) and did not silently truncate inside the 30-day window.
+- If governance-sensitive files changed in a PR, confirm `Monthly Governance Audit` also ran on that PR-trigger path before merge.
 - Review dependency automation and pending upgrades.
 - Review CI runtime/storage trends and tune workflow behavior where needed.
 - Record latest successful governance run URL/ID when closing governance backlog work.

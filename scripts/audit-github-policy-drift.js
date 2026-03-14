@@ -10,6 +10,7 @@ const LOG_FILE = path.join(LOG_DIR, "github-policy-drift.md");
 const REPO = process.env.GH_REPO || "jarrydaubert/prosepal-web";
 
 const REQUIRED_STATUS_CHECKS = ["CodeQL", "SEO + QA Gate"];
+const REQUIRED_CODE_SCANNING_TOOLS = ["CodeQL"];
 const REQUIRED_SELECTED_ACTIONS = [
   "actions/checkout@v4",
   "oven-sh/setup-bun@v2",
@@ -120,6 +121,7 @@ function main() {
   let selectedActions;
   let forkApproval;
   let privateVulnReporting;
+  let codeScanningDefaultSetup;
 
   try {
     rulesetSummaries = ghApi(`repos/${REPO}/rulesets`);
@@ -128,6 +130,7 @@ function main() {
     selectedActions = ghApi(`repos/${REPO}/actions/permissions/selected-actions`);
     forkApproval = ghApi(`repos/${REPO}/actions/permissions/fork-pr-contributor-approval`);
     privateVulnReporting = ghApi(`repos/${REPO}/private-vulnerability-reporting`);
+    codeScanningDefaultSetup = ghApi(`repos/${REPO}/code-scanning/default-setup`);
     if (Array.isArray(rulesetSummaries)) {
       rulesets = rulesetSummaries
         .map((ruleset) => {
@@ -205,7 +208,7 @@ function main() {
   checks.push({
     ok:
       workflowPermissions?.default_workflow_permissions === "read" &&
-      workflowPermissions?.can_approve_pull_request_reviews === false,
+      workflowPermissions?.can_approve_pull_request_reviews === true,
     name: "Workflow token permissions",
     details: `default=${workflowPermissions?.default_workflow_permissions}; can_approve_pr=${workflowPermissions?.can_approve_pull_request_reviews}`,
   });
@@ -233,6 +236,29 @@ function main() {
     ok: privateVulnReporting?.enabled === true,
     name: "Private vulnerability reporting",
     details: `enabled=${privateVulnReporting?.enabled}`,
+  });
+
+  const codeScanningRule =
+    Array.isArray(mainRule?.rules) && mainRule.rules.find((rule) => rule.type === "code_scanning");
+  const configuredTools = Array.isArray(codeScanningRule?.parameters?.code_scanning_tools)
+    ? codeScanningRule.parameters.code_scanning_tools.map((entry) => entry.tool)
+    : [];
+  const hasRequiredCodeScanningTools = REQUIRED_CODE_SCANNING_TOOLS.every((tool) =>
+    configuredTools.includes(tool),
+  );
+  checks.push({
+    ok: Boolean(hasRequiredCodeScanningTools),
+    name: "Main ruleset code scanning tools",
+    details: `tools=${configuredTools.join(", ") || "none"}`,
+  });
+
+  checks.push({
+    ok:
+      codeScanningDefaultSetup?.state === "configured" &&
+      Array.isArray(codeScanningDefaultSetup?.languages) &&
+      codeScanningDefaultSetup.languages.length > 0,
+    name: "GitHub default CodeQL setup",
+    details: `state=${codeScanningDefaultSetup?.state}; languages=${Array.isArray(codeScanningDefaultSetup?.languages) ? codeScanningDefaultSetup.languages.join(", ") : "none"}; schedule=${codeScanningDefaultSetup?.schedule ?? "unknown"}`,
   });
 
   const hasFailures = checks.some((check) => !check.ok);

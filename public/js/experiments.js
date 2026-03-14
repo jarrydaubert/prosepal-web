@@ -9,17 +9,18 @@
 
   const heroCopyVariants = {
     control: {
-      badge: "AI-powered card messages",
-      headlineHtml: 'Words that<br><span class="gradient-text">actually land</span>',
-      subtitle:
-        "You know what you feel. The words just don't come. Get three heartfelt options in under 30 seconds.",
-    },
-    treatment: {
       badge: "Greeting card message generator",
       headlineHtml:
         'Greeting card messages<br><span class="gradient-text">that actually land</span>',
       subtitle:
         "Find what to write in any card. Get three personalized message options in under 30 seconds.",
+    },
+    treatment: {
+      badge: "For hard-to-write cards",
+      headlineHtml:
+        'What to write when the words<br><span class="gradient-text">matter most</span>',
+      subtitle:
+        "Sympathy, apology, encouragement, and every other high-stakes card. Get three personalized message options in under 30 seconds.",
     },
   };
 

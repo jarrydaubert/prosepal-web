@@ -66,7 +66,7 @@ Persistence behavior:
 Experiment context:
 
 - Conversion events inherit active experiment context (`experiment_id`, `variant_id`) when an assignment exists.
-- Current homepage hero-copy decision: production defaults to `treatment`; QA override remains available via `?exp_hero_copy_clarity_v1=control|treatment`.
+- Current homepage hero-copy decision: production defaults to `treatment`, which leads with hard-to-write moments while keeping occasion discovery in navigation and SEO surfaces; QA override remains available via `?exp_hero_copy_clarity_v1=control|treatment`.
 
 ## Core Business Questions
 

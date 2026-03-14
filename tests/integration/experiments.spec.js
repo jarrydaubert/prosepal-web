@@ -11,10 +11,8 @@ test.beforeEach(async ({ page }) => {
 test("hero copy experiment supports QA override and treatment rendering", async ({ page }) => {
   await page.goto(`/?${EXPERIMENT_QUERY}`, { waitUntil: "networkidle" });
 
-  await expect(page.locator("#hero-headline")).toContainText("Greeting card messages");
-  await expect(page.locator("#hero-category-badge-text")).toHaveText(
-    "Greeting card message generator",
-  );
+  await expect(page.locator("#hero-headline")).toContainText("What to write when the words");
+  await expect(page.locator("#hero-category-badge-text")).toHaveText("For hard-to-write cards");
 
   const storedAssignment = await page.evaluate(() => {
     const raw = localStorage.getItem("prosepal_experiment_assignments_v1");

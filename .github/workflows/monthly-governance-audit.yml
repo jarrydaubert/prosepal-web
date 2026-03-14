@@ -2,8 +2,18 @@ name: Monthly Governance Audit
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/**"
+      - "scripts/audit-*.js"
+      - "scripts/validate-governance-token-expiry.js"
+      - "docs/guides/OPS_RUNBOOK.md"
+      - "SECURITY.md"
   schedule:
     - cron: "20 7 1 * *"
+    - cron: "20 7 * * 1"
 
 concurrency:
   group: monthly-governance-audit-${{ github.workflow }}-${{ github.ref }}

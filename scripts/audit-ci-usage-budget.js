@@ -8,8 +8,10 @@ const ROOT_DIR = path.join(__dirname, "..");
 const LOG_DIR = path.join(ROOT_DIR, "docs", "evidence");
 const LOG_FILE = path.join(LOG_DIR, "ci-usage-budget.md");
 const REPO = process.env.GH_REPO || "jarrydaubert/prosepal-web";
-const RUN_LIMIT = 100;
+const RUNS_PER_PAGE = 100;
 const WINDOW_DAYS = 30;
+const MAX_PAGES = 25;
+const GH_API_MAX_BUFFER_BYTES = 10 * 1024 * 1024;
 const API_RETRY_ATTEMPTS = 12;
 const API_RETRY_DELAY_SECONDS = 5;
 const ALLOW_OFFLINE = process.env.ALLOW_OFFLINE_GH_AUDITS === "1";
@@ -43,39 +45,22 @@ function parseDate(value) {
 }
 
 /**
- * Execute gh run list and return JSON.
- * @returns {Array<{
- *   workflowName: string,
- *   status: string,
- *   conclusion: string,
- *   createdAt: string,
- *   updatedAt: string
- * }>}
+ * Execute gh api and return JSON.
+ * @param {string[]} args
+ * @returns {unknown}
  */
-function fetchRuns() {
+function ghApi(args) {
   /** @type {unknown} */
   let lastError;
 
   for (let attempt = 1; attempt <= API_RETRY_ATTEMPTS; attempt += 1) {
     try {
-      const stdout = execFileSync(
-        "gh",
-        [
-          "run",
-          "list",
-          "--repo",
-          REPO,
-          "--limit",
-          String(RUN_LIMIT),
-          "--json",
-          "workflowName,status,conclusion,createdAt,updatedAt",
-        ],
-        {
-          cwd: ROOT_DIR,
-          encoding: "utf8",
-          stdio: ["ignore", "pipe", "pipe"],
-        },
-      );
+      const stdout = execFileSync("gh", ["api", ...args], {
+        cwd: ROOT_DIR,
+        encoding: "utf8",
+        maxBuffer: GH_API_MAX_BUFFER_BYTES,
+        stdio: ["ignore", "pipe", "pipe"],
+      });
       return JSON.parse(stdout);
     } catch (error) {
       lastError = error;
@@ -86,6 +71,100 @@ function fetchRuns() {
   }
 
   throw lastError;
+}
+
+/**
+ * Fetch workflow runs until the configured lookback window is fully covered.
+ * @param {number} windowStart
+ * @returns {{
+ *   runs: Array<{
+ *   workflowName: string,
+ *   status: string,
+ *   conclusion: string,
+ *   createdAt: string,
+ *   updatedAt: string
+ *   }>,
+ *   pagesFetched: number,
+ *   truncated: boolean,
+ *   oldestFetchedUpdatedAt: string | null,
+ *   coverageReason: "pagination_exhausted" | "crossed_window_boundary" | "max_pages_exceeded"
+ * }}
+ */
+function fetchRuns(windowStart) {
+  /** @type {ReturnType<typeof fetchRuns>["runs"]} */
+  const runs = [];
+
+  for (let page = 1; page <= MAX_PAGES; page += 1) {
+    const response = ghApi([`repos/${REPO}/actions/runs?per_page=${RUNS_PER_PAGE}&page=${page}`]);
+    const workflowRuns = Array.isArray(response?.workflow_runs) ? response.workflow_runs : [];
+
+    for (const run of workflowRuns) {
+      runs.push({
+        workflowName: run.name || "Unknown",
+        status: run.status,
+        conclusion: run.conclusion,
+        createdAt: run.created_at,
+        updatedAt: run.updated_at,
+      });
+    }
+
+    if (workflowRuns.length < RUNS_PER_PAGE) {
+      return {
+        runs,
+        pagesFetched: page,
+        truncated: false,
+        oldestFetchedUpdatedAt: workflowRuns[workflowRuns.length - 1]?.updated_at || null,
+        coverageReason: "pagination_exhausted",
+      };
+    }
+
+    const oldestUpdatedAt = parseDate(workflowRuns[workflowRuns.length - 1]?.updated_at || "");
+    if (oldestUpdatedAt && oldestUpdatedAt.getTime() < windowStart) {
+      return {
+        runs,
+        pagesFetched: page,
+        truncated: false,
+        oldestFetchedUpdatedAt: workflowRuns[workflowRuns.length - 1]?.updated_at || null,
+        coverageReason: "crossed_window_boundary",
+      };
+    }
+  }
+
+  return {
+    runs,
+    pagesFetched: MAX_PAGES,
+    truncated: true,
+    oldestFetchedUpdatedAt: runs[runs.length - 1]?.updatedAt || null,
+    coverageReason: "max_pages_exceeded",
+  };
+}
+
+/**
+ * Aggregate workflow totals that match a predicate.
+ * @param {Map<string, { runs: number, success: number, totalMinutes: number }>} totalsByWorkflow
+ * @param {(workflowName: string) => boolean} matcher
+ * @returns {{ runs: number, success: number, totalMinutes: number } | null}
+ */
+function aggregateWorkflowTotals(totalsByWorkflow, matcher) {
+  let aggregate = null;
+
+  for (const [workflowName, entry] of totalsByWorkflow.entries()) {
+    if (!matcher(workflowName)) continue;
+
+    if (!aggregate) {
+      aggregate = {
+        runs: 0,
+        success: 0,
+        totalMinutes: 0,
+      };
+    }
+
+    aggregate.runs += entry.runs;
+    aggregate.success += entry.success;
+    aggregate.totalMinutes += entry.totalMinutes;
+  }
+
+  return aggregate;
 }
 
 /**
@@ -122,9 +201,9 @@ function writeLog(lines) {
  * @returns {void}
  */
 function main() {
-  let runs;
+  let result;
   try {
-    runs = fetchRuns();
+    result = fetchRuns(Date.now() - WINDOW_DAYS * 24 * 60 * 60 * 1000);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     if (ALLOW_OFFLINE) {
@@ -142,6 +221,17 @@ function main() {
 
   const now = Date.now();
   const windowStart = now - WINDOW_DAYS * 24 * 60 * 60 * 1000;
+  const runs = result.runs;
+
+  if (result.truncated) {
+    writeLog([
+      "Status: FAIL",
+      `- FAIL: workflow run pagination truncated before the ${WINDOW_DAYS}-day window was fully covered (pages=${result.pagesFetched}, per_page=${RUNS_PER_PAGE}, max_pages=${MAX_PAGES})`,
+    ]);
+    console.error("CI usage budget audit failed: workflow run pagination truncated.");
+    console.error(`Evidence written: ${path.relative(process.cwd(), LOG_FILE)}`);
+    process.exit(1);
+  }
 
   const recentCompletedRuns = runs.filter((run) => {
     if (run.status !== "completed") return false;
@@ -184,12 +274,27 @@ function main() {
     entry.totalMinutes += durationMinutes;
   }
 
-  const webQuality = totalsByWorkflow.get("Web Quality");
-  const codeql = totalsByWorkflow.get("CodeQL");
+  const webQuality = aggregateWorkflowTotals(
+    totalsByWorkflow,
+    (workflowName) => workflowName === "Web Quality",
+  );
+  const codeql = aggregateWorkflowTotals(
+    totalsByWorkflow,
+    (workflowName) => workflowName === "CodeQL" || workflowName.startsWith("CodeQL "),
+  );
   const webQualityAvg = webQuality ? webQuality.totalMinutes / webQuality.runs : 0;
   const codeqlAvg = codeql ? codeql.totalMinutes / codeql.runs : 0;
+  const coverageDetails =
+    result.coverageReason === "crossed_window_boundary"
+      ? `oldest fetched run updated_at ${result.oldestFetchedUpdatedAt || "n/a"} crosses the ${WINDOW_DAYS}-day boundary`
+      : `available results exhausted after ${result.pagesFetched} page(s); oldest fetched run updated_at ${result.oldestFetchedUpdatedAt || "n/a"}`;
 
   const checks = [
+    {
+      name: "Lookback window coverage",
+      ok: true,
+      details: coverageDetails,
+    },
     {
       name: "Monthly total runtime budget",
       ok: totalMinutes <= BUDGETS.monthlyMinutesMax,
@@ -214,6 +319,9 @@ function main() {
   lines.push(`  - Web Quality avg <= ${formatMinutes(BUDGETS.webQualityAvgMinutesMax)}`);
   lines.push(`  - CodeQL avg <= ${formatMinutes(BUDGETS.codeqlAvgMinutesMax)}`);
   lines.push("");
+  lines.push(`- Pages fetched: ${result.pagesFetched}`);
+  lines.push(`- API page size: ${RUNS_PER_PAGE}`);
+  lines.push(`- Oldest fetched run updated_at: ${result.oldestFetchedUpdatedAt || "n/a"}`);
   lines.push(`- Completed runs in window: ${recentCompletedRuns.length}`);
   lines.push(`- Total estimated runtime: ${formatMinutes(totalMinutes)}`);
   lines.push("- Workflow breakdown:");

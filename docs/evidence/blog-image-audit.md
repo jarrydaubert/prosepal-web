@@ -1,10 +1,14 @@
 # Blog Image Audit
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 - Date: 2026-03-11T22:40:09.510Z
 =======
 - Date: 2026-03-12T17:29:08.476Z
 >>>>>>> 2a2a77c (Fix desktop CTA contrast and refresh docs)
+=======
+- Date: 2026-03-14T09:51:13.735Z
+>>>>>>> 6c0a3e0 (Advance backlog: governance audits and homepage positioning)
 - Scope: 7 blog article pages
 - Minimum width: 1200px
 - Allowed ratios: OG 1200x630, 16:9, 16:10, square
