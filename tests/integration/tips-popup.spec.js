@@ -2,6 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 const POPUP_DISMISS_KEY = "prosepal_tips_popup_dismissed_until";
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
+// Trigger-coverage proof comment: keeps this branch scoped to tests/** only.
 
 test("timer trigger opens popup when no conversion intent is active", async ({ page }) => {
   await page.addInitScript(() => {
