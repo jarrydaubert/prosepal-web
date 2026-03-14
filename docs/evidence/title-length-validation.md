@@ -2,6 +2,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Date: 2026-03-11T22:40:09.659Z
 =======
 Date: 2026-03-12T17:29:08.625Z
@@ -9,6 +10,9 @@ Date: 2026-03-12T17:29:08.625Z
 =======
 Date: 2026-03-14T09:51:13.888Z
 >>>>>>> 6c0a3e0 (Advance backlog: governance audits and homepage positioning)
+=======
+Date: 2026-03-14T09:59:14.799Z
+>>>>>>> 6d3d008 (Tighten governance audit trigger coverage)
 
 Guidance:
 - Keep high-priority page titles concise (usually 45-65 characters including brand suffix).

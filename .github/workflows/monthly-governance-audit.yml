@@ -2,6 +2,13 @@ name: Monthly Governance Audit
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/**"
+      - "scripts/audit-*.js"
+      - "scripts/validate-governance-token-expiry.js"
+      - "docs/guides/OPS_RUNBOOK.md"
+      - "SECURITY.md"
   pull_request:
     branches:
       - main

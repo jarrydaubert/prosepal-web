@@ -101,7 +101,7 @@ Why this policy exists:
 
 `Monthly Governance Audit`
 - Audits policy drift, governance token health, and CI usage patterns.
-- Runs on three paths: manual dispatch, the monthly schedule, and a shorter governance-sensitive review loop (weekly plus PRs to `main` that change governance workflows/scripts/runbook/security policy).
+- Runs on four paths: manual dispatch, the monthly schedule, a weekly schedule, and governance-sensitive `push`/PR activity (`.github/workflows/**`, audit scripts, token-expiry validation, runbook/security policy docs).
 - `CI usage` evidence is only trustworthy when the audit proves it paginated far enough to cover the full 30-day window; truncation or API failure must leave a visible `FAIL`/`SKIP`, not a partial count.
 - Prevents silent process erosion and expired-credential surprises.
 
@@ -232,7 +232,7 @@ bun run validate:robots:policy
 - Confirm required checks in rulesets still match actual workflows.
 - Confirm GitHub default code scanning is still configured for `CodeQL` and still matches the `main` ruleset requirement.
 - Confirm `docs/evidence/ci-usage-budget.md` shows page coverage details (`Pages fetched`, `API page size`, `Oldest fetched run updated_at`) and did not silently truncate inside the 30-day window.
-- If governance-sensitive files changed in a PR, confirm `Monthly Governance Audit` also ran on that PR-trigger path before merge.
+- If governance-sensitive files changed, confirm `Monthly Governance Audit` also ran on the shorter review-loop path (`push` on the working branch and, after mergeability review, PRs to `main`).
 - Review dependency automation and pending upgrades.
 - Review CI runtime/storage trends and tune workflow behavior where needed.
 - Record latest successful governance run URL/ID when closing governance backlog work.

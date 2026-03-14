@@ -2,6 +2,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Date: 2026-03-11T22:40:09.817Z
 =======
 Date: 2026-03-12T17:29:08.779Z
@@ -9,6 +10,9 @@ Date: 2026-03-12T17:29:08.779Z
 =======
 Date: 2026-03-14T09:51:14.052Z
 >>>>>>> 6c0a3e0 (Advance backlog: governance audits and homepage positioning)
+=======
+Date: 2026-03-14T09:59:14.961Z
+>>>>>>> 6d3d008 (Tighten governance audit trigger coverage)
 
 Checks:
 - blog sample: public/blog/what-to-write-in-sympathy-card.html
