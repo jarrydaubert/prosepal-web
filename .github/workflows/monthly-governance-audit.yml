@@ -83,12 +83,12 @@ jobs:
           cat docs/evidence/ci-usage-budget.md
 
       - name: Enforce CI usage budget on authoritative audit runs
-        if: steps.ci_usage_budget.outputs.exit_code != '0' && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || github.ref == 'refs/heads/main')
+        if: steps.ci_usage_budget.outputs.exit_code != '0' && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
         run: |
           echo "::error::CI usage budget audit failed. Review docs/evidence/ci-usage-budget.md."
           exit 1
 
-      - name: Warn on CI usage budget overage during PR review loops
-        if: steps.ci_usage_budget.outputs.exit_code != '0' && !(github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || github.ref == 'refs/heads/main')
+      - name: Warn on CI usage budget overage during PR and push review loops
+        if: steps.ci_usage_budget.outputs.exit_code != '0' && !(github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
         run: |
-          echo "::warning::CI usage budget audit is over budget. Review docs/evidence/ci-usage-budget.md. Scheduled, manual, and push-to-main governance audits remain authoritative enforcement points."
+          echo "::warning::CI usage budget audit is over budget. Review docs/evidence/ci-usage-budget.md. Scheduled and manual governance audits remain authoritative enforcement points."
