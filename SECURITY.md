@@ -11,7 +11,7 @@ Do not open public issues for security reports.
 Use one of these channels:
 
 1. GitHub private vulnerability reporting (enabled for this repository).
-2. Email: `support@prosepal.app` with subject `Security report - prosepal-web`.
+2. Email: `jarryd@prosepal.app` with subject `Security report - prosepal-web`.
 
 Include:
 
