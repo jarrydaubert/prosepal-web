@@ -1,5 +1,5 @@
 # Prosepal-web marketing skill profile
-# Generated: 2026-03-02T21:51:27Z
+# Generated: 2026-03-29T13:17:09Z
 # Keep list:
 ab-test-setup
 ad-creative
@@ -11,10 +11,12 @@ competitor-alternatives
 content-strategy
 copy-editing
 copywriting
+customer-research
 email-sequence
 form-cro
 free-tool-strategy
 launch-strategy
+lead-magnets
 marketing-ideas
 marketing-psychology
 onboarding-cro
