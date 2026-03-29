@@ -68,7 +68,7 @@ bun run check
 
 ## Skills and command sync
 
-- Skills source: `https://github.com/coreyhaines31/marketingskills` (pinned `v1.3.0`).
+- Skills source: `https://github.com/coreyhaines31/marketingskills` (pinned `v1.5.0`).
 - Local skills path: `.agents/skills/`.
 - Refresh commands:
 

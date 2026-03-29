@@ -1,6 +1,6 @@
 ---
 name: seo-audit
-description: When the user wants to audit, review, or diagnose SEO issues on their site. Also use when the user mentions "SEO audit," "technical SEO," "why am I not ranking," "SEO issues," "on-page SEO," "meta tags review," or "SEO health check." For building pages at scale to target keywords, see programmatic-seo. For adding structured data, see schema-markup.
+description: When the user wants to audit, review, or diagnose SEO issues on their site. Also use when the user mentions "SEO audit," "technical SEO," "why am I not ranking," "SEO issues," "on-page SEO," "meta tags review," "SEO health check," "my traffic dropped," "lost rankings," "not showing up in Google," "site isn't ranking," "Google update hit me," "page speed," "core web vitals," "crawl errors," or "indexing issues." Use this even if the user just says something vague like "my SEO is bad" or "help with SEO" — start with an audit. For building pages at scale to target keywords, see programmatic-seo. For adding structured data, see schema-markup. For AI search optimization, see ai-seo.
 metadata:
   version: 1.1.0
 ---
@@ -36,7 +36,7 @@ Before auditing, understand:
 
 ## Audit Framework
 
-### ⚠️ Important: Schema Markup Detection Limitation
+### Schema Markup Detection Limitation
 
 **`web_fetch` and `curl` cannot reliably detect structured data / schema markup.**
 
@@ -47,7 +47,7 @@ Many CMS plugins (AIOSEO, Yoast, RankMath) inject JSON-LD via client-side JavaSc
 2. **Google Rich Results Test** — https://search.google.com/test/rich-results
 3. **Screaming Frog export** — if the client provides one, use it (SF renders JavaScript)
 
-**Never report "no schema found" based solely on `web_fetch` or `curl`.** This has led to false audit findings in production.
+Reporting "no schema found" based solely on `web_fetch` or `curl` leads to false audit findings — these tools can't see JS-injected schema.
 
 ### Priority Order
 1. **Crawlability & Indexation** (can Google find and index it?)
@@ -165,7 +165,7 @@ Many CMS plugins (AIOSEO, Yoast, RankMath) inject JSON-LD via client-side JavaSc
 - Primary keyword near beginning
 - 50-60 characters (visible in SERP)
 - Compelling and click-worthy
-- Brand name placement (end, usually)
+- No brand name placement (SERPs include brand name above title already)
 
 **Common issues:**
 - Duplicate titles
@@ -383,7 +383,7 @@ Same format as above
 - Mobile-Friendly Test
 - Schema Validator
 
-> **Note on schema detection:** `web_fetch` strips `<script>` tags (including JSON-LD) and cannot detect JS-injected schema. Always use the browser tool, Rich Results Test, or Screaming Frog for schema checks. See the warning at the top of the Audit Framework section.
+> **Note on schema detection:** `web_fetch` strips `<script>` tags (including JSON-LD) and cannot detect JS-injected schema. Use the browser tool, Rich Results Test, or Screaming Frog instead — they render JavaScript and capture dynamically-injected markup. See the Schema Markup Detection Limitation section above.
 
 **Paid Tools** (if available)
 - Screaming Frog
