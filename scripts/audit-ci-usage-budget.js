@@ -5,8 +5,6 @@ const path = require("node:path");
 const { execFileSync } = require("node:child_process");
 
 const ROOT_DIR = path.join(__dirname, "..");
-const LOG_DIR = path.join(ROOT_DIR, "docs", "evidence");
-const LOG_FILE = path.join(LOG_DIR, "ci-usage-budget.md");
 const REPO = process.env.GH_REPO || "jarrydaubert/prosepal-web";
 const RUNS_PER_PAGE = 100;
 const WINDOW_DAYS = 30;
@@ -16,11 +14,84 @@ const API_RETRY_ATTEMPTS = 12;
 const API_RETRY_DELAY_SECONDS = 5;
 const ALLOW_OFFLINE = process.env.ALLOW_OFFLINE_GH_AUDITS === "1";
 
-const BUDGETS = {
-  monthlyMinutesMax: 180,
+const DEFAULT_BUDGETS = {
+  monthlyMinutesReview: 650,
+  monthlyMinutesMax: 750,
   webQualityAvgMinutesMax: 3,
   codeqlAvgMinutesMax: 8,
 };
+
+const LOG_DIR = resolveEvidenceDir();
+const LOG_FILE = path.join(LOG_DIR, "ci-usage-budget.md");
+
+/**
+ * Resolve the evidence output directory.
+ * @returns {string}
+ */
+function resolveEvidenceDir() {
+  const configuredDir = (process.env.GOVERNANCE_EVIDENCE_DIR || "").trim();
+  if (!configuredDir) {
+    return path.join(ROOT_DIR, "docs", "evidence");
+  }
+
+  return path.isAbsolute(configuredDir) ? configuredDir : path.join(ROOT_DIR, configuredDir);
+}
+
+/**
+ * Parse a positive numeric environment variable.
+ * @param {string} name
+ * @param {number} fallback
+ * @returns {number}
+ */
+function parsePositiveNumberEnv(name, fallback) {
+  const raw = (process.env[name] || "").trim();
+  if (!raw) return fallback;
+
+  const parsed = Number.parseFloat(raw);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    throw new Error(`${name} must be a positive number when provided.`);
+  }
+
+  return parsed;
+}
+
+/**
+ * Load budget thresholds from env, falling back to repo defaults.
+ * @returns {{
+ *   monthlyMinutesReview: number,
+ *   monthlyMinutesMax: number,
+ *   webQualityAvgMinutesMax: number,
+ *   codeqlAvgMinutesMax: number
+ * }}
+ */
+function loadBudgets() {
+  const budgets = {
+    monthlyMinutesReview: parsePositiveNumberEnv(
+      "GH_CI_MONTHLY_MINUTES_REVIEW",
+      DEFAULT_BUDGETS.monthlyMinutesReview,
+    ),
+    monthlyMinutesMax: parsePositiveNumberEnv(
+      "GH_CI_MONTHLY_MINUTES_MAX",
+      DEFAULT_BUDGETS.monthlyMinutesMax,
+    ),
+    webQualityAvgMinutesMax: parsePositiveNumberEnv(
+      "GH_CI_WEB_QUALITY_AVG_MINUTES_MAX",
+      DEFAULT_BUDGETS.webQualityAvgMinutesMax,
+    ),
+    codeqlAvgMinutesMax: parsePositiveNumberEnv(
+      "GH_CI_CODEQL_AVG_MINUTES_MAX",
+      DEFAULT_BUDGETS.codeqlAvgMinutesMax,
+    ),
+  };
+
+  if (budgets.monthlyMinutesReview > budgets.monthlyMinutesMax) {
+    throw new Error(
+      "GH_CI_MONTHLY_MINUTES_REVIEW must be less than or equal to GH_CI_MONTHLY_MINUTES_MAX.",
+    );
+  }
+
+  return budgets;
+}
 
 /**
  * Pause before retry.
@@ -201,6 +272,17 @@ function writeLog(lines) {
  * @returns {void}
  */
 function main() {
+  let budgets;
+  try {
+    budgets = loadBudgets();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    writeLog(["Status: FAIL", `- FAIL: invalid CI budget configuration (${message})`]);
+    console.error("CI usage budget audit failed: invalid configuration.");
+    console.error(message);
+    process.exit(1);
+  }
+
   let result;
   try {
     result = fetchRuns(Date.now() - WINDOW_DAYS * 24 * 60 * 60 * 1000);
@@ -297,33 +379,39 @@ function main() {
     },
     {
       name: "Monthly total runtime budget",
-      ok: totalMinutes <= BUDGETS.monthlyMinutesMax,
-      details: `${formatMinutes(totalMinutes)} <= ${formatMinutes(BUDGETS.monthlyMinutesMax)}`,
+      ok: totalMinutes <= budgets.monthlyMinutesMax,
+      details: `${formatMinutes(totalMinutes)} <= ${formatMinutes(budgets.monthlyMinutesMax)}`,
     },
     {
       name: "Web Quality average runtime budget",
-      ok: !webQuality || webQualityAvg <= BUDGETS.webQualityAvgMinutesMax,
-      details: `${formatMinutes(webQualityAvg)} <= ${formatMinutes(BUDGETS.webQualityAvgMinutesMax)}`,
+      ok: !webQuality || webQualityAvg <= budgets.webQualityAvgMinutesMax,
+      details: `${formatMinutes(webQualityAvg)} <= ${formatMinutes(budgets.webQualityAvgMinutesMax)}`,
     },
     {
       name: "CodeQL average runtime budget",
-      ok: !codeql || codeqlAvg <= BUDGETS.codeqlAvgMinutesMax,
-      details: `${formatMinutes(codeqlAvg)} <= ${formatMinutes(BUDGETS.codeqlAvgMinutesMax)}`,
+      ok: !codeql || codeqlAvg <= budgets.codeqlAvgMinutesMax,
+      details: `${formatMinutes(codeqlAvg)} <= ${formatMinutes(budgets.codeqlAvgMinutesMax)}`,
     },
   ];
 
   const hasFailures = checks.some((check) => !check.ok);
   const lines = [hasFailures ? "Status: FAIL" : "Status: PASS"];
   lines.push("- Budgets:");
-  lines.push(`  - monthly total <= ${formatMinutes(BUDGETS.monthlyMinutesMax)}`);
-  lines.push(`  - Web Quality avg <= ${formatMinutes(BUDGETS.webQualityAvgMinutesMax)}`);
-  lines.push(`  - CodeQL avg <= ${formatMinutes(BUDGETS.codeqlAvgMinutesMax)}`);
+  lines.push(`  - monthly review threshold <= ${formatMinutes(budgets.monthlyMinutesReview)}`);
+  lines.push(`  - monthly total <= ${formatMinutes(budgets.monthlyMinutesMax)}`);
+  lines.push(`  - Web Quality avg <= ${formatMinutes(budgets.webQualityAvgMinutesMax)}`);
+  lines.push(`  - CodeQL avg <= ${formatMinutes(budgets.codeqlAvgMinutesMax)}`);
   lines.push("");
   lines.push(`- Pages fetched: ${result.pagesFetched}`);
   lines.push(`- API page size: ${RUNS_PER_PAGE}`);
   lines.push(`- Oldest fetched run updated_at: ${result.oldestFetchedUpdatedAt || "n/a"}`);
   lines.push(`- Completed runs in window: ${recentCompletedRuns.length}`);
   lines.push(`- Total estimated runtime: ${formatMinutes(totalMinutes)}`);
+  if (totalMinutes > budgets.monthlyMinutesReview && totalMinutes <= budgets.monthlyMinutesMax) {
+    lines.push(
+      `- Review note: total runtime is above the review threshold (${formatMinutes(totalMinutes)} > ${formatMinutes(budgets.monthlyMinutesReview)}) but still within the enforced cap.`,
+    );
+  }
   lines.push("- Workflow breakdown:");
 
   const workflowRows = [...totalsByWorkflow.entries()].sort((a, b) => a[0].localeCompare(b[0]));

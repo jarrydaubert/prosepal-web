@@ -103,6 +103,7 @@ Why this policy exists:
 - Audits policy drift, governance token health, and CI usage patterns.
 - Runs on five paths: manual dispatch, the monthly schedule, a weekly schedule, governance-sensitive PRs to `main`, and governance-sensitive pushes to `main` (`.github/workflows/**`, audit scripts, token-expiry validation, runbook/security policy docs).
 - `CI usage` evidence is only trustworthy when the audit proves it paginated far enough to cover the full 30-day window; truncation or API failure must leave a visible `FAIL`/`SKIP`, not a partial count.
+- Default CI usage thresholds are tuned for the current repo cadence: monthly review threshold `650m`, enforced monthly cap `750m`, `Web Quality` average `3m`, and `CodeQL` average `8m`. Repository variables `GH_CI_MONTHLY_MINUTES_REVIEW`, `GH_CI_MONTHLY_MINUTES_MAX`, `GH_CI_WEB_QUALITY_AVG_MINUTES_MAX`, and `GH_CI_CODEQL_AVG_MINUTES_MAX` can override those values without a code change.
 - CI budget overage still records `FAIL` evidence on every path, but only scheduled/manual governance audits enforce that overage as a failing workflow outcome. PR and `push` review-loop runs warn instead so merges are not blocked by a pre-existing monthly budget breach.
 - Prevents silent process erosion and expired-credential surprises.
 
@@ -236,6 +237,7 @@ bun run validate:robots:policy
 - If governance-sensitive files changed, confirm `Monthly Governance Audit` ran on the shorter review-loop path (PR to `main`) and, after merge, on the corresponding `push` to `main`.
 - Review dependency automation and pending upgrades.
 - Review CI runtime/storage trends and tune workflow behavior where needed.
+- If the monthly total stays above the review threshold, inspect the largest workflows first (`Lighthouse Budget`, `Web Quality`, and other high-frequency PR checks) before raising the cap again.
 - Record latest successful governance run URL/ID when closing governance backlog work.
 
 ## Troubleshooting

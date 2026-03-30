@@ -65,6 +65,10 @@ jobs:
         id: ci_usage_budget
         env:
           GH_TOKEN: ${{ secrets.GH_ADMIN_TOKEN }}
+          GH_CI_MONTHLY_MINUTES_REVIEW: ${{ vars.GH_CI_MONTHLY_MINUTES_REVIEW }}
+          GH_CI_MONTHLY_MINUTES_MAX: ${{ vars.GH_CI_MONTHLY_MINUTES_MAX }}
+          GH_CI_WEB_QUALITY_AVG_MINUTES_MAX: ${{ vars.GH_CI_WEB_QUALITY_AVG_MINUTES_MAX }}
+          GH_CI_CODEQL_AVG_MINUTES_MAX: ${{ vars.GH_CI_CODEQL_AVG_MINUTES_MAX }}
         run: |
           set +e
           node scripts/audit-ci-usage-budget.js
