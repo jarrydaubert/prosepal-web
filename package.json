@@ -62,8 +62,8 @@
     "deploy:prod": "bun run check && bun run vercel:check-link && node scripts/enforce-prod-deploy-policy.js && vercel --prod --yes"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.4",
+    "@biomejs/biome": "^2.4.9",
     "@playwright/test": "^1.58.2",
-    "serve": "^14.2.5"
+    "serve": "^14.2.6"
   }
 }
