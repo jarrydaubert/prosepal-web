@@ -343,6 +343,135 @@
   transform: translateY(0);
 }
 
+.tips-popup-overlay {
+  background: rgba(0, 0, 0, 0.6);
+  transition: opacity 0.24s ease;
+}
+
+.tips-popup-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tips-popup {
+  width: min(420px, calc(100% - 1rem));
+  padding: clamp(1.25rem, 2.8vw, 1.6rem) clamp(1.1rem, 2.7vw, 1.5rem) 1.2rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--brand-gold-border);
+  background:
+    radial-gradient(circle at top right, rgba(251, 191, 36, 0.12), transparent 36%),
+    linear-gradient(180deg, rgba(34, 46, 61, 0.98), rgba(21, 28, 38, 0.995));
+  color: var(--text-main);
+  box-shadow:
+    0 30px 60px -36px rgba(0, 0, 0, 0.82),
+    0 0 0 1px rgba(251, 191, 36, 0.08);
+  position: relative;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.72rem;
+}
+
+.tips-popup h2 {
+  margin: 0;
+  font-family: var(--font-family-display);
+  font-size: clamp(1.58rem, 3.8vw, 2rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  padding-right: 2rem;
+  text-wrap: balance;
+}
+
+.tips-popup-copy {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: clamp(var(--font-size-sm), 2.5vw, var(--font-size-md));
+  line-height: 1.45;
+}
+
+.tips-popup-close {
+  position: absolute;
+  top: 0.76rem;
+  right: 0.76rem;
+  width: 31px;
+  height: 31px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--brand-gold-border);
+  background: rgba(251, 191, 36, 0.08);
+  color: color-mix(in srgb, var(--brand-gold) 82%, white 18%);
+  font-size: var(--font-size-lg);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.tips-popup-form {
+  margin-top: 0.1rem;
+  display: grid;
+  gap: 0.62rem;
+}
+
+.tips-popup-form input[type="email"] {
+  min-height: 46px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  padding: 0.72rem 0.9rem;
+  font: inherit;
+}
+
+.tips-popup-form input[type="email"]::placeholder {
+  color: var(--text-muted);
+}
+
+.tips-popup-form input[type="email"]:focus-visible {
+  outline: 2px solid var(--brand-gold);
+  outline-offset: 2px;
+}
+
+.tips-popup-form button {
+  min-height: 46px;
+  border-radius: var(--radius-sm);
+  border: 0;
+  background: linear-gradient(135deg, var(--brand-coral), var(--brand-gold));
+  color: var(--glass-text-contrast);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tips-popup-dismiss {
+  margin-top: 0.08rem;
+  border: 0;
+  background: transparent;
+  color: color-mix(in srgb, var(--brand-gold) 82%, white 18%);
+  font-size: var(--font-size-sm);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  align-self: flex-start;
+}
+
+.tips-popup-note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.tips-popup-status {
+  min-height: 1.1rem;
+  margin: 0.14rem 0 0;
+  font-size: var(--font-size-xs-wide);
+}
+
+.tips-popup-status[data-state="success"] {
+  color: color-mix(in srgb, var(--status-success) 90%, white 10%);
+}
+
+.tips-popup-status[data-state="error"] {
+  color: color-mix(in srgb, var(--brand-coral) 86%, white 14%);
+}
+
 @media (max-width: 520px) {
   .tips-popup-overlay {
     padding: 0.74rem;

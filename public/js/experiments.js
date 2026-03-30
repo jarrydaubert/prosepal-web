@@ -1,11 +1,10 @@
 (function bootstrapExperiments() {
-  const ASSIGNMENT_STORAGE_KEY = "prosepal_experiment_assignments_v1";
-  const EXPOSURE_SESSION_KEY = "prosepal_experiment_exposures_v1";
-  const HERO_EXPERIMENT_ID = "hero_copy_clarity_v1";
-  const VALID_VARIANTS = ["control", "treatment"];
-  const QUERY_PARAM = "exp_hero_copy_clarity_v1";
-  const DEFAULT_VARIANT = "treatment";
-  const RANDOMIZED_ASSIGNMENT_ENABLED = false;
+  const assignmentStorageKey = "prosepal_experiment_assignments_v1";
+  const exposureSessionKey = "prosepal_experiment_exposures_v1";
+  const heroExperimentId = "hero_copy_clarity_v1";
+  const queryParam = "exp_hero_copy_clarity_v1";
+  const defaultVariant = "treatment";
+  const validVariants = new Set(["control", "treatment"]);
 
   const heroCopyVariants = {
     control: {
@@ -24,12 +23,7 @@
     },
   };
 
-  /**
-   * @param {string} key
-   * @param {Storage} storage
-   * @returns {Record<string, string>}
-   */
-  function readObjectStorage(key, storage) {
+  function readStorageObject(key, storage) {
     try {
       const raw = storage.getItem(key);
       if (!raw) {
@@ -39,27 +33,13 @@
       if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
         return {};
       }
-
-      /** @type {Record<string, string>} */
-      const next = {};
-      for (const [entryKey, value] of Object.entries(parsed)) {
-        if (typeof value === "string" && value.length > 0) {
-          next[entryKey] = value;
-        }
-      }
-      return next;
+      return parsed;
     } catch {
       return {};
     }
   }
 
-  /**
-   * @param {string} key
-   * @param {Record<string, string>} value
-   * @param {Storage} storage
-   * @returns {void}
-   */
-  function writeObjectStorage(key, value, storage) {
+  function writeStorageObject(key, value, storage) {
     try {
       storage.setItem(key, JSON.stringify(value));
     } catch {
@@ -67,70 +47,25 @@
     }
   }
 
-  /**
-   * @param {string | null} value
-   * @returns {string | null}
-   */
   function normalizeVariant(value) {
-    if (typeof value !== "string") {
-      return null;
-    }
-    return VALID_VARIANTS.includes(value) ? value : null;
+    return typeof value === "string" && validVariants.has(value) ? value : null;
   }
 
-  /**
-   * @returns {string}
-   */
-  function chooseRandomVariant() {
-    if (window.crypto?.getRandomValues) {
-      const buffer = new Uint8Array(1);
-      window.crypto.getRandomValues(buffer);
-      return VALID_VARIANTS[buffer[0] % VALID_VARIANTS.length];
-    }
-    return VALID_VARIANTS[Math.floor(Math.random() * VALID_VARIANTS.length)];
-  }
-
-  /**
-   * @returns {string | null}
-   */
   function getOverrideVariant() {
     const params = new URLSearchParams(window.location.search || "");
-    return normalizeVariant(params.get(QUERY_PARAM));
+    return normalizeVariant(params.get(queryParam));
   }
 
-  /**
-   * @returns {string}
-   */
   function resolveHeroVariant() {
-    const storedAssignments = readObjectStorage(ASSIGNMENT_STORAGE_KEY, window.localStorage);
+    const storedAssignments = readStorageObject(assignmentStorageKey, window.localStorage);
     const override = getOverrideVariant();
-    if (override) {
-      storedAssignments[HERO_EXPERIMENT_ID] = override;
-      writeObjectStorage(ASSIGNMENT_STORAGE_KEY, storedAssignments, window.localStorage);
-      return override;
-    }
-
-    if (!RANDOMIZED_ASSIGNMENT_ENABLED) {
-      storedAssignments[HERO_EXPERIMENT_ID] = DEFAULT_VARIANT;
-      writeObjectStorage(ASSIGNMENT_STORAGE_KEY, storedAssignments, window.localStorage);
-      return DEFAULT_VARIANT;
-    }
-
-    const persisted = normalizeVariant(storedAssignments[HERO_EXPERIMENT_ID]);
-    if (persisted) {
-      return persisted;
-    }
-
-    const nextVariant = chooseRandomVariant();
-    storedAssignments[HERO_EXPERIMENT_ID] = nextVariant;
-    writeObjectStorage(ASSIGNMENT_STORAGE_KEY, storedAssignments, window.localStorage);
-    return nextVariant;
+    const resolved =
+      override || normalizeVariant(storedAssignments[heroExperimentId]) || defaultVariant;
+    storedAssignments[heroExperimentId] = resolved;
+    writeStorageObject(assignmentStorageKey, storedAssignments, window.localStorage);
+    return resolved;
   }
 
-  /**
-   * @param {string} variant
-   * @returns {void}
-   */
   function applyHeroCopyVariant(variant) {
     if (window.location.pathname !== "/") {
       return;
@@ -156,66 +91,49 @@
     }
   }
 
-  const activeAssignments = {
-    [HERO_EXPERIMENT_ID]: resolveHeroVariant(),
-  };
+  const activeVariant = resolveHeroVariant();
+  applyHeroCopyVariant(activeVariant);
 
-  applyHeroCopyVariant(activeAssignments[HERO_EXPERIMENT_ID]);
-
-  /**
-   * @returns {{experiment_id: string, variant_id: string} | {}}
-   */
   function getPrimaryContext() {
-    const variant = normalizeVariant(activeAssignments[HERO_EXPERIMENT_ID]);
+    const variant = normalizeVariant(activeVariant);
     if (!variant) {
       return {};
     }
     return {
-      experiment_id: HERO_EXPERIMENT_ID,
+      experiment_id: heroExperimentId,
       variant_id: variant,
     };
   }
 
-  /**
-   * @param {(name: string, properties?: Record<string, unknown>) => void} trackEvent
-   * @returns {void}
-   */
   function emitExposureEvents(trackEvent) {
     if (typeof trackEvent !== "function") {
       return;
     }
 
-    const seen = readObjectStorage(EXPOSURE_SESSION_KEY, window.sessionStorage);
-    const variant = normalizeVariant(activeAssignments[HERO_EXPERIMENT_ID]);
+    const seen = readStorageObject(exposureSessionKey, window.sessionStorage);
+    const variant = normalizeVariant(activeVariant);
     if (!variant) {
       return;
     }
 
-    if (seen[HERO_EXPERIMENT_ID] === variant) {
+    if (seen[heroExperimentId] === variant) {
       return;
     }
 
     trackEvent("experiment_exposure", {
-      experiment_id: HERO_EXPERIMENT_ID,
+      experiment_id: heroExperimentId,
       variant_id: variant,
     });
-    seen[HERO_EXPERIMENT_ID] = variant;
-    writeObjectStorage(EXPOSURE_SESSION_KEY, seen, window.sessionStorage);
+    seen[heroExperimentId] = variant;
+    writeStorageObject(exposureSessionKey, seen, window.sessionStorage);
   }
 
   window.prosepalExperiments = {
-    /**
-     * @param {string} experimentId
-     * @returns {string | undefined}
-     */
     getAssignment(experimentId) {
-      return activeAssignments[experimentId];
+      return experimentId === heroExperimentId ? activeVariant : undefined;
     },
-    /**
-     * @returns {Record<string, string>}
-     */
     getActiveAssignments() {
-      return { ...activeAssignments };
+      return { [heroExperimentId]: activeVariant };
     },
     getPrimaryContext,
     emitExposureEvents,
