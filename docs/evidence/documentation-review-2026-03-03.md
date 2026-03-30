@@ -40,6 +40,7 @@ Scope: first-party docs for `prosepal-web`
 - `bun run check` (pass)
 - `bun run lint` (pass as part of `bun run check`)
 
-## Owner review decisions
+## Review decisions
 
-- Pending owner sign-off for final closure of `WEB-P2-4`.
+- No additional owner sign-off is required for closure.
+- Future documentation review work can close on updated repo docs plus spot-validated commands.
