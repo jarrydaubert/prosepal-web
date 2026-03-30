@@ -10,6 +10,9 @@ Operational guide for maintaining the local marketing skills setup in `prosepal-
 2. Install path: `.agents/skills/`
 3. Product context path: `.agents/product-marketing-context.md`
 4. Pinned tag: set in `scripts/sync-marketing-skills.sh` (`UPSTREAM_REF`)
+5. Canonical trackers:
+   - `.agents/skills/VERSIONS.md` for upstream provenance and inclusion policy
+   - `.agents/skills/RUN_HISTORY.md` for installed-skill source, last-run history, and short purpose notes
 
 ## Normal Maintenance
 
@@ -43,6 +46,7 @@ scripts/validate-marketing-skills-setup.sh
 4. Verify final state:
    - `.agents/skills/.sources/marketingskills.json` contains the new ref/commit.
    - `.agents/skills/VERSIONS.md` contains the same ref/commit.
+   - `.agents/skills/RUN_HISTORY.md` still matches the installed skill set.
    - `scripts/validate-marketing-skills-setup.sh` passes.
 
 ## Local Customizations That Must Persist

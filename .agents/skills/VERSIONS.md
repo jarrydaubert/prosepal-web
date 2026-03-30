@@ -1,6 +1,7 @@
 # Skills Version Tracking
 
 Canonical source for upstream skill provenance and local inclusion policy.
+Use `.agents/skills/RUN_HISTORY.md` for installed-skill run history and short usage notes.
 
 ## Upstream Reference
 
