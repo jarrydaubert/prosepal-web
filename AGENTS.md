@@ -15,6 +15,7 @@ Operating guide for contributors and coding agents in `prosepal-web`.
 - Prefer deterministic automation over manual "spot checks".
 - Keep docs aligned with code so external contributors can trust what they read.
 - Optimize for safe, reviewable changes: PR flow, clear gates, reproducible commands.
+- Keep day-to-day development fast: use automated checks and preview deploys as the default guardrails, not routine manual approval steps.
 - Treat content, SEO, and analytics correctness as first-class product behavior.
 
 ## Verification
@@ -43,6 +44,7 @@ vercel link --project prosepal-web
 
 - Branch from `main`.
 - Implement change using existing patterns in `public/`, `scripts/`, and design tokens.
+- Use PRs plus preview deploys for normal delivery; merge-to-main is the standard production path.
 - Run relevant checks, then the full gate:
 
 ```bash
@@ -51,6 +53,7 @@ bun run check
 
 - Update docs/backlog when standards, scope, or open TODO items change.
 - Report files changed, commands run, and pass/fail outcomes.
+- Reserve explicit manual sign-off or durable evidence docs for security-sensitive changes, secret rotation, incidents, or production-only verification needs.
 
 ## Definition of done
 
@@ -58,6 +61,7 @@ bun run check
 - Relevant checks pass, or any unrun checks are explicitly called out with reason.
 - Regenerated artifacts are current when generators are affected.
 - Documentation and backlog stay consistent with the change.
+- Routine changes do not require separate owner approval beyond the normal PR and CI flow.
 
 ## Canonical docs
 

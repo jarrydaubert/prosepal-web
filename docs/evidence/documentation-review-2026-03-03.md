@@ -40,6 +40,6 @@ Scope: first-party docs for `prosepal-web`
 - `bun run check` (pass)
 - `bun run lint` (pass as part of `bun run check`)
 
-## Owner review decisions
+## Closure note
 
-- Pending owner sign-off for final closure of `WEB-P2-4`.
+- Reviewed docs remain aligned with the repo as of 2026-03-30, and `WEB-P2-4` is closed.

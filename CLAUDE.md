@@ -2,6 +2,7 @@
 
 Canonical project guidance lives in `AGENTS.md`.
 Do not invent facts, files, or validation results; verify or state uncertainty.
+Prefer automation, preview deploys, and green checks over routine manual sign-off.
 
 ## Quick Start
 

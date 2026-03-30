@@ -5,9 +5,10 @@ Scope: DevOps, CI/CD, release, and operational quality practices for `prosepal-w
 ## Purpose and principles
 
 - Keep production changes safe through repeatable automation.
-- Keep releases auditable by requiring PR-based delivery and green checks.
+- Keep releases auditable with PR-based delivery, preview deployments, and green checks.
 - Keep docs trustworthy by matching instructions to current scripts/workflows.
 - Keep this runbook evergreen by documenting process and intent, while leaving tunable thresholds in code/config.
+- Keep routine delivery lightweight: use manual approvals, extra evidence, and bespoke checklists only when the risk profile actually warrants them.
 
 ## Operating model
 
@@ -45,6 +46,7 @@ bun run check
 Why this split exists:
 - `check:fast` keeps iteration speed high.
 - `check` is the canonical merge-quality contract.
+- Preview deploys and required GitHub checks are the default release-confidence path for routine changes.
 
 ## SERP title guidance
 
@@ -75,7 +77,7 @@ ALLOW_PROD_CLI_DEPLOY=1 bun run deploy:prod
 ```
 
 Why this policy exists:
-- Merge-to-main keeps deploy history reviewable and consistent with CI evidence.
+- Merge-to-main keeps deploy history reviewable and consistent with CI history.
 - Emergency CLI deploy remains available for incident response without normalizing bypasses.
 
 ## CI/CD map
@@ -140,25 +142,25 @@ bun run release:qa
 bun run validate:a11y:baseline
 ```
 
-- Manual keyboard/focus sanity pass is run for key journeys:
+- Manual keyboard/focus sanity pass is run when the change touches navigation, forms, overlays, or other keyboard-sensitive flows:
 
 ```bash
 bun run validate:a11y:manual
 ```
 
-- Runtime CSP behavior is verified:
+- Runtime CSP behavior is verified when headers, scripts, forms, or embed behavior changed:
 
 ```bash
 bun run validate:csp:runtime
 ```
 
-- Conversion event wiring is verified:
+- Conversion event wiring is verified when analytics, CTA paths, or form flows changed:
 
 ```bash
 bun run validate:events:conversion
 ```
 
-- Form endpoint strategy is verified:
+- Form endpoint strategy is verified when form providers, endpoints, or submission UX changed:
 
 ```bash
 bun run validate:formspree:strategy
@@ -181,9 +183,11 @@ bun run test:visual:flake-audit
   - `Exposure integrity`: each assigned user emits one `experiment_exposure` event per session with matching `experiment_id` and `variant_id`.
   - `Anti-peeking policy`: do not declare winners before the pre-defined minimum sample size and decision window.
 
-Evidence expectations:
-- Validation scripts write/update evidence in `docs/evidence/`.
-- For governance controls, use the successful GitHub Actions run on `main` as authoritative evidence.
+Operational records:
+- Most routine changes should rely on PR history, preview deployments, and successful CI runs rather than a separate evidence doc.
+- Validation scripts may write/update files in `docs/evidence/`; commit those outputs only when they are part of the intended change or needed for durable records.
+- Prefer durable evidence notes for governance/security controls, incidents, and production-only verification that cannot be reconstructed from CI alone.
+- For governance controls, the successful GitHub Actions run on `main` is authoritative; a run URL/ID is usually sufficient without duplicate narrative notes.
 
 ## Tips popup trigger policy
 
@@ -238,7 +242,7 @@ bun run validate:robots:policy
 - Review dependency automation and pending upgrades.
 - Review CI runtime/storage trends and tune workflow behavior where needed.
 - If the monthly total stays above the review threshold, inspect the largest workflows first (`Lighthouse Budget`, `Web Quality`, and other high-frequency PR checks) before raising the cap again.
-- Record latest successful governance run URL/ID when closing governance backlog work.
+- Record the latest successful governance run URL/ID when rotating tokens, changing governance policy, or otherwise needing a durable ops note.
 
 ## Troubleshooting
 
@@ -254,7 +258,7 @@ gh run list --workflow "Monthly Governance Audit" --limit 1 --repo jarrydaubert/
 
 Stale local evidence files
 - Symptom: evidence files show skip states or old timestamps after transient failures.
-- Action: rerun release/validation commands, then commit refreshed evidence.
+- Action: rerun release/validation commands, then commit refreshed evidence only if those files are intentionally part of the change.
 
 Stale local Git index lock
 - Symptom: local `git add`, `git commit`, or `git rebase --continue` fails with `.git/index.lock`.
