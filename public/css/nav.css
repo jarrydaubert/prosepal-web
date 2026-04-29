@@ -62,7 +62,7 @@ body:not(.home-vnext) .nav {
   font-family: var(--font-family-display);
   font-size: var(--font-size-xl);
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   line-height: 1;
 }
 
@@ -129,7 +129,7 @@ body:not(.home-vnext) .nav {
 .header-cta:focus-visible {
   color: var(--brand-slate-deep);
   background: var(--accent-primary);
-  box-shadow: 0 10px 24px rgba(212, 115, 107, 0.22);
+  box-shadow: 0 10px 24px var(--brand-coral-glow-muted);
   transform: translateY(-1px);
   text-decoration: none;
 }

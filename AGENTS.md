@@ -52,6 +52,13 @@ bun run check
 - Update docs/backlog when standards, scope, or open TODO items change.
 - Report files changed, commands run, and pass/fail outcomes.
 
+## Definition of ready
+
+- Problem or opportunity is explicit enough to review.
+- Scope is narrow enough for one reviewable change.
+- Primary files/systems and verification path are known.
+- External blockers or approvals are resolved or clearly called out.
+
 ## Definition of done
 
 - Behavior meets acceptance criteria.
@@ -63,7 +70,7 @@ bun run check
 
 - `CLAUDE.md`: minimal pointer.
 - `docs/guides/OPS_RUNBOOK.md`: DevOps and release operations source of truth.
-- `docs/BACKLOG_WEB.md`: TODO-only backlog with explicit Definition of Done.
+- `docs/BACKLOG_WEB.md`: TODO-only backlog with explicit Definitions of Ready and Done.
 - `docs/guides/MARKETING_SKILLS_RUNBOOK.md`: skills sync, validation, and upgrade workflow.
 
 ## Skills and command sync

@@ -14,6 +14,7 @@ Scope: DevOps, CI/CD, release, and operational quality practices for `prosepal-w
 - Default branch is `main`.
 - Delivery model is PR-first.
 - `main` is protected by rulesets and required checks.
+- Repository is public and operated within GitHub free-tier constraints; workflows should minimize wasted minutes and must not rely on privileged secrets in untrusted PR contexts.
 - Hosting path is Vercel origin behind Cloudflare edge.
 - Primary local quality gate is `bun run check`.
 - SEO generation date source is `PROSEPAL_CONTENT_DATE`.
@@ -102,6 +103,9 @@ Why this policy exists:
 `Monthly Governance Audit`
 - Audits policy drift, governance token health, and CI usage patterns.
 - Runs on five paths: manual dispatch, the monthly schedule, a weekly schedule, governance-sensitive PRs to `main`, and governance-sensitive pushes to `main` (`.github/workflows/**`, audit scripts, token-expiry validation, runbook/security policy docs).
+- Scheduled/manual runs and corresponding `push` runs on `main` are authoritative for privileged governance enforcement.
+- Governance-sensitive `pull_request` runs are review-loop checks for trusted same-repo branches only.
+- Secretless public contexts such as fork PRs and Dependabot PRs must emit an explicit skip/notice instead of a misleading failure when `GH_ADMIN_TOKEN` is unavailable; `pull_request_target` is intentionally avoided for privileged governance work on untrusted code.
 - `CI usage` evidence is only trustworthy when the audit proves it paginated far enough to cover the full 30-day window; truncation or API failure must leave a visible `FAIL`/`SKIP`, not a partial count.
 - Default CI usage thresholds are tuned for the current repo cadence: monthly review threshold `650m`, enforced monthly cap `750m`, `Web Quality` average `3m`, and `CodeQL` average `8m`. Repository variables `GH_CI_MONTHLY_MINUTES_REVIEW`, `GH_CI_MONTHLY_MINUTES_MAX`, `GH_CI_WEB_QUALITY_AVG_MINUTES_MAX`, and `GH_CI_CODEQL_AVG_MINUTES_MAX` can override those values without a code change.
 - CI budget overage still records `FAIL` evidence on every path, but only scheduled/manual governance audits enforce that overage as a failing workflow outcome. PR and `push` review-loop runs warn instead so merges are not blocked by a pre-existing monthly budget breach.
@@ -210,6 +214,7 @@ Why this policy exists:
 - Private vulnerability reporting enabled.
 - Security disclosure flow documented in `SECURITY.md`.
 - Monthly governance audit maintained and monitored.
+- Privileged governance automation never runs repository secrets against untrusted PR code.
 
 Why this matters:
 - Public repos need defensive defaults; these controls reduce accidental secret exposure and policy drift risk.

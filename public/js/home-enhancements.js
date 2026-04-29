@@ -20,6 +20,8 @@
       return;
     }
 
+    document.body.classList.add("reveal-ready");
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

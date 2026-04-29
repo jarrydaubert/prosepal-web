@@ -49,5 +49,5 @@ bun run check
 Consult these project docs as the source of truth:
 
 1. `AGENTS.md`
-2. `docs/WEB_REDESIGN_EXECUTION.md`
+2. `docs/README.md`
 3. `docs/BACKLOG_WEB.md`

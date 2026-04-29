@@ -1,6 +1,6 @@
 # Schema Spot-Check
 
-Date: 2026-03-29T13:17:23.897Z
+Date: 2026-04-28T16:13:47.408Z
 
 Status: PASS
 - Scope: 42 local HTML files (homepage, hubs, blog articles, message details)
