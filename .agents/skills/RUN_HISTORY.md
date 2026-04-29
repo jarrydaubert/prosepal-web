@@ -1,49 +1,63 @@
 # Skills Run History
 
-Canonical tracker for installed skills in `.agents/skills/`.
+Canonical tracker for installed skill inventory and the most recent verified usage date.
 
-- Current installed set: 35 skills total
-- Upstream skills: 34
-- Local-only skills: 1
-- Seeded on: 2026-03-30
+## Rules
 
-Update `Last Run` when a skill materially shapes a task, workflow, or deliverable.
-Do not update it for passive availability or incidental mentions.
+- Update this file only when a skill was explicitly loaded and used for a task.
+- Do not guess historical usage.
+- If a skill was used before this tracker existed and the date is not verifiable, leave `Last Run` as `Not tracked yet`.
+- `Last Run` should use ISO format: `YYYY-MM-DD`.
 
-| Skill | Source | Last Run | What It's For |
+## Installed Skills
+
+| Skill | Source | Last Run | Notes |
 | --- | --- | --- | --- |
-| `ab-test-setup` | Upstream | Not recorded yet | Plan, design, and implement A/B tests and experiment measurement. |
-| `ad-creative` | Upstream | Not recorded yet | Generate and iterate ad copy variations across paid channels. |
-| `ai-seo` | Upstream | Not recorded yet | Improve content visibility in AI search and assistant-generated answers. |
-| `analytics-tracking` | Upstream | Not recorded yet | Set up or audit analytics, events, attribution, and measurement. |
-| `churn-prevention` | Upstream | Not recorded yet | Reduce cancellations, recover failed payments, and improve retention. |
-| `cold-email` | Upstream | Not recorded yet | Write outbound prospecting emails and follow-up sequences. |
-| `competitor-alternatives` | Upstream | Not recorded yet | Build comparison and alternative pages for SEO and sales enablement. |
-| `content-strategy` | Upstream | Not recorded yet | Plan content themes, roadmaps, and editorial priorities. |
-| `copy-editing` | Upstream | Not recorded yet | Tighten and improve existing marketing copy. |
-| `copywriting` | Upstream | Not recorded yet | Write or rewrite persuasive website and landing-page copy. |
-| `customer-research` | Upstream | Not recorded yet | Gather and synthesize customer voice, reviews, and qualitative insights. |
-| `email-sequence` | Upstream | Not recorded yet | Create lifecycle, onboarding, and nurture email flows. |
-| `form-cro` | Upstream | Not recorded yet | Improve non-signup forms such as lead, demo, or checkout flows. |
-| `free-tool-strategy` | Upstream | Not recorded yet | Plan marketing-focused free tools for SEO, links, or lead generation. |
-| `launch-strategy` | Upstream | Not recorded yet | Plan product launches, announcements, and release positioning. |
-| `lead-magnets` | Upstream | Not recorded yet | Design gated resources and opt-in offers for email capture. |
-| `marketing-ideas` | Upstream | Not recorded yet | Brainstorm growth ideas and marketing experiments. |
-| `marketing-psychology` | Upstream | Not recorded yet | Apply persuasion and behavioral science to marketing decisions. |
-| `onboarding-cro` | Upstream | Not recorded yet | Improve activation, first-run flows, and time-to-value. |
-| `page-cro` | Upstream | Not recorded yet | Improve conversion rates on marketing pages and landing pages. |
-| `paid-ads` | Upstream | Not recorded yet | Plan and optimize paid campaign strategy, targeting, and spend. |
-| `paywall-upgrade-cro` | Upstream | Not recorded yet | Improve in-product upgrade screens, paywalls, and upsells. |
-| `popup-cro` | Upstream | Not recorded yet | Design and optimize banners, overlays, and popup conversion flows. |
-| `pricing-strategy` | Upstream | Not recorded yet | Shape pricing, packaging, and monetization decisions. |
-| `product-marketing-context` | Upstream | Not recorded yet | Capture product, audience, and positioning context for later work. |
-| `programmatic-seo` | Upstream | Not recorded yet | Plan or build scalable SEO page systems from templates and data. |
-| `prosepal-web-context` | Local | Not recorded yet | Project-specific context for Prosepal web UX, CRO, SEO, analytics, and styling work. |
-| `referral-program` | Upstream | Not recorded yet | Design referral, affiliate, or word-of-mouth growth programs. |
-| `revops` | Upstream | Not recorded yet | Improve revenue operations, lead routing, and lifecycle systems. |
-| `sales-enablement` | Upstream | Not recorded yet | Produce decks, one-pagers, objection handling, and sales collateral. |
-| `schema-markup` | Upstream | Not recorded yet | Add or improve structured data and rich-result markup. |
-| `seo-audit` | Upstream | Not recorded yet | Diagnose technical and on-page SEO issues. |
-| `signup-flow-cro` | Upstream | Not recorded yet | Improve signup, registration, and trial-start conversion flows. |
-| `site-architecture` | Upstream | Not recorded yet | Plan sitemap, navigation, internal linking, and page hierarchy. |
-| `social-content` | Upstream | Not recorded yet | Create and optimize organic social content plans and posts. |
+| `ab-test-setup` | Upstream | Not tracked yet | Experiment design |
+| `accessibility` | Local | Not tracked yet | WCAG and a11y reviews |
+| `ad-creative` | Upstream | Not tracked yet | Paid ad copy |
+| `ai-seo` | Upstream | Not tracked yet | AI search optimisation |
+| `analytics-tracking` | Upstream | Not tracked yet | Event tracking and analytics audits |
+| `aso-audit` | Upstream | Not tracked yet | App Store optimisation and mobile acquisition |
+| `churn-prevention` | Upstream | Not tracked yet | Retention and dunning |
+| `codebase-cleanup-sweep` | Local | Not tracked yet | Broad repo cleanup and quality sweeps |
+| `cold-email` | Upstream | Not tracked yet | B2B outreach copy |
+| `community-marketing` | Upstream | Not tracked yet | Community-led growth and advocacy |
+| `competitor-alternatives` | Upstream | Not tracked yet | Comparison and alternative pages |
+| `competitor-profiling` | Upstream | Not tracked yet | Competitor research and profile documents |
+| `content-strategy` | Upstream | Not tracked yet | Content planning |
+| `copy-editing` | Upstream | Not tracked yet | Editing existing copy |
+| `copywriting` | Upstream | Not tracked yet | New marketing copy |
+| `customer-research` | Upstream | Not tracked yet | VOC and ICP synthesis |
+| `design-an-interface` | Local | Not tracked yet | Interface and module design |
+| `directory-submissions` | Upstream | Not tracked yet | Directory listing and backlink planning |
+| `email-sequence` | Upstream | Not tracked yet | Lifecycle email flows |
+| `engineering` | Local | Not tracked yet | Engineering reviews and implementation guidance |
+| `form-cro` | Upstream | Not tracked yet | Form conversion work |
+| `free-tool-strategy` | Upstream | Not tracked yet | Free tool planning |
+| `frontend-design` | Local | Not tracked yet | UI redesign and visual direction |
+| `image` | Upstream | Not tracked yet | Marketing image generation and optimization |
+| `launch-strategy` | Upstream | Not tracked yet | Launch planning |
+| `lead-magnets` | Upstream | Not tracked yet | Gated resources and opt-in offers |
+| `marketing-ideas` | Upstream | Not tracked yet | Growth idea generation |
+| `marketing-psychology` | Upstream | Not tracked yet | Persuasion models |
+| `onboarding-cro` | Upstream | Not tracked yet | Activation and onboarding |
+| `page-cro` | Upstream | Not tracked yet | Page-level conversion work |
+| `paid-ads` | Upstream | Not tracked yet | Paid campaign strategy |
+| `paywall-upgrade-cro` | Upstream | Not tracked yet | Upgrade and upsell conversion |
+| `popup-cro` | Upstream | Not tracked yet | Popup and modal CRO |
+| `pricing-strategy` | Upstream | Not tracked yet | Pricing and packaging |
+| `product-marketing-context` | Upstream | Not tracked yet | Shared marketing context |
+| `programmatic-seo` | Upstream | Not tracked yet | Templated SEO pages |
+| `prosepal-web-context` | Local | 2026-04-29 | Shared project constraints |
+| `prd-to-issues` | Local | Not tracked yet | PRD decomposition |
+| `referral-program` | Upstream | Not tracked yet | Referral and affiliate programs |
+| `revops` | Upstream | Not tracked yet | Revenue operations |
+| `sales-enablement` | Upstream | Not tracked yet | Sales collateral and objection handling |
+| `schema-markup` | Upstream | Not tracked yet | Structured data |
+| `seo-audit` | Upstream | Not tracked yet | SEO audits and diagnostics |
+| `signup-flow-cro` | Upstream | Not tracked yet | Signup flow conversion |
+| `site-architecture` | Upstream | Not tracked yet | Site architecture and navigation |
+| `social-content` | Upstream | Not tracked yet | Social media content |
+| `tdd` | Local | Not tracked yet | Test-first workflow |
+| `video` | Upstream | Not tracked yet | Marketing video production workflows |

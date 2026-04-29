@@ -1,6 +1,6 @@
 # AI Crawler Policy Review
 
-Date: 2026-04-28T16:13:47.450Z
+Date: 2026-04-29T08:36:04.712Z
 
 Policy source of truth: scripts/lib/robots-policy.js
 

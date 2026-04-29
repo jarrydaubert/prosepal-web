@@ -3,14 +3,16 @@
 set -euo pipefail
 
 REPO_URL="${REPO_URL:-https://github.com/coreyhaines31/marketingskills}"
-UPSTREAM_REF="${UPSTREAM_REF:-v1.5.0}"
+UPSTREAM_REF="${UPSTREAM_REF:-v1.9.0}"
 EXPECTED_COMMIT="${EXPECTED_COMMIT:-}"
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LOCAL_SKILLS_DIR="$PROJECT_ROOT/.agents/skills"
 LOCAL_SOURCE_DIR="$LOCAL_SKILLS_DIR/.sources"
 LOCAL_SOURCE_FILE="$LOCAL_SOURCE_DIR/marketingskills.json"
+UPSTREAM_PROFILE_FILE="$LOCAL_SKILLS_DIR/.profiles/upstream-marketing-skills.txt"
 CACHE_DIR="${CACHE_DIR:-/tmp/marketingskills-sync}"
 SKIP_FETCH="${SKIP_FETCH:-0}"
+KEEP_UPSTREAM_SKILLS=()
 
 usage() {
   cat <<'EOF'
@@ -19,14 +21,14 @@ Usage:
   scripts/sync-marketing-skills.sh --check [--tag vX.Y.Z] [--commit <sha>]
 
 Options:
-  --sync    Fetch upstream skills and sync into .agents/skills
+  --sync    Fetch upstream skills and sync selected skills into .agents/skills
   --check   Compare local synced commit vs upstream commit
   --tag     Override UPSTREAM_REF for this invocation
   --commit  Require exact upstream commit SHA
 
 Environment overrides:
   REPO_URL      (default: https://github.com/coreyhaines31/marketingskills)
-  UPSTREAM_REF  (default: v1.5.0)
+  UPSTREAM_REF  (default: v1.9.0)
   CACHE_DIR     (default: /tmp/marketingskills-sync)
   SKIP_FETCH    (default: 0)
 EOF
@@ -44,6 +46,23 @@ contains_item() {
   return 1
 }
 
+load_upstream_skill_profile() {
+  if [[ ! -f "$UPSTREAM_PROFILE_FILE" ]]; then
+    echo "Missing upstream skills profile: $UPSTREAM_PROFILE_FILE" >&2
+    exit 1
+  fi
+
+  KEEP_UPSTREAM_SKILLS=()
+  while IFS= read -r line; do
+    KEEP_UPSTREAM_SKILLS+=("$line")
+  done < <(grep -vE '^\s*#|^\s*$' "$UPSTREAM_PROFILE_FILE")
+
+  if [[ "${#KEEP_UPSTREAM_SKILLS[@]}" -eq 0 ]]; then
+    echo "Upstream skills profile has no skills: $UPSTREAM_PROFILE_FILE" >&2
+    exit 1
+  fi
+}
+
 ensure_repo() {
   if [[ "$SKIP_FETCH" == "1" ]]; then
     if [[ ! -d "$CACHE_DIR/.git" ]]; then
@@ -51,6 +70,19 @@ ensure_repo() {
       exit 1
     fi
     return
+  fi
+
+  if [[ -e "$CACHE_DIR" ]] && ! git -C "$CACHE_DIR" rev-parse --git-dir >/dev/null 2>&1; then
+    case "$CACHE_DIR" in
+      /tmp/marketingskills-*)
+        rm -rf "$CACHE_DIR"
+        ;;
+      *)
+        echo "CACHE_DIR exists but is not a valid git checkout: $CACHE_DIR" >&2
+        echo "Use a fresh CACHE_DIR or remove the invalid directory." >&2
+        exit 1
+        ;;
+    esac
   fi
 
   if [[ ! -d "$CACHE_DIR/.git" ]]; then
@@ -106,6 +138,11 @@ write_source_metadata() {
 EOF
 }
 
+ref_to_version() {
+  local ref="$1"
+  echo "${ref#v}"
+}
+
 format_skills_inline() {
   if [[ $# -eq 0 ]]; then
     echo "_none_"
@@ -124,36 +161,60 @@ format_skills_inline() {
   echo "$output"
 }
 
-sync_skills() {
-  mkdir -p "$LOCAL_SKILLS_DIR"
-  rsync -a --delete \
-    --exclude ".DS_Store" \
-    --exclude ".sources/" \
-    --exclude ".profiles/" \
-    --exclude "prosepal-web-context/" \
-    "$CACHE_DIR/skills/" "$LOCAL_SKILLS_DIR/"
+sync_single_skill() {
+  local skill="$1"
+  local upstream_dir="$CACHE_DIR/skills/$skill"
+  local local_dir="$LOCAL_SKILLS_DIR/$skill"
+  local local_skill_file="$local_dir/SKILL.md"
+
+  if [[ ! -d "$upstream_dir" ]]; then
+    echo "Missing upstream skill directory: $upstream_dir" >&2
+    exit 1
+  fi
+
+  mkdir -p "$local_dir"
+  rsync -a --delete "$upstream_dir/" "$local_dir/"
+
+  if [[ -f "$local_skill_file" ]]; then
+    sed -i '' -E "s/^  version: .*/  version: $(ref_to_version "$UPSTREAM_REF")/" "$local_skill_file"
+  fi
 }
 
 apply_prosepal_overrides() {
+  local skill
   local skill_file
 
-  # Agents-only setup: strip legacy .claude fallback references from synced skills.
-  while IFS= read -r skill_file; do
+  for skill in "${KEEP_UPSTREAM_SKILLS[@]}"; do
+    skill_file="$LOCAL_SKILLS_DIR/$skill/SKILL.md"
+    if [[ ! -f "$skill_file" ]]; then
+      continue
+    fi
+
     perl -0pi -e 's# \Q(or `.claude/product-marketing-context.md` in older setups)\E##g' "$skill_file"
-    # Keep local project behavior consistent across all skills that consume product context.
+
     if grep -q ".agents/product-marketing-context.md" "$skill_file" \
       && ! grep -q ".agents/skills/prosepal-web-context/SKILL.md" "$skill_file"; then
       perl -0pi -e 's#(If `\.agents/product-marketing-context\.md` exists[^\n]*\.)#$1\nIf you are working inside `prosepal-web`, also read `.agents/skills/prosepal-web-context/SKILL.md` first and apply its constraints.#' "$skill_file"
     fi
-  done < <(find "$LOCAL_SKILLS_DIR" -type f -name "SKILL.md" | sort)
+  done
 
-  # Keep product-marketing-context aligned with agents-only plus local project constraints.
   local product_context_file="$LOCAL_SKILLS_DIR/product-marketing-context/SKILL.md"
   if [[ -f "$product_context_file" ]]; then
     perl -0pi -e 's#\QFirst, check if `.agents/product-marketing-context.md` already exists. Also check `.claude/product-marketing-context.md` for older setups — if found there but not in `.agents/`, offer to move it.\E#First, check if `.agents/product-marketing-context.md` already exists.#g' "$product_context_file"
-    if ! grep -q "prosepal-web-context/SKILL.md" "$product_context_file"; then
+    if ! grep -q ".agents/skills/prosepal-web-context/SKILL.md" "$product_context_file"; then
       perl -0pi -e 's#\QThe document is stored at `.agents/product-marketing-context.md`.\E#The document is stored at `.agents/product-marketing-context.md`.\nIf you are working inside `prosepal-web`, also read `.agents/skills/prosepal-web-context/SKILL.md` first and apply its constraints while drafting or updating marketing context.#' "$product_context_file"
     fi
+  fi
+
+  local product_context_evals="$LOCAL_SKILLS_DIR/product-marketing-context/evals/evals.json"
+  if [[ -f "$product_context_evals" ]]; then
+    perl -0pi -e 's# \(and the older \.claude/product-marketing-context\.md location\)##g' "$product_context_evals"
+    perl -0pi -e 's#Checks both file locations#Checks the agents file location#g' "$product_context_evals"
+  fi
+
+  local ai_seo_ref="$LOCAL_SKILLS_DIR/ai-seo/references/platform-ranking-factors.md"
+  if [[ -f "$ai_seo_ref" ]] && ! rg -q "^> Evidence note:" "$ai_seo_ref"; then
+    perl -0pi -e 's#\nSources cited throughout:#\n> Evidence note: treat benchmark percentages in this document as directional unless independently verified with a current primary source before quoting them in audits or recommendations.\n\nSources cited throughout:#' "$ai_seo_ref"
   fi
 }
 
@@ -182,8 +243,8 @@ write_versions_tracking() {
   )
 
   local included_upstream=()
-  local local_only=()
   local excluded_upstream=()
+  local local_only=()
   local skill
 
   for skill in "${installed_skills[@]}"; do
@@ -243,14 +304,29 @@ $local_only_inline
 
 ## Optimization Policy
 
-1. Canonical skills path is \`.agents/skills/\` (agents-only route).
-2. Local context lives in \`.agents/product-marketing-context.md\`.
-3. \`prosepal-web-context\` remains local and must persist across syncs.
-4. \`scripts/validate-marketing-skills-setup.sh\` must pass after every sync/update.
+1. Canonical skills path is \`.agents/skills/\` (agents-first route).
+2. Shared product context lives in \`.agents/product-marketing-context.md\`.
+3. Shared project constraints live in \`.agents/skills/prosepal-web-context/SKILL.md\`.
+4. Upstream marketing skills stay close to upstream; Prosepal-specific rules are centralized instead of duplicated in every synced skill.
+5. \`scripts/validate-marketing-skills-setup.sh\` must pass after every sync/update.
+6. Canonical keep/sync lists live in \`.agents/skills/.profiles/\` and should be edited there rather than re-hardcoded in scripts.
 EOF
 }
 
+sync_skills() {
+  mkdir -p "$LOCAL_SKILLS_DIR"
+
+  local skill
+  for skill in "${KEEP_UPSTREAM_SKILLS[@]}"; do
+    sync_single_skill "$skill"
+  done
+
+  apply_prosepal_overrides
+}
+
 main() {
+  load_upstream_skill_profile
+
   if [[ $# -lt 1 ]]; then
     usage
     exit 1
@@ -311,10 +387,9 @@ main() {
   case "$mode" in
     --sync)
       sync_skills
-      apply_prosepal_overrides
       write_source_metadata "$upstream_commit"
       write_versions_tracking "$upstream_commit"
-      echo "Synced marketing skills from $REPO_URL@$upstream_commit"
+      echo "Synced selected marketing skills from $REPO_URL@$upstream_commit"
       ;;
     --check)
       local local_commit

@@ -2,6 +2,8 @@
 
 Each AI search platform has its own search index, ranking logic, and content preferences. This guide covers what matters for getting cited on each one.
 
+> Evidence note: treat benchmark percentages in this document as directional unless independently verified with a current primary source before quoting them in audits or recommendations.
+
 Sources cited throughout: Princeton GEO study (KDD 2024), SE Ranking domain authority study, ZipTie content-answer fit analysis.
 
 ---

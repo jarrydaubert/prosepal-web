@@ -1,6 +1,6 @@
 # Title Length Validation
 
-Date: 2026-04-28T16:13:47.539Z
+Date: 2026-04-29T08:36:04.800Z
 
 Guidance:
 - Keep high-priority page titles concise (usually 45-65 characters including brand suffix).

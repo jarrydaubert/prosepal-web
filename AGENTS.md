@@ -71,19 +71,24 @@ bun run check
 - `CLAUDE.md`: minimal pointer.
 - `docs/guides/OPS_RUNBOOK.md`: DevOps and release operations source of truth.
 - `docs/BACKLOG_WEB.md`: TODO-only backlog with explicit Definitions of Ready and Done.
-- `docs/guides/MARKETING_SKILLS_RUNBOOK.md`: skills sync, validation, and upgrade workflow.
+- `docs/guides/SKILLS_AND_COMMANDS.md`: installed commands and agents-native skills guide.
+- `docs/guides/MARKETING_SKILLS_RUNBOOK.md`: skills sync, validation, review, and upgrade workflow.
 
 ## Skills and command sync
 
-- Skills source: `https://github.com/coreyhaines31/marketingskills` (pinned `v1.5.0`).
+- Skills source: `https://github.com/coreyhaines31/marketingskills` (pinned `v1.9.0`).
 - Local skills path: `.agents/skills/`.
-- Refresh commands:
+- Shared product context: `.agents/product-marketing-context.md`.
+- Shared project constraints: `.agents/skills/prosepal-web-context/SKILL.md`.
+- Canonical profiles:
+  - `.agents/skills/.profiles/upstream-marketing-skills.txt`
+  - `.agents/skills/.profiles/prosepal-web-keep.txt`
+- Maintenance commands:
 
 ```bash
-scripts/sync-marketing-skills.sh --check
-scripts/sync-marketing-skills.sh --sync
-scripts/apply-marketing-skill-profile.sh --apply
-scripts/validate-marketing-skills-setup.sh
+bun run skills:review
+bun run skills:check
+bun run skills:sync
 ```
 
 - Upgrade preview for a new tag:
@@ -93,3 +98,21 @@ scripts/sync-marketing-skills.sh --check --tag vX.Y.Z --commit <full_commit_sha>
 ```
 
 - Project slash commands are in `.claude/commands/`.
+
+## Skills reference
+
+Skills are agents-native in Prosepal:
+- upstream marketing skills stay close to upstream
+- Prosepal-specific rules stay centralized in `prosepal-web-context`
+- usage dates live in `.agents/skills/RUN_HISTORY.md`
+- source and inclusion policy live in `.agents/skills/VERSIONS.md`
+
+Core local skills:
+- `prosepal-web-context` — Prosepal web UX, CRO, SEO, analytics, and style constraints.
+- `engineering` — static-site engineering, scripts, generated artifacts, dependencies, and performance.
+- `frontend-design` — polished, non-generic UI direction and implementation.
+- `accessibility` — WCAG 2.2 AA audits and remediation.
+- `codebase-cleanup-sweep` — broad repo cleanup and housekeeping.
+- `design-an-interface` — compare module/script/interface options before implementation.
+- `prd-to-issues` — break plans into vertical, reviewable slices.
+- `tdd` — red/green/refactor workflow for regression-safe changes.
