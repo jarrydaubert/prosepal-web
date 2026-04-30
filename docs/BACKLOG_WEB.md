@@ -23,4 +23,5 @@ A row is Done only when:
 
 | ID | Priority | TODO | Definition Of Done |
 | --- | --- | --- | --- |
+| `WEB-P1-16` | P1 | Restore the scheduled Monthly Governance Audit to green | Rotate the `GH_ADMIN_TOKEN` with the required repository administration/actions read permissions, update the repository variable `GH_ADMIN_TOKEN_EXPIRES_ON`, rerun `Monthly Governance Audit`, record the successful GitHub Actions run URL/ID in the closing notes, and confirm `bun run check` still passes. |
 | `WEB-P1-17` | P1 | Raise production real-experience score above the warning band | The highest-impact above-the-fold performance bottlenecks on the homepage are reduced enough that production Speed Insights no longer shows a warning-state real experience score for the primary audience window; changes are tied to specific metrics (at minimum LCP/FCP or their current replacement in Vercel reporting), documented with before/after evidence, and `bun run check` passes without regressing analytics, accessibility, or interaction behavior. |
