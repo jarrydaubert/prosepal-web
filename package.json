@@ -45,7 +45,8 @@
     "validate:comparison:page": "node scripts/validate-comparison-page.js",
     "validate:blog:images": "node scripts/validate-blog-images.js",
     "validate:schema:prod": "bun run validate:schema:local",
-    "skills:check": "scripts/validate-marketing-skills-setup.sh",
+    "skills:check": "scripts/sync-marketing-skills.sh --check && scripts/validate-marketing-skills-setup.sh",
+    "skills:review": "scripts/review-marketing-skills-updates.sh",
     "skills:sync": "scripts/sync-marketing-skills.sh --sync && scripts/apply-marketing-skill-profile.sh --apply && scripts/validate-marketing-skills-setup.sh",
     "skills:update:check": "scripts/sync-marketing-skills.sh --check && scripts/validate-marketing-skills-setup.sh",
     "audit:github:policy": "node scripts/audit-github-policy-drift.js",
@@ -62,8 +63,11 @@
     "deploy:prod": "bun run check && bun run vercel:check-link && node scripts/enforce-prod-deploy-policy.js && vercel --prod --yes"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.9",
-    "@playwright/test": "^1.58.2",
+    "@biomejs/biome": "^2.4.13",
+    "@playwright/test": "^1.59.1",
     "serve": "^14.2.6"
+  },
+  "overrides": {
+    "brace-expansion": "1.1.13"
   }
 }

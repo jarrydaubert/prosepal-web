@@ -19,8 +19,12 @@ Docs are intentionally structured for public readability:
   Open backlog only, with explicit Definition of Done per item.
 - `guides/OPS_RUNBOOK.md`
   Single source of truth for DevOps, CI/CD, release flow, and operations.
+- `guides/AI_CHATBOT_ARCHITECTURE.md`
+  End-to-end product and technical architecture for a potential AI assistant on the site.
 - `guides/AI_CRAWLER_POLICY.md`
   Decision record for allowed indexing bots vs blocked training bots, including review cadence.
+- `guides/SKILLS_AND_COMMANDS.md`
+  Installed skills, commands, layering model, and usage pattern.
 - `guides/MARKETING_SKILLS_RUNBOOK.md`
   Skills sync and maintenance workflow.
 - `evidence/`

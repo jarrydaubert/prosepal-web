@@ -40,22 +40,53 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
-      - name: Validate admin token secret
+      - name: Classify governance audit context
+        id: audit_context
         env:
+          EVENT_NAME: ${{ github.event_name }}
+          ACTOR: ${{ github.actor }}
+          REPOSITORY: ${{ github.repository }}
+          PR_HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
           GH_ADMIN_TOKEN: ${{ secrets.GH_ADMIN_TOKEN }}
         run: |
-          if [ -n "$GH_ADMIN_TOKEN" ]; then
-            exit 0
+          mode="full"
+          reason="trusted-context"
+
+          if [ "$EVENT_NAME" = "pull_request" ] && [ "$ACTOR" = "dependabot[bot]" ]; then
+            mode="skip-untrusted-pr"
+            reason="dependabot-pull-request-has-no-actions-secrets"
+          elif [ "$EVENT_NAME" = "pull_request" ] && [ "$PR_HEAD_REPO" != "$REPOSITORY" ]; then
+            mode="skip-untrusted-pr"
+            reason="fork-pull-request-has-no-actions-secrets"
+          elif [ -z "$GH_ADMIN_TOKEN" ]; then
+            mode="fail-missing-secret"
+            reason="trusted-context-missing-gh-admin-token"
           fi
+
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "reason=$reason" >> "$GITHUB_OUTPUT"
+
+      - name: Skip privileged governance audit on untrusted pull requests
+        if: steps.audit_context.outputs.mode == 'skip-untrusted-pr'
+        env:
+          SKIP_REASON: ${{ steps.audit_context.outputs.reason }}
+        run: |
+          echo "::notice::Skipping privileged governance audit in this public PR context because $SKIP_REASON. Scheduled/manual audits and pushes to main remain authoritative."
+
+      - name: Validate admin token secret
+        if: steps.audit_context.outputs.mode == 'fail-missing-secret'
+        run: |
           echo "::error::Missing GH_ADMIN_TOKEN secret. Add a fine-grained token with Administration (read) and Actions (read)."
           exit 1
 
       - name: Run GitHub policy drift audit
+        if: steps.audit_context.outputs.mode == 'full'
         env:
           GH_TOKEN: ${{ secrets.GH_ADMIN_TOKEN }}
         run: node scripts/audit-github-policy-drift.js
 
       - name: Validate governance token expiry horizon
+        if: steps.audit_context.outputs.mode == 'full'
         env:
           GH_ADMIN_TOKEN_EXPIRES_ON: ${{ vars.GH_ADMIN_TOKEN_EXPIRES_ON }}
           GH_ADMIN_TOKEN_MIN_DAYS: "30"
@@ -63,6 +94,7 @@ jobs:
 
       - name: Run CI usage budget audit
         id: ci_usage_budget
+        if: steps.audit_context.outputs.mode == 'full'
         env:
           GH_TOKEN: ${{ secrets.GH_ADMIN_TOKEN }}
           GH_CI_MONTHLY_MINUTES_REVIEW: ${{ vars.GH_CI_MONTHLY_MINUTES_REVIEW }}
@@ -77,7 +109,7 @@ jobs:
           exit 0
 
       - name: Print audit evidence
-        if: always()
+        if: always() && steps.audit_context.outputs.mode == 'full'
         run: |
           echo "---- github-policy-drift.md ----"
           cat docs/evidence/github-policy-drift.md
@@ -87,12 +119,12 @@ jobs:
           cat docs/evidence/ci-usage-budget.md
 
       - name: Enforce CI usage budget on authoritative audit runs
-        if: steps.ci_usage_budget.outputs.exit_code != '0' && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
+        if: steps.audit_context.outputs.mode == 'full' && steps.ci_usage_budget.outputs.exit_code != '0' && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
         run: |
           echo "::error::CI usage budget audit failed. Review docs/evidence/ci-usage-budget.md."
           exit 1
 
       - name: Warn on CI usage budget overage during PR and push review loops
-        if: steps.ci_usage_budget.outputs.exit_code != '0' && !(github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
+        if: steps.audit_context.outputs.mode == 'full' && steps.ci_usage_budget.outputs.exit_code != '0' && !(github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
         run: |
           echo "::warning::CI usage budget audit is over budget. Review docs/evidence/ci-usage-budget.md. Scheduled and manual governance audits remain authoritative enforcement points."

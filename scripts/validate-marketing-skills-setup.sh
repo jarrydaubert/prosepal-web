@@ -5,6 +5,7 @@ set -euo pipefail
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SKILLS_DIR="$PROJECT_ROOT/.agents/skills"
 PROFILE_FILE="$SKILLS_DIR/.profiles/prosepal-web-keep.txt"
+UPSTREAM_PROFILE_FILE="$SKILLS_DIR/.profiles/upstream-marketing-skills.txt"
 SOURCE_FILE="$SKILLS_DIR/.sources/marketingskills.json"
 VERSIONS_FILE="$SKILLS_DIR/VERSIONS.md"
 AGENTS_CONTEXT_FILE="$PROJECT_ROOT/.agents/product-marketing-context.md"
@@ -29,6 +30,8 @@ contains_item() {
   done
   return 1
 }
+
+UPSTREAM_SKILLS=()
 
 if [[ ! -d "$SKILLS_DIR" ]]; then
   error "Missing skills directory: $SKILLS_DIR"
@@ -58,12 +61,17 @@ if [[ ! -f "$PROFILE_FILE" ]]; then
   error "Missing skills profile file: $PROFILE_FILE"
 fi
 
+if [[ ! -f "$UPSTREAM_PROFILE_FILE" ]]; then
+  error "Missing upstream skills profile file: $UPSTREAM_PROFILE_FILE"
+fi
+
 if (( error_count > 0 )); then
   exit 1
 fi
 
 ref_value="$(sed -n 's/.*"ref": "\([^"]*\)".*/\1/p' "$SOURCE_FILE" | head -n 1)"
 commit_value="$(sed -n 's/.*"commit": "\([^"]*\)".*/\1/p' "$SOURCE_FILE" | head -n 1)"
+expected_skill_version="${ref_value#v}"
 
 if [[ -z "$ref_value" ]]; then
   error "Could not read ref from $SOURCE_FILE"
@@ -71,6 +79,10 @@ fi
 
 if [[ -z "$commit_value" || ! "$commit_value" =~ ^[0-9a-f]{40}$ ]]; then
   error "Invalid or missing commit SHA in $SOURCE_FILE"
+fi
+
+if [[ -z "$expected_skill_version" ]]; then
+  error "Could not derive skill version from ref value in $SOURCE_FILE"
 fi
 
 if ! rg -q "Version tag: \`$ref_value\`" "$VERSIONS_FILE"; then
@@ -86,8 +98,16 @@ while IFS= read -r line; do
   keep_skills+=("$line")
 done < <(grep -vE '^\s*#|^\s*$' "$PROFILE_FILE")
 
+while IFS= read -r line; do
+  UPSTREAM_SKILLS+=("$line")
+done < <(grep -vE '^\s*#|^\s*$' "$UPSTREAM_PROFILE_FILE")
+
 if [[ "${#keep_skills[@]}" -eq 0 ]]; then
   error "Profile file has no kept skills: $PROFILE_FILE"
+fi
+
+if [[ "${#UPSTREAM_SKILLS[@]}" -eq 0 ]]; then
+  error "Upstream profile file has no kept skills: $UPSTREAM_PROFILE_FILE"
 fi
 
 installed_skills=()
@@ -105,22 +125,14 @@ for keep_skill in "${keep_skills[@]}"; do
   fi
 done
 
-if ! contains_item "prosepal-web-context" "${installed_skills[@]}"; then
-  error "Missing local skill: prosepal-web-context"
-fi
-
 for installed_skill in "${installed_skills[@]}"; do
-  if [[ "$installed_skill" == "prosepal-web-context" ]]; then
-    continue
-  fi
-
   if ! contains_item "$installed_skill" "${keep_skills[@]}"; then
     error "Installed skill is not in keep profile: $installed_skill"
   fi
 done
 
-if rg -n "\.claude/" "$SKILLS_DIR" -g 'SKILL.md' >/tmp/skills-legacy-paths.txt 2>/dev/null; then
-  error "Legacy .claude references remain in skills files (see /tmp/skills-legacy-paths.txt)"
+if rg -n "\.claude/product-marketing-context\.md|\.claude/skills/" "$SKILLS_DIR" >/tmp/prosepal-skills-legacy-paths.txt 2>/dev/null; then
+  error "Legacy .claude references remain in skills files (see /tmp/prosepal-skills-legacy-paths.txt)"
 fi
 
 missing_hook_files=()
@@ -136,6 +148,22 @@ if [[ "${#missing_hook_files[@]}" -gt 0 ]]; then
     error "Missing prosepal-web-context hook in: $missing_hook_file"
   done
 fi
+
+for skill in "${UPSTREAM_SKILLS[@]}"; do
+  skill_file="$SKILLS_DIR/$skill/SKILL.md"
+  if [[ ! -f "$skill_file" ]]; then
+    error "Missing required upstream skill: $skill"
+    continue
+  fi
+
+  if ! rg -q "^  version: ${expected_skill_version}$" "$skill_file"; then
+    error "Version mismatch in $skill_file (expected ${expected_skill_version})"
+  fi
+
+  if rg -q '^## Prosepal Web Context' "$skill_file"; then
+    error "Upstream skill still carries duplicated Prosepal Web Context block: $skill_file"
+  fi
+done
 
 if (( error_count > 0 )); then
   printf "Skills validation failed with %d issue(s).\n" "$error_count" >&2

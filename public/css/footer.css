@@ -28,7 +28,7 @@ footer {
   font-family: var(--font-family-display);
   font-size: var(--font-size-lg-plus);
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .footer-brand img {

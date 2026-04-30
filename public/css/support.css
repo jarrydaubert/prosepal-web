@@ -14,7 +14,7 @@
 }
 
 .contact-card p {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-on-dark-strong);
   margin-bottom: 1rem;
 }
 
@@ -31,7 +31,7 @@
 
 .email-link:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--shadow-black-soft);
   text-decoration: none;
 }
 
