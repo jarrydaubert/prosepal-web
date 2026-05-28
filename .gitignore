@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-bun.lock
+# bun.lock is committed: CI uses `bun install --frozen-lockfile`
 
 # Vercel
 .vercel/

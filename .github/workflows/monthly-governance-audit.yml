@@ -11,15 +11,9 @@ on:
       - "scripts/validate-governance-token-expiry.js"
       - "docs/guides/OPS_RUNBOOK.md"
       - "SECURITY.md"
-  pull_request:
-    branches:
-      - main
-    paths:
-      - ".github/workflows/**"
-      - "scripts/audit-*.js"
-      - "scripts/validate-governance-token-expiry.js"
-      - "docs/guides/OPS_RUNBOOK.md"
-      - "SECURITY.md"
+  # No pull_request trigger: this is a heavy, non-required governance audit.
+  # It must not run on ordinary PRs. Manual (workflow_dispatch), push-to-main,
+  # and scheduled runs remain the authoritative enforcement points.
   schedule:
     - cron: "20 7 1 * *"
     - cron: "20 7 * * 1"
