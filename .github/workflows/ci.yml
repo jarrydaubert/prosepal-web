@@ -27,9 +27,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # Require the committed Bun lockfile (CI installs with --frozen-lockfile).
+          if [ ! -f bun.lock ]; then
+            echo "::error::Missing bun.lock. Commit the Bun lockfile so installs are reproducible."
+            exit 1
+          fi
+          # Block legacy/foreign lockfiles.
           for f in package-lock.json yarn.lock pnpm-lock.yaml bun.lockb; do
             if [ -f "$f" ]; then
-              echo "Disallowed lockfile present: $f"
+              echo "::error::Disallowed lockfile present: $f"
               exit 1
             fi
           done
