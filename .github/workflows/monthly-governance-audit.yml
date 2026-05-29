@@ -1,4 +1,4 @@
-name: Monthly Governance Audit
+name: Governance Audit (manual)
 
 # Manual / advisory only. This repo follows the lightweight web baseline:
 # Repo health + CodeQL are the required checks; governance is advisory.
@@ -122,13 +122,8 @@ jobs:
           echo "---- ci-usage-budget.md ----"
           cat docs/evidence/ci-usage-budget.md
 
-      - name: Enforce CI usage budget on authoritative audit runs
-        if: steps.audit_context.outputs.mode == 'full' && steps.ci_usage_budget.outputs.exit_code != '0' && (github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
+      - name: Enforce CI usage budget on manual audit runs
+        if: steps.audit_context.outputs.mode == 'full' && steps.ci_usage_budget.outputs.exit_code != '0'
         run: |
           echo "::error::CI usage budget audit failed. Review docs/evidence/ci-usage-budget.md."
           exit 1
-
-      - name: Warn on CI usage budget overage during PR and push review loops
-        if: steps.audit_context.outputs.mode == 'full' && steps.ci_usage_budget.outputs.exit_code != '0' && !(github.event_name == 'workflow_dispatch' || github.event_name == 'schedule')
-        run: |
-          echo "::warning::CI usage budget audit is over budget. Review docs/evidence/ci-usage-budget.md. Scheduled and manual governance audits remain authoritative enforcement points."
