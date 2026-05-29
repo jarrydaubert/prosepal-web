@@ -1,22 +1,22 @@
 name: Monthly Governance Audit
 
+# Manual / advisory only. This repo follows the lightweight web baseline:
+# Repo health + CodeQL are the required checks; governance is advisory.
+#
+# Triggers are intentionally limited to workflow_dispatch:
+#   - No `schedule`: scheduled runs created failure emails whenever the
+#     GH_ADMIN_TOKEN PAT expired, turning governance into a recurring
+#     maintenance burden.
+#   - No `push`: avoids the same token-expiry failure when workflow/script
+#     paths change on main.
+#   - No `pull_request`: must never block or noise up ordinary PR work.
+#
+# PREREQUISITE for a meaningful manual run: a valid `GH_ADMIN_TOKEN` secret
+# (fine-grained PAT with Administration: read + Actions: read) and the
+# `GH_ADMIN_TOKEN_EXPIRES_ON` variable. Without it the run self-skips with
+# guidance instead of failing.
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - ".github/workflows/**"
-      - "scripts/audit-*.js"
-      - "scripts/validate-governance-token-expiry.js"
-      - "docs/guides/OPS_RUNBOOK.md"
-      - "SECURITY.md"
-  # No pull_request trigger: this is a heavy, non-required governance audit.
-  # It must not run on ordinary PRs. Manual (workflow_dispatch), push-to-main,
-  # and scheduled runs remain the authoritative enforcement points.
-  schedule:
-    - cron: "20 7 1 * *"
-    - cron: "20 7 * * 1"
 
 concurrency:
   group: monthly-governance-audit-${{ github.workflow }}-${{ github.ref }}
@@ -53,8 +53,8 @@ jobs:
             mode="skip-untrusted-pr"
             reason="fork-pull-request-has-no-actions-secrets"
           elif [ -z "$GH_ADMIN_TOKEN" ]; then
-            mode="fail-missing-secret"
-            reason="trusted-context-missing-gh-admin-token"
+            mode="skip-missing-secret"
+            reason="manual-run-missing-gh-admin-token"
           fi
 
           echo "mode=$mode" >> "$GITHUB_OUTPUT"
@@ -67,11 +67,21 @@ jobs:
         run: |
           echo "::notice::Skipping privileged governance audit in this public PR context because $SKIP_REASON. Scheduled/manual audits and pushes to main remain authoritative."
 
-      - name: Validate admin token secret
-        if: steps.audit_context.outputs.mode == 'fail-missing-secret'
+      - name: Skip governance audit when admin token is absent
+        if: steps.audit_context.outputs.mode == 'skip-missing-secret'
         run: |
-          echo "::error::Missing GH_ADMIN_TOKEN secret. Add a fine-grained token with Administration (read) and Actions (read)."
-          exit 1
+          {
+            echo "## Governance audit skipped (advisory, manual-only)"
+            echo ""
+            echo "This workflow is manual/advisory (workflow_dispatch only) and did not run the privileged audit because \`GH_ADMIN_TOKEN\` is not set."
+            echo ""
+            echo "**To run a full governance audit manually:**"
+            echo "1. Create a fine-grained PAT for this repo with **Administration: read** and **Actions: read**."
+            echo "2. \`gh secret set GH_ADMIN_TOKEN --repo \${{ github.repository }}\` (paste the token)."
+            echo "3. \`gh variable set GH_ADMIN_TOKEN_EXPIRES_ON --repo \${{ github.repository }} --body <YYYY-MM-DD>\`."
+            echo "4. Re-run this workflow via the Actions tab."
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "::notice::Governance audit skipped: GH_ADMIN_TOKEN not set. This is advisory only — see the run summary for manual-run setup. Exiting successfully."
 
       - name: Run GitHub policy drift audit
         if: steps.audit_context.outputs.mode == 'full'
