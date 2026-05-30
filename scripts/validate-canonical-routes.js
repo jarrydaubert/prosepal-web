@@ -71,7 +71,7 @@ function main() {
       (entry) => entry.source === route.htmlPath && entry.destination === route.cleanPath,
     );
 
-    if (!redirect || redirect.permanent !== true) {
+    if (redirect?.permanent !== true) {
       errors.push(`missing permanent redirect ${route.htmlPath} -> ${route.cleanPath}`);
       continue;
     }
