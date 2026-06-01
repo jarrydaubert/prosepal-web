@@ -476,7 +476,7 @@ a:focus-visible {
 
 .occasion-header h2 {
   font-size: var(--font-size-xl-plus);
-  font-weight: 750;
+  font-weight: 700;
   color: var(--md-on-surface);
   margin-bottom: 0.35rem;
 }

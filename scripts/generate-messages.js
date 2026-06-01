@@ -458,7 +458,7 @@ function generateHubPage(pages, editorialMetadata) {
   const metadata = buildMetadata({
     title: "Card Message Examples for Every Occasion",
     description:
-      "Find the perfect words for any greeting card. Browse message examples for sympathy, birthday, wedding, thank you cards and more.",
+      "Browse thoughtful card message examples for sympathy, birthday, wedding, thank you cards and more.",
     pathname: "/messages/",
   });
   const hubDates = getEditorialDatesForPath("/messages/", { metadata: editorialMetadata });
@@ -602,7 +602,7 @@ ${pages
 
   <section class="hub-hero">
     <h1>Card Message Examples</h1>
-    <p>Find the perfect words for any greeting card. Browse examples for specific occasions and relationships, with tips on tone and timing.</p>
+    <p>Browse thoughtful card message examples for specific occasions and relationships, with tips on tone and timing.</p>
   </section>
 
   <main class="posts-section" id="main-content">
