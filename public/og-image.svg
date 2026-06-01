@@ -109,6 +109,6 @@
     <rect x="734" y="408" width="232" height="10" rx="5" fill="#8B96A6" fill-opacity="0.88"/>
 
     <rect x="732" y="468" width="292" height="72" rx="24" fill="url(#buttonGradient)"/>
-    <text x="778" y="512" fill="#FFFFFF" font-family="'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="700">Try your first message free</text>
+    <text x="778" y="512" fill="#FFFFFF" font-family="'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="700">Try one generation free</text>
   </g>
 </svg>

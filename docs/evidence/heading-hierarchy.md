@@ -1,6 +1,6 @@
 # Heading Hierarchy Validation
 
-Date: 2026-04-29T08:36:04.757Z
+Date: 2026-06-01T16:27:40.493Z
 
 Targets scanned: 41 files
 - Scope: templates + blog articles + message detail pages
