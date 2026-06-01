@@ -1,6 +1,6 @@
 (() => {
   const fontStylesheetHref =
-    "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap";
+    "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&display=swap";
 
   function promoteAsyncStylesheet(link) {
     if (!(link instanceof HTMLLinkElement) || link.dataset.asyncPromoted === "true") {

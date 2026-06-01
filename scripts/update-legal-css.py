@@ -4,7 +4,7 @@
 import re
 import os
 
-CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&display=swap');
 
     :root {
       --bg-deep: #050505;
@@ -26,7 +26,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
+      font-family: 'Source Sans 3', -apple-system, sans-serif;
       color: var(--text-primary);
       line-height: 1.6;
       background: var(--bg-deep);
@@ -74,7 +74,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
       align-items: center;
       gap: 0.75rem;
       color: var(--text-primary);
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-weight: 500;
       font-size: 1.2rem;
       min-height: 44px;
@@ -117,7 +117,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
     }
     
     h1 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-size: clamp(2rem, 5vw, 2.5rem);
       font-weight: 400;
       margin-bottom: 0.5rem;
@@ -133,7 +133,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
     }
     
     h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.5rem;
       font-weight: 500;
       margin: 2.5rem 0 1rem;
@@ -142,7 +142,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
     }
     
     h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.15rem;
       font-weight: 500;
       margin: 2rem 0 0.75rem;
@@ -196,7 +196,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
     }
     
     .contact-box h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       margin-top: 0;
       margin-bottom: 1rem;
       color: var(--text-primary);
@@ -225,7 +225,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
       align-items: center;
       gap: 0.5rem;
       color: var(--text-dim);
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-size: 0.9rem;
       margin-bottom: 1rem;
     }

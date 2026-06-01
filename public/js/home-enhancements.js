@@ -228,7 +228,8 @@
         : 45000;
     const popupDismissDays = 14;
     const popupSubmitDays = 90;
-    const conversionIntentSelector = "#android-waitlist-form, .hero-actions, .hero-secondary-links";
+    const conversionIntentSelector =
+      "#android-waitlist-form, .android-waitlist-section, .hero-actions, .hero-secondary-links";
 
     let popupOpen = false;
     let popupSeen = false;

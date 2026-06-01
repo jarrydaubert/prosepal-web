@@ -26,8 +26,8 @@ async function waitForAsyncFonts(page) {
 
     if (document.fonts?.load) {
       await Promise.all([
-        document.fonts.load('600 1rem "Inter"'),
-        document.fonts.load('600 1rem "Playfair Display"'),
+        document.fonts.load('600 1rem "Source Sans 3"'),
+        document.fonts.load('600 1rem "Fraunces"'),
       ]);
     }
 
@@ -46,8 +46,7 @@ async function stabilizeVisualState(page) {
         caret-color: transparent !important;
       }
 
-      .scroll-progress,
-      .hero-scroll-arrow {
+      .scroll-progress {
         display: none !important;
       }
     `,

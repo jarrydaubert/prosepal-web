@@ -4,7 +4,7 @@
 import re
 import os
 
-CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&display=swap');
 
     :root {
       --bg-deep: #050505;
@@ -26,7 +26,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
+      font-family: 'Source Sans 3', -apple-system, sans-serif;
       color: var(--text-primary);
       line-height: 1.7;
       background: var(--bg-deep);
@@ -70,7 +70,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
       align-items: center;
       gap: 0.75rem;
       color: var(--text-primary);
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-weight: 500;
       font-size: 1.2rem;
       letter-spacing: 0.02em;
@@ -121,7 +121,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
     .breadcrumb a:hover { color: var(--spotlight-gold); }
 
     h1 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 400;
       line-height: 1.2;
@@ -143,7 +143,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
     }
 
     .article-content h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.75rem;
       font-weight: 500;
       margin: 3rem 0 1.25rem;
@@ -152,7 +152,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
     }
 
     .article-content h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.3rem;
       font-weight: 500;
       margin: 2.5rem 0 1rem;
@@ -199,7 +199,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
       padding: 1.25rem 1.5rem;
       background: rgba(0, 0, 0, 0.3);
       margin-bottom: 1rem;
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-style: italic;
       font-size: 1.1rem;
       line-height: 1.7;
@@ -232,7 +232,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
     }
 
     .cta-box h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       color: var(--text-primary);
       margin-bottom: 1rem;
       font-size: 1.5rem;
@@ -275,7 +275,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
     }
 
     .tips-box h4 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       color: var(--accent-light);
       margin-bottom: 1rem;
       font-size: 1.1rem;
@@ -294,7 +294,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
     }
 
     .related-section h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-size: 1.25rem;
       font-weight: 500;
       margin-bottom: 1.25rem;
@@ -344,7 +344,7 @@ CINEMATIC_CSS = '''@import url('https://fonts.googleapis.com/css2?family=Playfai
       align-items: center;
       gap: 0.75rem;
       color: var(--text-dim);
-      font-family: 'Playfair Display', serif;
+      font-family: 'Fraunces', serif;
       font-weight: 400;
       font-size: 1rem;
     }

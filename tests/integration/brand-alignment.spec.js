@@ -96,7 +96,7 @@ test("brand tokens and ambient styling stay aligned across page families", async
     expect(rootStyles.primary, `${pageCheck.name} should use coral primary`).toBe("#d4736b");
     expect(rootStyles.background, `${pageCheck.name} should use slate background`).toBe("#151c26");
     expect(rootStyles.displayFont, `${pageCheck.name} should use app display font`).toContain(
-      '"Playfair Display"',
+      '"Fraunces"',
     );
     if (pageCheck.expectsAmbient) {
       const ambientBackground = await page

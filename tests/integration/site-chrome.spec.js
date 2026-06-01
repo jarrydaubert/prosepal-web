@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 
-test("homepage typography uses the Playfair display stack", async ({ page }) => {
+test("homepage typography uses the Fraunces display stack", async ({ page }) => {
   await page.goto("/", { waitUntil: "networkidle" });
 
   const fontLoaderSource = await page.evaluate(async () => {
@@ -8,13 +8,14 @@ test("homepage typography uses the Playfair display stack", async ({ page }) => 
     return response.text();
   });
 
-  expect(fontLoaderSource).toContain("Playfair+Display");
+  expect(fontLoaderSource).toContain("Fraunces");
+  expect(fontLoaderSource).toContain("Source+Sans+3");
   expect(fontLoaderSource).not.toContain("Space+Grotesk");
 
   const headingFamily = await page
     .locator("h1")
     .evaluate((node) => getComputedStyle(node).fontFamily);
-  expect(headingFamily).toContain("Playfair Display");
+  expect(headingFamily).toContain("Fraunces");
 });
 
 test("content-heavy pages start with an opaque navigation backdrop", async ({ page }) => {
