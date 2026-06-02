@@ -15,8 +15,8 @@ const REQUIRED_CODE_SCANNING_TOOLS = ["CodeQL"];
 const REQUIRED_SELECTED_ACTIONS = [
   "actions/checkout@v4",
   "oven-sh/setup-bun@v2",
-  "github/codeql-action/init@v3",
-  "github/codeql-action/analyze@v3",
+  "github/codeql-action/init@v4",
+  "github/codeql-action/analyze@v4",
 ];
 const API_RETRY_ATTEMPTS = 12;
 const API_RETRY_DELAY_SECONDS = 5;

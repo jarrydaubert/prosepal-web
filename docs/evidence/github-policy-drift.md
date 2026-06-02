@@ -1,6 +1,6 @@
 # GitHub Policy Drift Audit
 
-Date: 2026-06-02T08:27:44.389Z
+Date: 2026-06-02T08:33:02.587Z
 Repository: jarrydaubert/prosepal-web
 
 Status: PASS
@@ -9,7 +9,7 @@ Status: PASS
 - PASS: Required status checks (found: CI, CodeQL)
 - PASS: Actions policy (allowed_actions=selected; sha_pinning_required=true)
 - PASS: Workflow token permissions (default=read; can_approve_pr=true)
-- PASS: Selected actions allowlist (patterns=5)
+- PASS: Selected actions allowlist (patterns=4)
 - PASS: Fork PR workflow approval policy (approval_policy=all_external_contributors)
 - PASS: Private vulnerability reporting (enabled=true)
 - PASS: Main ruleset code scanning tools (tools=CodeQL)
