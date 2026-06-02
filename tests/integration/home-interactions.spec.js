@@ -79,7 +79,7 @@ test("demo chips support Arrow/Home/End keyboard navigation", async ({ page }) =
   await expect(first).toHaveAttribute("aria-selected", "true");
 });
 
-test("hero presents a single primary CTA row with secondary actions de-emphasized", async ({
+test("hero keeps one primary CTA and moves Android capture below the first screen", async ({
   page,
 }) => {
   await page.goto("/", { waitUntil: "networkidle" });
@@ -89,8 +89,10 @@ test("hero presents a single primary CTA row with secondary actions de-emphasize
   await expect(page.locator(".hero-actions #hero-app-store")).toBeVisible();
 
   const secondaryActions = page.locator(".hero-secondary-links .hero-link-secondary");
-  await expect(secondaryActions).toHaveCount(2);
-  await expect(page.locator(".hero-waitlist")).toBeVisible();
+  await expect(secondaryActions).toHaveCount(1);
+  await expect(secondaryActions.first()).toHaveAttribute("href", "#android-waitlist");
+  await expect(page.locator(".hero .hero-waitlist")).toHaveCount(0);
+  await expect(page.locator("#android-waitlist .hero-waitlist")).toBeVisible();
 });
 
 test("@smoke waitlist form shows success state on 200 response", async ({ page }) => {

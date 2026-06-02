@@ -37,7 +37,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script defer src="/js/home-font-loader.js"></script>
   <noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   </noscript>
 
   <link rel="stylesheet" href="/css/tokens.css">
@@ -185,49 +185,46 @@
             <strong>3 options</strong>
           </div>
           <p>"I do not have the perfect words, but I am here for the hard days, the quiet ones, and whatever comes next."</p>
-          <div class="hero-message-actions" aria-hidden="true">
-            <span>Warmer</span>
-            <span>Shorter</span>
-            <span>More personal</span>
-          </div>
         </div>
         <div class="hero-actions">
-          <p class="hero-cta-note">Start with sympathy, apology, encouragement, or any card you do not want to get wrong.</p>
           <a href="https://apps.apple.com/app/prosepal/id6757088726" class="store-badge" id="hero-app-store" target="_blank" rel="noopener">
             <img src="/app-store-badge.svg" alt="Get 3 message options in 30 seconds on iOS" width="178" height="53" fetchpriority="high">
           </a>
         </div>
         <div class="hero-secondary-links" aria-label="Secondary actions">
-          <a href="#demo" class="hero-link-secondary">Preview sample messages</a>
-          <a href="#android-waitlist-email" class="hero-link-secondary">On Android? Join waitlist</a>
+          <a href="#android-waitlist" class="hero-link-secondary">Android version? Join the waitlist</a>
         </div>
-        <div class="hero-waitlist">
-          <label class="hero-waitlist-label" for="android-waitlist-email">Android launch waitlist</label>
-          <form
-            class="hero-waitlist-form"
-            id="android-waitlist-form"
-            action="https://formspree.io/f/xgooqzgg"
-            method="POST"
-            >
-            <input
-              type="email"
-              name="email"
-              id="android-waitlist-email"
-              placeholder="you@email.com"
-              autocomplete="email"
-              required
-            >
-            <input type="hidden" name="_subject" value="Prosepal Android Waitlist Signup">
-            <input type="hidden" name="source" value="hero_waitlist">
-            <input type="text" name="_gotcha" class="waitlist-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <button type="submit">Get Early Access</button>
-          </form>
-          <p class="hero-waitlist-status" id="android-waitlist-status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="android-waitlist-section reveal" id="android-waitlist" aria-labelledby="android-waitlist-title">
+      <div class="android-waitlist-panel hero-waitlist">
+        <div class="android-waitlist-copy">
+          <span class="section-tag">Android waitlist</span>
+          <h2 id="android-waitlist-title">Android is next</h2>
+          <p>Prosepal is live on iOS. Join the Android list and we will let you know when early access opens.</p>
         </div>
-        <a href="#features" class="hero-scroll" aria-label="Scroll to features">
-          <span>Scroll to explore</span>
-          <span class="hero-scroll-arrow" aria-hidden="true">↓</span>
-        </a>
+        <form
+          class="hero-waitlist-form"
+          id="android-waitlist-form"
+          action="https://formspree.io/f/xgooqzgg"
+          method="POST"
+          >
+          <label class="sr-only" for="android-waitlist-email">Email address for Android waitlist</label>
+          <input
+            type="email"
+            name="email"
+            id="android-waitlist-email"
+            placeholder="you@email.com"
+            autocomplete="email"
+            required
+          >
+          <input type="hidden" name="_subject" value="Prosepal Android Waitlist Signup">
+          <input type="hidden" name="source" value="hero_waitlist">
+          <input type="text" name="_gotcha" class="waitlist-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit">Get Early Access</button>
+        </form>
+        <p class="hero-waitlist-status" id="android-waitlist-status" aria-live="polite"></p>
       </div>
     </section>
 

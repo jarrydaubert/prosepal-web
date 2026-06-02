@@ -8,10 +8,10 @@
   <rect width="1200" height="630" fill="url(#bg)"/>
   <circle cx="1050" cy="100" r="200" fill="#6750A4" opacity="0.1"/>
   <circle cx="100" cy="80" r="40" fill="#6750A4"/>
-  <text x="155" y="92" font-family="Inter, -apple-system, sans-serif" font-size="32" font-weight="700" fill="#1C1B1F">Prosepal</text>
-  <text x="100" y="280" font-family="Inter, -apple-system, sans-serif" font-size="56" font-weight="800" fill="#1C1B1F">Birthday Card</text>
-  <text x="100" y="360" font-family="Inter, -apple-system, sans-serif" font-size="56" font-weight="800" fill="#6750A4">Messages</text>
-  <text x="100" y="440" font-family="Inter, -apple-system, sans-serif" font-size="28" fill="#49454F">Heartfelt wishes for every relationship</text>
+  <text x="155" y="92" font-family="Source Sans 3, -apple-system, sans-serif" font-size="32" font-weight="700" fill="#1C1B1F">Prosepal</text>
+  <text x="100" y="280" font-family="Source Sans 3, -apple-system, sans-serif" font-size="56" font-weight="800" fill="#1C1B1F">Birthday Card</text>
+  <text x="100" y="360" font-family="Source Sans 3, -apple-system, sans-serif" font-size="56" font-weight="800" fill="#6750A4">Messages</text>
+  <text x="100" y="440" font-family="Source Sans 3, -apple-system, sans-serif" font-size="28" fill="#49454F">Heartfelt wishes for every relationship</text>
   <rect x="100" y="500" width="200" height="50" rx="25" fill="#6750A4"/>
-  <text x="200" y="533" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="white" text-anchor="middle">Read Guide</text>
+  <text x="200" y="533" font-family="Source Sans 3, sans-serif" font-size="18" font-weight="600" fill="white" text-anchor="middle">Read Guide</text>
 </svg>

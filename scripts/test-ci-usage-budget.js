@@ -101,18 +101,18 @@ exit 1
 
 function main() {
   const runs = [
-    createRun("Lighthouse Budget", 1, 640),
-    createRun("Web Quality", 2, 1),
-    createRun("Web Quality", 3, 1),
-    createRun("Web Quality", 4, 1),
-    createRun("Web Quality", 5, 1),
-    createRun("Web Quality", 6, 1),
-    createRun("Web Quality", 7, 1),
-    createRun("Web Quality", 8, 1),
-    createRun("Web Quality", 9, 1),
-    createRun("Web Quality", 10, 1),
-    createRun("Web Quality", 11, 1),
-    createRun("CodeQL Setup", 12, 5),
+    createRun("Manual Diagnostics", 1, 640),
+    createRun("CI", 2, 1),
+    createRun("CI", 3, 1),
+    createRun("CI", 4, 1),
+    createRun("CI", 5, 1),
+    createRun("CI", 6, 1),
+    createRun("CI", 7, 1),
+    createRun("CI", 8, 1),
+    createRun("CI", 9, 1),
+    createRun("CI", 10, 1),
+    createRun("CI", 11, 1),
+    createRun("CodeQL", 12, 5),
   ];
 
   const passResult = runAudit({
@@ -126,7 +126,7 @@ function main() {
   assert.match(passResult.evidence, /monthly review threshold <= 650\.00m/);
   assert.match(passResult.evidence, /monthly total <= 750\.00m/);
   assert.match(passResult.evidence, /Review note: total runtime is above the review threshold/);
-  assert.match(passResult.evidence, /Web Quality average runtime budget \(1\.00m <= 3\.00m\)/);
+  assert.match(passResult.evidence, /CI average runtime budget \(1\.00m <= 8\.00m\)/);
   assert.match(passResult.evidence, /CodeQL average runtime budget \(5\.00m <= 8\.00m\)/);
 
   const failResult = runAudit({

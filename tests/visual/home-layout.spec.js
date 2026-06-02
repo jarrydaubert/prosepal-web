@@ -28,8 +28,8 @@ async function waitForAsyncFonts(page) {
 
     if (document.fonts?.load) {
       await Promise.all([
-        document.fonts.load('600 1rem "Inter"'),
-        document.fonts.load('600 1rem "Playfair Display"'),
+        document.fonts.load('600 1rem "Source Sans 3"'),
+        document.fonts.load('600 1rem "Fraunces"'),
       ]);
     }
 
@@ -62,8 +62,7 @@ test("homepage hero and nav visual baseline", async ({ page }, testInfo) => {
         caret-color: transparent !important;
       }
 
-      .scroll-progress,
-      .hero-scroll-arrow {
+      .scroll-progress {
         display: none !important;
       }
     `,
@@ -104,8 +103,7 @@ test("homepage tips popup visual baseline", async ({ page }, testInfo) => {
         caret-color: transparent !important;
       }
 
-      .scroll-progress,
-      .hero-scroll-arrow {
+      .scroll-progress {
         display: none !important;
       }
     `,

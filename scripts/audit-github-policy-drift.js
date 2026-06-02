@@ -7,16 +7,16 @@ const { execFileSync } = require("node:child_process");
 const ROOT_DIR = path.join(__dirname, "..");
 const LOG_DIR = path.join(ROOT_DIR, "docs", "evidence");
 const LOG_FILE = path.join(LOG_DIR, "github-policy-drift.md");
+const CODEQL_WORKFLOW_FILE = path.join(ROOT_DIR, ".github", "workflows", "codeql.yml");
 const REPO = process.env.GH_REPO || "jarrydaubert/prosepal-web";
 
-const REQUIRED_STATUS_CHECKS = ["CodeQL", "SEO + QA Gate"];
+const REQUIRED_STATUS_CHECKS = ["CI", "CodeQL"];
 const REQUIRED_CODE_SCANNING_TOOLS = ["CodeQL"];
 const REQUIRED_SELECTED_ACTIONS = [
   "actions/checkout@v4",
   "oven-sh/setup-bun@v2",
-  "github/codeql-action/init@v3",
-  "github/codeql-action/autobuild@v3",
-  "github/codeql-action/analyze@v3",
+  "github/codeql-action/init@v4",
+  "github/codeql-action/analyze@v4",
 ];
 const API_RETRY_ATTEMPTS = 12;
 const API_RETRY_DELAY_SECONDS = 5;
@@ -121,7 +121,6 @@ function main() {
   let selectedActions;
   let forkApproval;
   let privateVulnReporting;
-  let codeScanningDefaultSetup;
 
   try {
     rulesetSummaries = ghApi(`repos/${REPO}/rulesets`);
@@ -130,7 +129,6 @@ function main() {
     selectedActions = ghApi(`repos/${REPO}/actions/permissions/selected-actions`);
     forkApproval = ghApi(`repos/${REPO}/actions/permissions/fork-pr-contributor-approval`);
     privateVulnReporting = ghApi(`repos/${REPO}/private-vulnerability-reporting`);
-    codeScanningDefaultSetup = ghApi(`repos/${REPO}/code-scanning/default-setup`);
     if (Array.isArray(rulesetSummaries)) {
       rulesets = rulesetSummaries
         .map((ruleset) => {
@@ -252,13 +250,19 @@ function main() {
     details: `tools=${configuredTools.join(", ") || "none"}`,
   });
 
+  const codeqlWorkflow = fs.existsSync(CODEQL_WORKFLOW_FILE)
+    ? fs.readFileSync(CODEQL_WORKFLOW_FILE, "utf8")
+    : "";
   checks.push({
     ok:
-      codeScanningDefaultSetup?.state === "configured" &&
-      Array.isArray(codeScanningDefaultSetup?.languages) &&
-      codeScanningDefaultSetup.languages.length > 0,
-    name: "GitHub default CodeQL setup",
-    details: `state=${codeScanningDefaultSetup?.state}; languages=${Array.isArray(codeScanningDefaultSetup?.languages) ? codeScanningDefaultSetup.languages.join(", ") : "none"}; schedule=${codeScanningDefaultSetup?.schedule ?? "unknown"}`,
+      codeqlWorkflow.includes("github/codeql-action/init@") &&
+      codeqlWorkflow.includes("github/codeql-action/analyze@") &&
+      codeqlWorkflow.includes("javascript-typescript") &&
+      !codeqlWorkflow.includes("python"),
+    name: "CodeQL workflow source",
+    details: fs.existsSync(CODEQL_WORKFLOW_FILE)
+      ? ".github/workflows/codeql.yml covers javascript-typescript"
+      : ".github/workflows/codeql.yml missing",
   });
 
   const hasFailures = checks.some((check) => !check.ok);

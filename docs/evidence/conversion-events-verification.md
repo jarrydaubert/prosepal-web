@@ -1,9 +1,9 @@
 # Conversion Event Verification
 
-Date: 2026-06-01T16:27:54.757Z
+Date: 2026-06-02T09:01:45.354Z
 
 Status: PASS
-Target: http://127.0.0.1:58706/
+Target: http://127.0.0.1:50002/
 Mode: local static server
 
 Required base events:

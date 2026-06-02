@@ -17,6 +17,8 @@ Scope: DevOps, CI/CD, release, and operational quality practices for `prosepal-w
 - Repository is public and operated within GitHub free-tier constraints; workflows should minimize wasted minutes and must not rely on privileged secrets in untrusted PR contexts.
 - Hosting path is Vercel origin behind Cloudflare edge.
 - Primary local quality gate is `bun run check`.
+- AI-assisted code is allowed; unverified AI-assisted code is not.
+- The GitHub Actions estate is intentionally small: `CI` plus `CodeQL`.
 - SEO generation date source is `PROSEPAL_CONTENT_DATE`.
   By default, `bun run generate:site` resolves this from explicit editorial metadata in `data/editorial-metadata.json` plus inline `datePublished`/`dateModified` values on static blog articles.
   Set `PROSEPAL_CONTENT_DATE=YYYY-MM-DD` explicitly only when you need an override.
@@ -81,47 +83,36 @@ Why this policy exists:
 
 ## CI/CD map
 
-`Web Quality`
-- Runs the full local contract (`bun run check`).
-- Catches content, SEO, schema, accessibility, runtime CSP, analytics-event, interaction, and style regressions in one gate.
-- Also triggers when only interaction tests or `playwright.interaction.config.js` change, so PRs that modify the required QA surface still emit the required `SEO + QA Gate` status check.
-- Uploads diagnostics artifacts on failure to speed triage.
-
-`Visual Regression`
-- Detects unintended UI drift via snapshots.
-- Protects design consistency during content and CSS iteration.
-
-`Lighthouse Budget`
-- Guards user-facing quality trends in performance, accessibility, and SEO.
-- Keeps quality drift visible over time.
+`CI`
+- Required on PRs and pushes to `main`.
+- Installs from `bun.lock` with `bun install --frozen-lockfile`.
+- Blocks tracked `.env`, `.env.local`, and `.env.production` files.
+- Runs the full local contract (`bun run check`), including generated SEO artifacts, lint, metadata tests, validators, accessibility/CSP/event checks, interaction tests, and strict style audit.
+- Runs `bun run build`.
+- Fails if generated message pages or SEO artifacts are not committed.
 
 `CodeQL`
-- Runs via GitHub code scanning default setup for this repository; there is currently no in-repo `.github/workflows/codeql*.yml` source of truth.
-- Produces the required `CodeQL` check on `main`/PRs and backs the active `code_scanning` ruleset requirement.
-- Current live configuration is expected to stay `configured` with supported repo languages and weekly schedule unless the owner intentionally changes GitHub security settings.
+- Required on PRs and pushes to `main`.
+- Runs from `.github/workflows/codeql.yml`.
+- Scans JavaScript/TypeScript with GitHub CodeQL.
+- Backs the repository code-scanning requirement.
 
-`Monthly Governance Audit`
-- Audits policy drift, governance token health, and CI usage patterns.
-- Runs on five paths: manual dispatch, the monthly schedule, a weekly schedule, governance-sensitive PRs to `main`, and governance-sensitive pushes to `main` (`.github/workflows/**`, audit scripts, token-expiry validation, runbook/security policy docs).
-- Scheduled/manual runs and corresponding `push` runs on `main` are authoritative for privileged governance enforcement.
-- Governance-sensitive `pull_request` runs are review-loop checks for trusted same-repo branches only.
-- Secretless public contexts such as fork PRs and Dependabot PRs must emit an explicit skip/notice instead of a misleading failure when `GH_ADMIN_TOKEN` is unavailable; `pull_request_target` is intentionally avoided for privileged governance work on untrusted code.
-- `CI usage` evidence is only trustworthy when the audit proves it paginated far enough to cover the full 30-day window; truncation or API failure must leave a visible `FAIL`/`SKIP`, not a partial count.
-- Default CI usage thresholds are tuned for the current repo cadence: monthly review threshold `650m`, enforced monthly cap `750m`, `Web Quality` average `3m`, and `CodeQL` average `8m`. Repository variables `GH_CI_MONTHLY_MINUTES_REVIEW`, `GH_CI_MONTHLY_MINUTES_MAX`, `GH_CI_WEB_QUALITY_AVG_MINUTES_MAX`, and `GH_CI_CODEQL_AVG_MINUTES_MAX` can override those values without a code change.
-- CI budget overage still records `FAIL` evidence on every path, but only scheduled/manual governance audits enforce that overage as a failing workflow outcome. PR and `push` review-loop runs warn instead so merges are not blocked by a pre-existing monthly budget breach.
-- Prevents silent process erosion and expired-credential surprises.
+`Dependabot`
+- Configured in `.github/dependabot.yml`.
+- Opens weekly grouped PRs for Bun package updates and GitHub Actions updates.
 
-`Release Automation`
-- Handles release PR/version/tag/release-note flow.
-- Reduces manual release steps and metadata drift.
+Repository settings, not YAML:
+- Secret scanning enabled.
+- Push protection enabled.
+- Private vulnerability reporting enabled.
+- Branch protection/ruleset requires `CI` and `CodeQL`.
 
-`Interaction Flake Audit`
-- Re-runs critical browser smoke flows repeatedly.
-- Detects non-deterministic behavior before it reaches users.
-
-`Visual Flake Audit`
-- Re-runs visual snapshots repeatedly with fixed workers.
-- Detects intermittent rendering diffs before they become noisy PR failures.
+Retired from default PR blocking:
+- Visual regression snapshots. Run `bun run test:visual` locally when making deliberate visual changes.
+- Lighthouse budgets. Use as a diagnostic when performance work needs it, not as a merge blocker.
+- Manual control audits. Run `bun run audit:github:policy` or `bun run audit:ci:usage` when repository policy or Actions usage changes.
+- Flake audits. Re-run the focused failing Playwright command manually when investigating a known flaky test.
+- Release automation. Releases are handled through normal PR merge and Vercel deployment unless versioned release notes are intentionally prepared.
 
 ## Release readiness checklist
 
@@ -168,16 +159,10 @@ bun run validate:events:conversion
 bun run validate:formspree:strategy
 ```
 
-- Optional repeatability pass for interaction stability:
+- Optional visual snapshot pass when UI changed deliberately:
 
 ```bash
-bun run test:interaction:flake-audit
-```
-
-- Optional repeatability pass for visual snapshot stability:
-
-```bash
-bun run test:visual:flake-audit
+bun run test:visual
 ```
 
 - If an experiment is active, complete experiment governance checks before decisioning:
@@ -187,7 +172,7 @@ bun run test:visual:flake-audit
 
 Evidence expectations:
 - Validation scripts write/update evidence in `docs/evidence/`.
-- For governance controls, use the successful GitHub Actions run on `main` as authoritative evidence.
+- For CI controls, use the successful `CI` and `CodeQL` runs on the PR or `main` as authoritative evidence.
 
 ## Tips popup trigger policy
 
@@ -213,19 +198,19 @@ Why this policy exists:
 - Push protection enabled.
 - Private vulnerability reporting enabled.
 - Security disclosure flow documented in `SECURITY.md`.
-- Monthly governance audit maintained and monitored.
-- Privileged governance automation never runs repository secrets against untrusted PR code.
+- `.env.example` documents configuration shape without secrets.
+- Real production configuration lives in Vercel/GitHub provider settings, not committed files.
+- Optional GitHub control audits are local/manual and never run repository secrets against untrusted PR code.
 
 Why this matters:
 - Public repos need defensive defaults; these controls reduce accidental secret exposure and policy drift risk.
 
-## Monthly operations review
+## Operations review
 
-- Run governance audits:
+- Run control audits manually when repository settings, Actions policy, branch protection, or Actions usage changes:
 
 ```bash
 bun run audit:github:policy
-bun run audit:governance:token
 bun run audit:ci:usage
 ```
 
@@ -236,26 +221,23 @@ bun run validate:robots:policy
 ```
 
 - Reconfirm `docs/guides/AI_CRAWLER_POLICY.md` assumptions (discovery goals vs training opt-out stance) still match current growth priorities.
-- Confirm required checks in rulesets still match actual workflows.
-- Confirm GitHub default code scanning is still configured for `CodeQL` and still matches the `main` ruleset requirement.
-- Confirm `docs/evidence/ci-usage-budget.md` shows page coverage details (`Pages fetched`, `API page size`, `Oldest fetched run updated_at`) and did not silently truncate inside the 30-day window.
-- If governance-sensitive files changed, confirm `Monthly Governance Audit` ran on the shorter review-loop path (PR to `main`) and, after merge, on the corresponding `push` to `main`.
+- Confirm required checks in rulesets still match actual workflows: `CI` and `CodeQL`.
+- Confirm secret scanning, push protection, private vulnerability reporting, and Dependabot remain enabled.
+- Confirm `docs/evidence/ci-usage-budget.md`, if regenerated, shows page coverage details (`Pages fetched`, `API page size`, `Oldest fetched run updated_at`) and did not silently truncate inside the 30-day window.
 - Review dependency automation and pending upgrades.
 - Review CI runtime/storage trends and tune workflow behavior where needed.
-- If the monthly total stays above the review threshold, inspect the largest workflows first (`Lighthouse Budget`, `Web Quality`, and other high-frequency PR checks) before raising the cap again.
-- Record latest successful governance run URL/ID when closing governance backlog work.
 
 ## Troubleshooting
 
-GitHub API issues during audits
-- Symptom: governance audit scripts fail due to API connectivity.
+GitHub API issues during manual audits
+- Symptom: control audit scripts fail due to API connectivity.
 - Action:
 
 ```bash
-gh run list --workflow "Monthly Governance Audit" --limit 1 --repo jarrydaubert/prosepal-web
+gh run list --workflow "CI" --limit 1 --repo jarrydaubert/prosepal-web
 ```
 
-- If latest `main` run is successful, use that run as authoritative and rerun local checks later.
+- If latest `main` `CI` and `CodeQL` runs are successful, use those runs as authoritative and rerun local audits later.
 
 Stale local evidence files
 - Symptom: evidence files show skip states or old timestamps after transient failures.
@@ -268,13 +250,6 @@ Stale local Git index lock
   - If no live `git` process is holding the repo, remove the stale `.git/index.lock` file and rerun the command.
   - Avoid overlapping local mutating `git` commands; run `git add`, `git commit`, and `git rebase --continue` sequentially.
   - If local signing or editor hooks are hanging, rerun explicitly with the intended editor/signing settings rather than starting a second `git` command in parallel.
-
-Governance token expiry or permission failure
-- Symptom: monthly governance workflow fails token checks or GitHub API access.
-- Action:
-  - Rotate `GH_ADMIN_TOKEN` with the required repo permissions.
-  - Update `GH_ADMIN_TOKEN_EXPIRES_ON`.
-  - Rerun `Monthly Governance Audit` and record the successful run URL/ID.
 
 Production rollback
 - Symptom: production regression after deploy.
