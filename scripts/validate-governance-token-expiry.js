@@ -107,7 +107,7 @@ function main() {
 
   if (!passes) {
     lines.push(
-      "- Action: rotate `GH_ADMIN_TOKEN`, update repo secret, update `GH_ADMIN_TOKEN_EXPIRES_ON`, rerun `Monthly Governance Audit`.",
+      "- Action: rotate `GH_ADMIN_TOKEN`, update repo secret, update `GH_ADMIN_TOKEN_EXPIRES_ON`, then rerun `bun run audit:governance:token` locally.",
     );
   }
 

@@ -17,9 +17,19 @@ const ALLOW_OFFLINE = process.env.ALLOW_OFFLINE_GH_AUDITS === "1";
 const DEFAULT_BUDGETS = {
   monthlyMinutesReview: 650,
   monthlyMinutesMax: 750,
-  webQualityAvgMinutesMax: 3,
+  ciAvgMinutesMax: 8,
   codeqlAvgMinutesMax: 8,
 };
+const RETIRED_WORKFLOW_NAMES = new Set([
+  "Web Quality",
+  "Visual Regression",
+  "Lighthouse Budget",
+  "Interaction Flake Audit",
+  "Visual Flake Audit",
+  "Monthly Governance Audit",
+  "Governance Audit (manual)",
+  "Release Automation",
+]);
 
 const LOG_DIR = resolveEvidenceDir();
 const LOG_FILE = path.join(LOG_DIR, "ci-usage-budget.md");
@@ -74,9 +84,9 @@ function loadBudgets() {
       "GH_CI_MONTHLY_MINUTES_MAX",
       DEFAULT_BUDGETS.monthlyMinutesMax,
     ),
-    webQualityAvgMinutesMax: parsePositiveNumberEnv(
-      "GH_CI_WEB_QUALITY_AVG_MINUTES_MAX",
-      DEFAULT_BUDGETS.webQualityAvgMinutesMax,
+    ciAvgMinutesMax: parsePositiveNumberEnv(
+      "GH_CI_AVG_MINUTES_MAX",
+      DEFAULT_BUDGETS.ciAvgMinutesMax,
     ),
     codeqlAvgMinutesMax: parsePositiveNumberEnv(
       "GH_CI_CODEQL_AVG_MINUTES_MAX",
@@ -248,6 +258,15 @@ function formatMinutes(value) {
 }
 
 /**
+ * Normalize retired workflow names so current evidence does not re-document retired gates.
+ * @param {string} workflowName
+ * @returns {string}
+ */
+function normalizeWorkflowName(workflowName) {
+  return RETIRED_WORKFLOW_NAMES.has(workflowName) ? "Retired workflow history" : workflowName;
+}
+
+/**
  * Write evidence markdown.
  * @param {string[]} lines
  * @returns {void}
@@ -339,7 +358,7 @@ function main() {
     const durationMinutes = Math.max(0, (updatedAt.getTime() - createdAt.getTime()) / 60000);
     totalMinutes += durationMinutes;
 
-    const key = run.workflowName || "Unknown";
+    const key = normalizeWorkflowName(run.workflowName || "Unknown");
     if (!totalsByWorkflow.has(key)) {
       totalsByWorkflow.set(key, {
         runs: 0,
@@ -356,15 +375,12 @@ function main() {
     entry.totalMinutes += durationMinutes;
   }
 
-  const webQuality = aggregateWorkflowTotals(
-    totalsByWorkflow,
-    (workflowName) => workflowName === "Web Quality",
-  );
+  const ci = aggregateWorkflowTotals(totalsByWorkflow, (workflowName) => workflowName === "CI");
   const codeql = aggregateWorkflowTotals(
     totalsByWorkflow,
     (workflowName) => workflowName === "CodeQL" || workflowName.startsWith("CodeQL "),
   );
-  const webQualityAvg = webQuality ? webQuality.totalMinutes / webQuality.runs : 0;
+  const ciAvg = ci ? ci.totalMinutes / ci.runs : 0;
   const codeqlAvg = codeql ? codeql.totalMinutes / codeql.runs : 0;
   const coverageDetails =
     result.coverageReason === "crossed_window_boundary"
@@ -383,9 +399,9 @@ function main() {
       details: `${formatMinutes(totalMinutes)} <= ${formatMinutes(budgets.monthlyMinutesMax)}`,
     },
     {
-      name: "Web Quality average runtime budget",
-      ok: !webQuality || webQualityAvg <= budgets.webQualityAvgMinutesMax,
-      details: `${formatMinutes(webQualityAvg)} <= ${formatMinutes(budgets.webQualityAvgMinutesMax)}`,
+      name: "CI average runtime budget",
+      ok: !ci || ciAvg <= budgets.ciAvgMinutesMax,
+      details: `${formatMinutes(ciAvg)} <= ${formatMinutes(budgets.ciAvgMinutesMax)}`,
     },
     {
       name: "CodeQL average runtime budget",
@@ -399,7 +415,7 @@ function main() {
   lines.push("- Budgets:");
   lines.push(`  - monthly review threshold <= ${formatMinutes(budgets.monthlyMinutesReview)}`);
   lines.push(`  - monthly total <= ${formatMinutes(budgets.monthlyMinutesMax)}`);
-  lines.push(`  - Web Quality avg <= ${formatMinutes(budgets.webQualityAvgMinutesMax)}`);
+  lines.push(`  - CI avg <= ${formatMinutes(budgets.ciAvgMinutesMax)}`);
   lines.push(`  - CodeQL avg <= ${formatMinutes(budgets.codeqlAvgMinutesMax)}`);
   lines.push("");
   lines.push(`- Pages fetched: ${result.pagesFetched}`);

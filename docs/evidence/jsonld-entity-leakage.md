@@ -1,6 +1,6 @@
 # JSON-LD Entity Leakage Validation
 
-Date: 2026-06-01T18:17:09.600Z
+Date: 2026-06-02T08:28:45.867Z
 
 Targets scanned: 32 message detail pages
 - Scope: all JSON-LD script blocks in generated message pages
