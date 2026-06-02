@@ -94,7 +94,7 @@ Why this policy exists:
 `CodeQL`
 - Required on PRs and pushes to `main`.
 - Runs from `.github/workflows/codeql.yml`.
-- Scans JavaScript/TypeScript and Python with GitHub CodeQL.
+- Scans JavaScript/TypeScript with GitHub CodeQL.
 - Backs the repository code-scanning requirement.
 
 `Dependabot`
@@ -110,7 +110,7 @@ Repository settings, not YAML:
 Retired from default PR blocking:
 - Visual regression snapshots. Run `bun run test:visual` locally when making deliberate visual changes.
 - Lighthouse budgets. Use as a diagnostic when performance work needs it, not as a merge blocker.
-- Governance audits. Run `bun run audit:github:policy`, `bun run audit:ci:usage`, or `bun run audit:governance:token` manually when repository policy changes.
+- Manual control audits. Run `bun run audit:github:policy` or `bun run audit:ci:usage` when repository policy or Actions usage changes.
 - Flake audits. Re-run the focused failing Playwright command manually when investigating a known flaky test.
 - Release automation. Releases are handled through normal PR merge and Vercel deployment unless versioned release notes are intentionally prepared.
 
@@ -200,18 +200,17 @@ Why this policy exists:
 - Security disclosure flow documented in `SECURITY.md`.
 - `.env.example` documents configuration shape without secrets.
 - Real production configuration lives in Vercel/GitHub provider settings, not committed files.
-- Optional GitHub governance audits are local/manual and never run repository secrets against untrusted PR code.
+- Optional GitHub control audits are local/manual and never run repository secrets against untrusted PR code.
 
 Why this matters:
 - Public repos need defensive defaults; these controls reduce accidental secret exposure and policy drift risk.
 
 ## Operations review
 
-- Run governance audits manually when repository settings, Actions policy, or branch protection changes:
+- Run control audits manually when repository settings, Actions policy, branch protection, or Actions usage changes:
 
 ```bash
 bun run audit:github:policy
-bun run audit:governance:token
 bun run audit:ci:usage
 ```
 
@@ -231,7 +230,7 @@ bun run validate:robots:policy
 ## Troubleshooting
 
 GitHub API issues during manual audits
-- Symptom: governance audit scripts fail due to API connectivity.
+- Symptom: control audit scripts fail due to API connectivity.
 - Action:
 
 ```bash
@@ -251,13 +250,6 @@ Stale local Git index lock
   - If no live `git` process is holding the repo, remove the stale `.git/index.lock` file and rerun the command.
   - Avoid overlapping local mutating `git` commands; run `git add`, `git commit`, and `git rebase --continue` sequentially.
   - If local signing or editor hooks are hanging, rerun explicitly with the intended editor/signing settings rather than starting a second `git` command in parallel.
-
-Governance token expiry or permission failure
-- Symptom: monthly governance workflow fails token checks or GitHub API access.
-- Action:
-  - Rotate `GH_ADMIN_TOKEN` with the required repo permissions.
-  - Update `GH_ADMIN_TOKEN_EXPIRES_ON`.
-  - Rerun the relevant manual audit command and record the result in closing notes.
 
 Production rollback
 - Symptom: production regression after deploy.

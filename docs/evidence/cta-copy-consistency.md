@@ -1,6 +1,6 @@
 # CTA Copy Consistency
 
-Date: 2026-06-02T08:33:09.574Z
+Date: 2026-06-02T09:01:32.862Z
 
 Targets scanned: 42 HTML files
 

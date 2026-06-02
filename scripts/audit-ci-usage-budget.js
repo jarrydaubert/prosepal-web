@@ -70,7 +70,7 @@ function parsePositiveNumberEnv(name, fallback) {
  * @returns {{
  *   monthlyMinutesReview: number,
  *   monthlyMinutesMax: number,
- *   webQualityAvgMinutesMax: number,
+ *   ciAvgMinutesMax: number,
  *   codeqlAvgMinutesMax: number
  * }}
  */

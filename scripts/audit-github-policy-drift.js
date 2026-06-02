@@ -258,10 +258,10 @@ function main() {
       codeqlWorkflow.includes("github/codeql-action/init@") &&
       codeqlWorkflow.includes("github/codeql-action/analyze@") &&
       codeqlWorkflow.includes("javascript-typescript") &&
-      codeqlWorkflow.includes("python"),
+      !codeqlWorkflow.includes("python"),
     name: "CodeQL workflow source",
     details: fs.existsSync(CODEQL_WORKFLOW_FILE)
-      ? ".github/workflows/codeql.yml covers javascript-typescript and python"
+      ? ".github/workflows/codeql.yml covers javascript-typescript"
       : ".github/workflows/codeql.yml missing",
   });
 

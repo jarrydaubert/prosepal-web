@@ -1,6 +1,6 @@
 # GitHub Policy Drift Audit
 
-Date: 2026-06-02T08:33:02.587Z
+Date: 2026-06-02T09:01:25.469Z
 Repository: jarrydaubert/prosepal-web
 
 Status: PASS
@@ -13,4 +13,4 @@ Status: PASS
 - PASS: Fork PR workflow approval policy (approval_policy=all_external_contributors)
 - PASS: Private vulnerability reporting (enabled=true)
 - PASS: Main ruleset code scanning tools (tools=CodeQL)
-- PASS: CodeQL workflow source (.github/workflows/codeql.yml covers javascript-typescript and python)
+- PASS: CodeQL workflow source (.github/workflows/codeql.yml covers javascript-typescript)

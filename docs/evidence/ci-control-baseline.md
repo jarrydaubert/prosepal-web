@@ -7,7 +7,7 @@ Status: UPDATED
 Current hard gates:
 
 - `CI`: installs from the Bun lockfile, blocks tracked env files, runs `bun run check`, builds the static site, and verifies generated SEO artifacts are committed.
-- `CodeQL`: scans JavaScript/TypeScript and Python through `.github/workflows/codeql.yml`.
+- `CodeQL`: scans JavaScript/TypeScript through `.github/workflows/codeql.yml`.
 
 Current repo controls:
 
@@ -17,15 +17,11 @@ Current repo controls:
 - Private vulnerability reporting: repository setting.
 - Config shape without secrets: `.env.example`.
 
-Retired workflow docs removed:
+Retired workflow artifacts:
 
-- Web Quality / SEO + QA Gate.
-- Visual Regression.
-- Lighthouse Budget.
-- Interaction Flake Audit.
-- Visual Flake Audit.
-- Governance Audit workflow.
-- Release Automation workflow.
+- Workflow-specific YAML files for the former diagnostic, audit, and release gates were deleted.
+- Workflow-specific evidence files for the former diagnostic, audit, and release gates were deleted.
+- Historical GitHub Actions usage from retired workflows is collapsed into `Retired workflow history` by `scripts/audit-ci-usage-budget.js`.
 
 Rationale:
 
