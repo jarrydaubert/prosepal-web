@@ -1,114 +1,42 @@
 # Prosepal
 
-> Card-writing help for sympathy, apologies, milestone moments, thank-you notes, weddings, and more.
+> iOS app for generating thoughtful greeting card messages from occasion, relationship, tone, length, and optional personal details.
 
-Last updated: 2026-03-11
-
-Prosepal helps users get through hard-to-write, tone-sensitive cards without sounding generic. The web experience stays content-led (message examples and blog guides) so broad occasion discovery remains intact while the homepage and app CTA lead with higher-stakes writing moments.
+Last updated: 2026-06-03
 
 ## Main Pages
 
-- [Home](https://www.prosepal.app/): Landing page and app download links
-- [Messages Hub](https://www.prosepal.app/messages/): Message examples by occasion and relationship
-- [Blog Hub](https://www.prosepal.app/blog/): Writing guides and card wording help
+- [Home](https://www.prosepal.app/): App marketing homepage and iOS download link
+- [Messages](https://www.prosepal.app/messages/): Compact message examples hub for common occasions
+- [Guides](https://www.prosepal.app/blog/): Evergreen card writing guides
+- [Support](https://www.prosepal.app/support)
 - [Privacy](https://www.prosepal.app/privacy)
 - [Terms](https://www.prosepal.app/terms)
-- [Support](https://www.prosepal.app/support)
 
-## Coverage Snapshot
+## Product Snapshot
 
-- Message detail pages: 32
-- Blog guides: 7
 - Primary platform: iOS
+- App Store ID: 6757088726
+- Core flow: choose occasion, relationship, tone, length, recipient name, and optional personal details
+- Output: three greeting card message options per generation
+- Coverage: 40 occasions, 14 relationship types, 9 tones, 3 lengths
 
-## Message Guides by Occasion
+## SEO Surface
 
-### Sympathy (5)
-- [Condolence Messages for Loss of a Parent | Prosepal](https://www.prosepal.app/messages/sympathy-card-message-for-parent.html): Find thoughtful condolence messages for someone who lost a parent. 10 examples plus tips for expressing sympathy for the loss of a mother or father.
-- [Sympathy Card Messages for a Coworker | Prosepal](https://www.prosepal.app/messages/sympathy-card-message-for-coworker.html): Find thoughtful sympathy card messages for a coworker. 10 examples plus tips for expressing condolences professionally and genuinely.
-- [Sympathy Card Messages for a Friend | Prosepal](https://www.prosepal.app/messages/sympathy-card-message-for-friend.html): Find heartfelt sympathy card messages for a friend. 10 examples plus tips for expressing genuine condolences during their time of loss.
-- [Sympathy Card Messages for an Acquaintance | Prosepal](https://www.prosepal.app/messages/sympathy-card-message-for-acquaintance.html): Find thoughtful sympathy card messages for an acquaintance. 10 examples plus tips for expressing condolences when you don't know someone well.
-- [Sympathy Messages for Loss of a Spouse | Prosepal](https://www.prosepal.app/messages/sympathy-card-message-for-loss-of-spouse.html): Find thoughtful sympathy card messages for someone who lost a spouse. 10 examples plus tips for acknowledging this devastating loss.
-
-### Birthday (3)
-- [Birthday Card Messages for a Best Friend | Prosepal](https://www.prosepal.app/messages/birthday-card-message-for-friend.html): Find heartfelt birthday card messages for your best friend. 10 examples from funny to sincere, plus tips for writing something they'll keep forever.
-- [Birthday Card Messages for Dad | Prosepal](https://www.prosepal.app/messages/birthday-card-message-for-dad.html): Find heartfelt birthday card messages for dad. 10 examples from funny to sincere, plus tips for writing something he'll remember.
-- [Birthday Card Messages for Mom | Prosepal](https://www.prosepal.app/messages/birthday-card-message-for-mom.html): Find heartfelt birthday card messages for mom. 10 examples from sweet to funny, plus tips for writing something she'll actually treasure.
-
-### Thank You (2)
-- [Thank You Card Messages for a Teacher | Prosepal](https://www.prosepal.app/messages/thank-you-card-message-for-teacher.html): Find heartfelt thank you card messages for a teacher. 10 examples plus tips for showing genuine appreciation for their impact.
-- [Thank You Card Messages for Your Boss | Prosepal](https://www.prosepal.app/messages/thank-you-card-message-for-boss.html): Find professional thank you card messages for your boss. 10 examples plus tips for expressing gratitude without sounding like you're trying too hard.
-
-### Wedding (2)
-- [Wedding Card Messages for a Friend | Prosepal](https://www.prosepal.app/messages/wedding-card-message-for-friend.html): Find heartfelt wedding card messages for a friend. 10 examples from funny to sincere, plus tips for writing something they'll actually treasure.
-- [Wedding Card Messages for Brother or Sister | Prosepal](https://www.prosepal.app/messages/wedding-card-message-for-sibling.html): Find heartfelt wedding card messages for your brother or sister. 10 examples plus tips for celebrating your sibling's big day.
-
-### Graduation (2)
-- [Graduation Card Messages for a Friend | Prosepal](https://www.prosepal.app/messages/graduation-card-message-for-friend.html): Find graduation card messages for a friend. 10 examples plus tips for writing something proud, personal, and memorable.
-- [Graduation Messages for Your Son or Daughter | Prosepal](https://www.prosepal.app/messages/graduation-card-message-for-child.html): Find heartfelt graduation card messages for your child. 10 examples for high school, college, and beyond, plus tips for capturing this moment.
-
-### Get Well (2)
-- [Get Well Card Messages for a Coworker | Prosepal](https://www.prosepal.app/messages/get-well-card-message-for-coworker.html): Find thoughtful get well card messages for a coworker. 10 examples plus tips for striking the right tone between professional and caring.
-- [Get Well Card Messages for a Friend | Prosepal](https://www.prosepal.app/messages/get-well-card-message-for-friend.html): Find thoughtful get well card messages for a friend. 10 examples plus practical tips to sound warm, supportive, and sincere.
-
-### New Baby (2)
-- [New Baby Card Messages for a Coworker | Prosepal](https://www.prosepal.app/messages/new-baby-card-message-for-coworker.html): Find professional and warm new baby card messages for a coworker. 10 examples plus tips for writing the right note at work.
-- [New Baby Card Messages for a Friend | Prosepal](https://www.prosepal.app/messages/new-baby-card-message-for-friend.html): Find heartfelt new baby card messages for a friend. 10 examples plus tips for celebrating their new arrival without being cheesy.
-
-### Retirement (2)
-- [Retirement Card Messages for a Coworker | Prosepal](https://www.prosepal.app/messages/retirement-card-message-for-coworker.html): Find retirement card messages for a coworker. 10 examples plus tips for writing a message that feels respectful and personal.
-- [Retirement Card Messages for Your Boss | Prosepal](https://www.prosepal.app/messages/retirement-card-message-for-boss.html): Find thoughtful retirement card messages for your boss. 10 examples plus tips for celebrating their career and wishing them well.
-
-### Christmas (2)
-- [Christmas Card Messages for a Coworker | Prosepal](https://www.prosepal.app/messages/christmas-card-message-for-coworker.html): Find Christmas card messages for a coworker. 10 examples plus tips for writing holiday wishes that are warm, inclusive, and professional.
-- [Christmas Card Messages for Family | Prosepal](https://www.prosepal.app/messages/christmas-card-message-for-family.html): Find warm Christmas card messages for family. 10 examples plus tips for writing festive, personal holiday notes.
-
-### Valentine's Day (1)
-- [Valentine's Day Card Messages for Your Partner | Prosepal](https://www.prosepal.app/messages/valentines-day-card-message-for-partner.html): Find romantic and heartfelt Valentine’s Day card messages for your partner. 10 examples plus tips to make your note feel personal.
-
-### Mother's Day (1)
-- [Mother's Day Card Messages for Mom | Prosepal](https://www.prosepal.app/messages/mothers-day-card-message-for-mom.html): Find meaningful Mother’s Day card messages for mom. 10 examples plus tips for writing a heartfelt note she will keep forever.
-
-### Father's Day (1)
-- [Father's Day Card Messages for Dad | Prosepal](https://www.prosepal.app/messages/fathers-day-card-message-for-dad.html): Find thoughtful Father’s Day card messages for dad. 10 examples plus tips for writing a message that is warm, personal, and real.
-
-### Anniversary (2)
-- [Anniversary Card Messages for Your Parents | Prosepal](https://www.prosepal.app/messages/anniversary-card-message-for-parents.html): Find heartfelt anniversary card messages for your parents. 10 examples plus tips for celebrating their love and partnership.
-- [Anniversary Card Messages for Your Spouse | Prosepal](https://www.prosepal.app/messages/anniversary-card-message-for-spouse.html): Find anniversary card messages for your spouse. 10 examples plus tips for writing something romantic, specific, and true to your relationship.
-
-### Apology (2)
-- [Apology Card Messages for a Friend | Prosepal](https://www.prosepal.app/messages/apology-card-message-for-friend.html): Find sincere apology card messages for a friend. 10 examples plus tips for saying sorry in a way that actually heals.
-- [Apology Card Messages for Your Partner | Prosepal](https://www.prosepal.app/messages/apology-card-message-for-partner.html): Find apology card messages for your partner. 10 examples plus tips for saying sorry with accountability and care.
-
-### Encouragement (2)
-- [Encouragement Card Messages for a Coworker | Prosepal](https://www.prosepal.app/messages/encouragement-card-message-for-coworker.html): Find encouragement card messages for a coworker. 10 examples plus tips for being supportive without sounding generic or overbearing.
-- [Encouragement Card Messages for a Friend | Prosepal](https://www.prosepal.app/messages/encouragement-card-message-for-friend.html): Find uplifting encouragement card messages for a friend. 10 examples plus tips for supporting them through challenges.
-
-### Farewell (1)
-- [Farewell Card Messages for a Coworker | Prosepal](https://www.prosepal.app/messages/farewell-card-message-for-coworker.html): Find thoughtful farewell card messages for a coworker. 10 examples plus tips for sending them off on their next adventure.
+- Message examples hub: one consolidated page
+- Blog guides: 7
+- Removed generated long-tail message detail pages redirect to `/messages/`
 
 ## Blog Guides
 
-- [Birthday Card Messages That Don't Sound Generic | Prosepal](https://www.prosepal.app/blog/birthday-card-messages.html): Skip the cliches. Find birthday card messages for mom, dad, friends, coworkers & more that actually sound like you wrote them. 60+ examples inside.
-- [Graduation Card Messages They'll Actually Remember | Prosepal](https://www.prosepal.app/blog/graduation-card-messages.html): Skip 'Congrats grad!' Find graduation card messages for high school, college, and beyond. 50+ examples for sons, daughters, friends, and more.
-- [Is Prosepal Pro Worth It? Pricing Value Guide | Prosepal](https://www.prosepal.app/blog/is-prosepal-pro-worth-it.html): Is Prosepal Pro worth paying for? Use this practical pricing-value guide to decide based on your card-writing frequency and use cases.
-- [Prosepal vs ChatGPT for Greeting Cards | Prosepal](https://www.prosepal.app/blog/prosepal-vs-chatgpt-greeting-cards.html): Compare Prosepal vs ChatGPT for greeting card writing. See differences in speed, personalization flow, editing control, and when each option is best.
-- [Thank You Card Wording for Every Situation | Prosepal](https://www.prosepal.app/blog/thank-you-card-wording.html): Find the right thank you card wording for gifts, hospitality, job interviews, teachers, and more. 50+ examples that go beyond 'thanks so much!'
-- [What to Write in a Wedding Card: 50+ Message Examples | Prosepal](https://www.prosepal.app/blog/wedding-card-message.html): Find the perfect wedding card message for friends, family, or coworkers. 50+ examples from heartfelt to funny, plus tips on what to avoid.
-- [What to Write in a Sympathy Card: 50 Examples | Prosepal](https://www.prosepal.app/blog/what-to-write-in-sympathy-card.html): Struggling with what to write in a sympathy card? Find 50 heartfelt condolence messages for friends, family, coworkers & more. Plus tips to avoid cliches.
+- [What to Write in a Sympathy Card](https://www.prosepal.app/blog/what-to-write-in-sympathy-card.html)
+- [Birthday Card Messages](https://www.prosepal.app/blog/birthday-card-messages.html)
+- [Thank You Card Wording](https://www.prosepal.app/blog/thank-you-card-wording.html)
+- [Wedding Card Messages](https://www.prosepal.app/blog/wedding-card-message.html)
+- [Graduation Card Messages](https://www.prosepal.app/blog/graduation-card-messages.html)
+- [Prosepal vs ChatGPT for Greeting Cards](https://www.prosepal.app/blog/prosepal-vs-chatgpt-greeting-cards.html)
+- [Is Prosepal Pro Worth It?](https://www.prosepal.app/blog/is-prosepal-pro-worth-it.html)
 
-## Product
+## Crawler Policy
 
-- iOS App Store: https://apps.apple.com/app/prosepal/id6757088726
-- Pricing: Free trial generation, Pro monthly/yearly
-- Platform: iOS (Android waitlist available on site)
-
-## Crawler & AI Policy
-
-- Allowed search/indexing bots: Googlebot, Bingbot, Applebot, OAI-SearchBot, Claude-SearchBot, PerplexityBot
-- Blocked training bots: GPTBot, ClaudeBot, Google-Extended, Applebot-Extended, CCBot
-
-## Optional
-
-- [Sitemap](https://www.prosepal.app/sitemap.xml)
-- [Robots](https://www.prosepal.app/robots.txt)
+Search crawlers are allowed. Model-training crawlers listed in `robots.txt` are blocked.
