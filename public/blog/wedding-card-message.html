@@ -78,15 +78,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <script defer src="/js/content-font-loader.js"></script>
-  <noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  </noscript>
-  
-  <link rel="stylesheet" href="/css/tokens.css">
-  <link rel="stylesheet" href="/css/nav.css">
-  <link rel="stylesheet" href="/css/footer.css">
-  <link rel="stylesheet" href="/css/blog.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/site.css">
 </head>
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -94,31 +87,23 @@
   <!-- Navigation -->
   <header class="site-header">
     <nav class="header-content" aria-label="Main navigation">
-      <a href="/" class="header-brand">
-        <span>Prosepal</span>
-      </a>
+      <a href="/" class="header-brand">Prosepal</a>
       <div class="header-links">
         <a href="/#features">Features</a>
-        <a href="/#how-it-works">How it works</a>
-        <a href="/#faq">FAQ</a>
         <a href="/messages/">Messages</a>
-        <a href="/blog/">Blog</a>
+        <a href="/blog/">Guides</a>
+        <a href="/support">Support</a>
       </div>
-      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="header-cta">Get 3 Message Options</a>
-      <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
-        <span></span>
-        <span></span>
-        <span></span>
+      <button class="nav-hamburger" id="nav-hamburger" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
       </button>
     </nav>
     <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
       <a href="/">Home</a>
       <a href="/#features">Features</a>
-      <a href="/#how-it-works">How it works</a>
-      <a href="/#faq">FAQ</a>
       <a href="/messages/">Messages</a>
-      <a href="/blog/">Blog</a>
-      <a href="https://apps.apple.com/app/prosepal/id6757088726" class="header-cta">Get 3 Message Options</a>
+      <a href="/blog/">Guides</a>
+      <a href="/support">Support</a>
     </nav>
   </header>
 
@@ -177,17 +162,7 @@
       <div class="cta-box">
         <h3>Need a More Personal Message?</h3>
         <p>Prosepal generates wedding card messages tailored to your specific relationship. 3 options in under 30 seconds.</p>
-        <a href="https://apps.apple.com/app/prosepal/id6757088726" class="cta-button">Get 3 Message Options</a>
-        <div class="waitlist-inline">
-          <p class="waitlist-inline-label">On Android? Join the waitlist.</p>
-          <form class="waitlist-inline-form" data-waitlist-surface="blog_article_waitlist" action="https://formspree.io/f/xgooqzgg" method="POST">
-            <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email address for Android waitlist">
-            <input type="hidden" name="source" value="blog_article_waitlist">
-            <input type="text" name="_gotcha" class="waitlist-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <button type="submit">Get Early Access</button>
-            <p class="waitlist-inline-status" data-waitlist-status aria-live="polite"></p>
-          </form>
-        </div>
+        <a href="https://apps.apple.com/app/prosepal/id6757088726" class="store-badge" target="_blank" rel="noopener"><img src="/app-store-badge.svg" alt="Download Prosepal on the App Store" width="178" height="53"></a>
       </div>
 
       <h2>Wedding Messages for Coworkers</h2>
@@ -258,37 +233,25 @@
       <div class="cta-box">
         <h3>Attending Multiple Weddings This Season?</h3>
         <p>Prosepal helps you write unique messages for every couple without repeating yourself across many occasions and relationship types.</p>
-        <a href="https://apps.apple.com/app/prosepal/id6757088726" class="cta-button">Get 3 Message Options</a>
-        <div class="waitlist-inline">
-          <p class="waitlist-inline-label">On Android? Join the waitlist.</p>
-          <form class="waitlist-inline-form" data-waitlist-surface="blog_article_waitlist" action="https://formspree.io/f/xgooqzgg" method="POST">
-            <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email address for Android waitlist">
-            <input type="hidden" name="source" value="blog_article_waitlist">
-            <input type="text" name="_gotcha" class="waitlist-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <button type="submit">Get Early Access</button>
-            <p class="waitlist-inline-status" data-waitlist-status aria-live="polite"></p>
-          </form>
-        </div>
+        <a href="https://apps.apple.com/app/prosepal/id6757088726" class="store-badge" target="_blank" rel="noopener"><img src="/app-store-badge.svg" alt="Download Prosepal on the App Store" width="178" height="53"></a>
       </div>
 
       <h2>Related Message Guides</h2>
       <p>Looking for messages tailored to a specific relationship? Check out these guides:</p>
       <ul>
-        <li><a href="/messages/wedding-card-message-for-friend.html">Wedding Messages for a Friend</a></li>
-        <li><a href="/messages/wedding-card-message-for-sibling.html">Wedding Messages for a Brother or Sister</a></li>
+        <li><a href="/messages/">Wedding Messages for a Friend</a></li>
+        <li><a href="/messages/">Wedding Messages for a Brother or Sister</a></li>
       </ul>
     </div>
   </article>
 
   <footer>
     <div class="footer-content">
-      <div class="footer-brand">
-        <span>Prosepal</span>
-      </div>
-      <nav class="footer-links">
+      <div class="footer-brand"><span>Prosepal</span></div>
+      <nav class="footer-links" aria-label="Footer links">
         <a href="/">Home</a>
         <a href="/messages/">Messages</a>
-        <a href="/blog/">Blog</a>
+        <a href="/blog/">Guides</a>
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms</a>
         <a href="/support">Support</a>
@@ -296,9 +259,6 @@
       <div class="copyright">© 2026 Prosepal. All rights reserved.</div>
     </div>
   </footer>
-  <!-- Vercel Analytics -->
-  <script defer src="/js/mobile-menu.js"></script>
-  <script defer src="/js/analytics.js"></script>
-  <!-- Vercel Speed Insights -->
+  <script defer src="/js/site.js"></script>
 </body>
 </html>

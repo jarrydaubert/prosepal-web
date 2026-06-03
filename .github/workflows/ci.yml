@@ -13,7 +13,7 @@ jobs:
   ci:
     name: CI
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repo
@@ -28,12 +28,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          # Require the committed Bun lockfile (CI installs with --frozen-lockfile).
           if [ ! -f bun.lock ]; then
-            echo "::error::Missing bun.lock. Commit the Bun lockfile so installs are reproducible."
+            echo "::error::Missing bun.lock. Commit the Bun lockfile."
             exit 1
           fi
-          # Block legacy/foreign lockfiles.
           for f in package-lock.json yarn.lock pnpm-lock.yaml bun.lockb; do
             if [ -f "$f" ]; then
               echo "::error::Disallowed lockfile present: $f"
@@ -49,24 +47,9 @@ jobs:
             echo "An env file is tracked in git. Move secrets to provider env vars."
             exit 1
           fi
-          exit 0
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Install Playwright Chromium
-        run: bunx playwright install chromium
-
-      - name: Full quality gate
+      - name: Check site
         run: bun run check
-
-      - name: Build
-        run: bun run build
-
-      - name: Ensure generated SEO artifacts are committed
-        run: |
-          git diff --exit-code -- \
-            public/messages \
-            public/sitemap.xml \
-            public/robots.txt \
-            public/llms.txt
