@@ -8,6 +8,9 @@ node_modules/
 # OS
 .DS_Store
 
+# Local agent/editor settings
+.claude/settings.local.json
+
 # Test artifacts
 test-results/
 playwright-report/
