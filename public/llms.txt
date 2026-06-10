@@ -6,12 +6,12 @@ Last updated: 2026-06-03
 
 ## Main Pages
 
-- [Home](https://www.prosepal.app/): App marketing homepage and iOS download link
-- [Messages](https://www.prosepal.app/messages/): Compact message examples hub for common occasions
-- [Guides](https://www.prosepal.app/blog/): Evergreen card writing guides
-- [Support](https://www.prosepal.app/support)
-- [Privacy](https://www.prosepal.app/privacy)
-- [Terms](https://www.prosepal.app/terms)
+- [Home](https://prosepal.app/): App marketing homepage and iOS download link
+- [Messages](https://prosepal.app/messages/): Compact message examples hub for common occasions
+- [Guides](https://prosepal.app/blog/): Evergreen card writing guides
+- [Support](https://prosepal.app/support)
+- [Privacy](https://prosepal.app/privacy)
+- [Terms](https://prosepal.app/terms)
 
 ## Product Snapshot
 
@@ -29,13 +29,13 @@ Last updated: 2026-06-03
 
 ## Blog Guides
 
-- [What to Write in a Sympathy Card](https://www.prosepal.app/blog/what-to-write-in-sympathy-card.html)
-- [Birthday Card Messages](https://www.prosepal.app/blog/birthday-card-messages.html)
-- [Thank You Card Wording](https://www.prosepal.app/blog/thank-you-card-wording.html)
-- [Wedding Card Messages](https://www.prosepal.app/blog/wedding-card-message.html)
-- [Graduation Card Messages](https://www.prosepal.app/blog/graduation-card-messages.html)
-- [Prosepal vs ChatGPT for Greeting Cards](https://www.prosepal.app/blog/prosepal-vs-chatgpt-greeting-cards.html)
-- [Is Prosepal Pro Worth It?](https://www.prosepal.app/blog/is-prosepal-pro-worth-it.html)
+- [What to Write in a Sympathy Card](https://prosepal.app/blog/what-to-write-in-sympathy-card.html)
+- [Birthday Card Messages](https://prosepal.app/blog/birthday-card-messages.html)
+- [Thank You Card Wording](https://prosepal.app/blog/thank-you-card-wording.html)
+- [Wedding Card Messages](https://prosepal.app/blog/wedding-card-message.html)
+- [Graduation Card Messages](https://prosepal.app/blog/graduation-card-messages.html)
+- [Prosepal vs ChatGPT for Greeting Cards](https://prosepal.app/blog/prosepal-vs-chatgpt-greeting-cards.html)
+- [Is Prosepal Pro Worth It?](https://prosepal.app/blog/is-prosepal-pro-worth-it.html)
 
 ## Crawler Policy
 

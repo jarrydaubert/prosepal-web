@@ -1,0 +1,62 @@
+name: Production Smoke
+
+on:
+  schedule:
+    - cron: "45 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Smoke check production
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check routes, headers, and AASA
+        shell: bash
+        run: |
+          set -uo pipefail
+          fail=0
+
+          check() {
+            local url="$1" expected_status="$2" expected_type="${3:-}"
+            local headers code ctype
+            headers=$(curl -sI -m 15 "$url" | tr -d '\r')
+            code=$(printf '%s\n' "$headers" | head -1 | awk '{print $2}')
+            if [ "$code" != "$expected_status" ]; then
+              echo "::error::$url returned ${code:-no response}, expected $expected_status"
+              fail=1
+              return
+            fi
+            if [ -n "$expected_type" ]; then
+              ctype=$(printf '%s\n' "$headers" | grep -i '^content-type:' | head -1 | cut -d' ' -f2)
+              case "$ctype" in
+                "$expected_type"*) ;;
+                *)
+                  echo "::error::$url content-type is '${ctype:-missing}', expected '$expected_type'"
+                  fail=1
+                  ;;
+              esac
+            fi
+          }
+
+          check "https://prosepal.app/" 200 "text/html"
+          check "https://prosepal.app/blog/" 200 "text/html"
+          check "https://prosepal.app/messages/" 200 "text/html"
+          check "https://prosepal.app/privacy" 200 "text/html"
+          check "https://prosepal.app/css/site.css" 200 "text/css"
+          check "https://prosepal.app/sitemap.xml" 200
+          check "https://prosepal.app/this-page-does-not-exist" 404
+          check "https://prosepal.app/.well-known/apple-app-site-association" 200 "application/json"
+          check "https://www.prosepal.app/" 308
+
+          appstore=$(curl -s -o /dev/null -w "%{http_code}" -L -m 20 "https://apps.apple.com/app/prosepal/id6757088726")
+          if [ "$appstore" != "200" ]; then
+            echo "::error::App Store listing returned $appstore, expected 200"
+            fail=1
+          fi
+
+          exit "$fail"

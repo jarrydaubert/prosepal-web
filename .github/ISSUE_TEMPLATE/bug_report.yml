@@ -42,7 +42,7 @@ body:
     id: page
     attributes:
       label: URL/page
-      placeholder: https://www.prosepal.app/...
+      placeholder: https://prosepal.app/...
 
   - type: textarea
     id: context
