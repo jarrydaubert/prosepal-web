@@ -10,7 +10,3 @@ node_modules/
 
 # Local agent/editor settings
 .claude/settings.local.json
-
-# Test artifacts
-test-results/
-playwright-report/

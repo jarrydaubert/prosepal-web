@@ -6,6 +6,11 @@ const path = require("node:path");
 const root = process.cwd();
 const publicDir = path.join(root, "public");
 
+// Canonical host decision (2026-06-10): apex, matching the production redirect
+// and the iOS app's associated-domains entitlement.
+const canonicalOrigin = "https://prosepal.app";
+const bannedHostPattern = /www\.prosepal\.app/;
+
 const requiredFiles = [
   "index.html",
   "messages/index.html",
@@ -35,6 +40,11 @@ const removedAssetPatterns = [
   /\/css\/(?:tokens|nav|footer|home|home-deferred|content|messages|blog|support|not-found)\.css/,
   /\/js\/(?:analytics|experiments|home|home-enhancements|home-font-loader|content-font-loader|mobile-menu|not-found-analytics)\.js/,
 ];
+
+// Pages intentionally without the shared site chrome.
+const chromeExempt = new Set(["404.html"]);
+const headerPattern = /<header class="site-header">[\s\S]*?<\/header>/;
+const footerPattern = /<footer>[\s\S]*?<\/footer>/;
 
 function fail(message) {
   console.error(`validate-site: ${message}`);
@@ -66,6 +76,11 @@ function fileForRoute(route) {
   return path.join(publicDir, `${cleanRoute}.html`);
 }
 
+function extractChromeBlock(html, pattern) {
+  const match = html.match(pattern);
+  return match ? match[0].replace(/\s+/g, " ").trim() : null;
+}
+
 for (const file of requiredFiles) {
   if (!fs.existsSync(path.join(publicDir, file))) {
     fail(`missing required file public/${file}`);
@@ -80,6 +95,14 @@ if (messageDetailPages.length > 0) {
   fail(`expected only messages/index.html, found: ${messageDetailPages.join(", ")}`);
 }
 
+const referenceHtml = fs.readFileSync(path.join(publicDir, "index.html"), "utf8");
+const referenceHeader = extractChromeBlock(referenceHtml, headerPattern);
+const referenceFooter = extractChromeBlock(referenceHtml, footerPattern);
+
+if (!referenceHeader || !referenceFooter) {
+  fail("public/index.html is missing the reference site header or footer");
+}
+
 const htmlFiles = walk(publicDir).filter((file) => file.endsWith(".html"));
 
 for (const file of htmlFiles) {
@@ -90,9 +113,35 @@ for (const file of htmlFiles) {
     fail(`public/${relative} does not include /css/site.css`);
   }
 
+  if (bannedHostPattern.test(html)) {
+    fail(`public/${relative} references www.prosepal.app; canonical host is ${canonicalOrigin}`);
+  }
+
+  if (relative !== "404.html" && !html.includes(`<link rel="canonical" href="${canonicalOrigin}`)) {
+    fail(`public/${relative} is missing a canonical link on ${canonicalOrigin}`);
+  }
+
   for (const pattern of removedAssetPatterns) {
     if (pattern.test(html)) {
       fail(`public/${relative} still references removed CSS/JS assets`);
+    }
+  }
+
+  const ldBlocks = html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g);
+  for (const [, json] of ldBlocks) {
+    try {
+      JSON.parse(json);
+    } catch (error) {
+      fail(`public/${relative} has invalid JSON-LD: ${error.message}`);
+    }
+  }
+
+  if (!chromeExempt.has(relative)) {
+    if (extractChromeBlock(html, headerPattern) !== referenceHeader) {
+      fail(`public/${relative} site header drifts from public/index.html`);
+    }
+    if (extractChromeBlock(html, footerPattern) !== referenceFooter) {
+      fail(`public/${relative} footer drifts from public/index.html`);
     }
   }
 
@@ -119,19 +168,44 @@ for (const file of htmlFiles) {
   }
 }
 
+for (const file of ["sitemap.xml", "robots.txt", "llms.txt"]) {
+  const content = fs.readFileSync(path.join(publicDir, file), "utf8");
+  if (bannedHostPattern.test(content)) {
+    fail(`public/${file} references www.prosepal.app; canonical host is ${canonicalOrigin}`);
+  }
+}
+
 const sitemap = fs.readFileSync(path.join(publicDir, "sitemap.xml"), "utf8");
-const sitemapUrls = [...sitemap.matchAll(/<loc>https:\/\/www\.prosepal\.app([^<]*)<\/loc>/g)].map(
-  ([, route]) => route,
-);
+const sitemapEntries = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)];
+
+const sitemapUrls = [];
+for (const [, loc, lastmod] of sitemapEntries) {
+  if (!loc.startsWith(`${canonicalOrigin}/`)) {
+    fail(`sitemap URL is not on the canonical host: ${loc}`);
+    continue;
+  }
+
+  const route = loc.slice(canonicalOrigin.length);
+  sitemapUrls.push(route);
+
+  if (!fs.existsSync(fileForRoute(route))) {
+    fail(`sitemap route does not resolve locally: ${route}`);
+    continue;
+  }
+
+  if (route.startsWith("/blog/") && route.endsWith(".html")) {
+    const page = fs.readFileSync(fileForRoute(route), "utf8");
+    const modified = page.match(/"dateModified":\s*"([^"]+)"/);
+    if (modified && modified[1] !== lastmod) {
+      fail(
+        `sitemap lastmod ${lastmod} does not match JSON-LD dateModified ${modified[1]} for ${route}`,
+      );
+    }
+  }
+}
 
 if (sitemapUrls.length < 11) {
   fail("sitemap should keep the compact SEO surface, not collapse to only legal pages");
-}
-
-for (const route of sitemapUrls) {
-  if (!fs.existsSync(fileForRoute(route))) {
-    fail(`sitemap route does not resolve locally: ${route}`);
-  }
 }
 
 if (!process.exitCode) {

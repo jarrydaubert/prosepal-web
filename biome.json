@@ -22,13 +22,21 @@
     "includes": [
       "**/*.json",
       "**/*.js",
+      "**/*.css",
       "!**/node_modules",
       "!**/bun.lockb",
-      "!**/test-results",
       "!**/.vercel",
       "!**/.claude",
       "!**/public/.well-known"
     ]
+  },
+  "css": {
+    "formatter": {
+      "enabled": true
+    },
+    "linter": {
+      "enabled": true
+    }
   },
   "json": {
     "formatter": {

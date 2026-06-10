@@ -10,9 +10,7 @@
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
     "validate": "node scripts/validate-site.js",
-    "check:repo": "bun run lint && bun run validate",
-    "harness:local": "bun run check:repo && bun run build",
-    "check": "bun run check:repo && bun run build"
+    "check": "bun run lint && bun run validate"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.16",
