@@ -1,6 +1,6 @@
 # prosepal-web
 
-Static marketing site for [Prosepal](https://www.prosepal.app), the iOS greeting-card message writer.
+Static marketing site for [Prosepal](https://prosepal.app), the iOS greeting-card message writer.
 
 ## Site Shape
 

@@ -17,4 +17,4 @@ Disallow: /
 User-agent: CCBot
 Disallow: /
 
-Sitemap: https://www.prosepal.app/sitemap.xml
+Sitemap: https://prosepal.app/sitemap.xml
