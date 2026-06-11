@@ -2,7 +2,7 @@
 
 > iOS app for generating thoughtful greeting card messages from occasion, relationship, tone, length, and optional personal details.
 
-Last updated: 2026-06-03
+Last updated: 2026-06-11
 
 ## Main Pages
 
@@ -39,4 +39,4 @@ Last updated: 2026-06-03
 
 ## Crawler Policy
 
-Search crawlers are allowed. Model-training crawlers listed in `robots.txt` are blocked.
+Search crawlers and AI crawlers are allowed. Use this file as the canonical summary of the site and product.
