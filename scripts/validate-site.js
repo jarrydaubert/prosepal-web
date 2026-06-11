@@ -31,6 +31,8 @@ const requiredFiles = [
   "llms.txt",
   "css/site.css",
   "js/site.js",
+  "fonts/fraunces-latin.woff2",
+  "fonts/source-sans-3-latin.woff2",
   "app-store-badge.svg",
   "og-image-v5.jpg",
   ".well-known/apple-app-site-association",
@@ -39,6 +41,8 @@ const requiredFiles = [
 const removedAssetPatterns = [
   /\/css\/(?:tokens|nav|footer|home|home-deferred|content|messages|blog|support|not-found)\.css/,
   /\/js\/(?:analytics|experiments|home|home-enhancements|home-font-loader|content-font-loader|mobile-menu|not-found-analytics)\.js/,
+  // Fonts are self-hosted from /fonts/; never reintroduce Google Fonts requests.
+  /fonts\.(?:googleapis|gstatic)\.com/,
 ];
 
 // Pages intentionally without the shared site chrome.
