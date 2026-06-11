@@ -113,6 +113,10 @@ for (const file of htmlFiles) {
     fail(`public/${relative} does not include /css/site.css`);
   }
 
+  if (!html.includes('src="/_vercel/insights/script.js"')) {
+    fail(`public/${relative} is missing the Vercel Web Analytics script`);
+  }
+
   if (bannedHostPattern.test(html)) {
     fail(`public/${relative} references www.prosepal.app; canonical host is ${canonicalOrigin}`);
   }
@@ -158,6 +162,11 @@ for (const file of htmlFiles) {
     }
 
     if (!value.startsWith("/")) {
+      continue;
+    }
+
+    // Served by the Vercel platform at runtime, not from public/.
+    if (value.startsWith("/_vercel/")) {
       continue;
     }
 

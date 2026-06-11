@@ -13,6 +13,8 @@ Operating guide for contributors and coding agents in `prosepal-web`.
 ## Working Rules
 
 - Canonical host is `https://prosepal.app` (apex). `www` 308-redirects to apex, and the iOS app's associated-domains entitlement uses apex. Never reintroduce `www.prosepal.app` URLs; the validator fails CI on them.
+- Vercel domain config (project `prosepal-web`): apex attached to Production, `www` configured as a 308 Permanent Redirect to apex. Do not flip the canonical to `www`, remove either domain, or redirect apex to `www`.
+- Every page must load `/_vercel/insights/script.js` (Vercel Web Analytics); the validator fails CI if it is missing. The script is platform-injected at runtime, so it has no file in `public/`.
 - Blog URLs keep their `.html` extension (they are indexed); legal pages stay extensionless via `vercel.json` rewrites. Do not migrate URL styles.
 - Keep the site simple: no framework unless there is a clear product reason.
 - Preserve SEO basics when removing pages: update `public/sitemap.xml`, `public/llms.txt`, and redirects in `vercel.json`.
