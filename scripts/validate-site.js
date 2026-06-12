@@ -5,6 +5,7 @@ const path = require("node:path");
 
 const root = process.cwd();
 const publicDir = path.join(root, "public");
+const vercelConfig = JSON.parse(fs.readFileSync(path.join(root, "vercel.json"), "utf8"));
 
 // Canonical host decision (2026-06-10): apex, matching the production redirect
 // and the iOS app's associated-domains entitlement.
@@ -43,6 +44,37 @@ const removedAssetPatterns = [
   /\/js\/(?:analytics|experiments|home|home-enhancements|home-font-loader|content-font-loader|mobile-menu|not-found-analytics)\.js/,
   // Fonts are self-hosted from /fonts/; never reintroduce Google Fonts requests.
   /fonts\.(?:googleapis|gstatic)\.com/,
+];
+
+const blogArticleSlugs = [
+  "what-to-write-in-sympathy-card",
+  "birthday-card-messages",
+  "thank-you-card-wording",
+  "wedding-card-message",
+  "graduation-card-messages",
+  "prosepal-vs-chatgpt-greeting-cards",
+  "is-prosepal-pro-worth-it",
+];
+
+const requiredRedirects = [
+  ["/index.html", "/"],
+  ["/blog", "/blog/"],
+  ["/blog/index.html", "/blog/"],
+  ...blogArticleSlugs.flatMap((slug) => [
+    [`/blog/${slug}`, `/blog/${slug}.html`],
+    [`/blog/${slug}/`, `/blog/${slug}.html`],
+  ]),
+  ["/messages", "/messages/"],
+  ["/messages/index.html", "/messages/"],
+  ["/messages/:slug", "/messages/"],
+  ["/messages/:slug/", "/messages/"],
+  ["/messages/:slug.html", "/messages/"],
+  ["/privacy.html", "/privacy"],
+  ["/privacy/", "/privacy"],
+  ["/terms.html", "/terms"],
+  ["/terms/", "/terms"],
+  ["/support.html", "/support"],
+  ["/support/", "/support"],
 ];
 
 // Pages intentionally without the shared site chrome.
@@ -88,6 +120,19 @@ function extractChromeBlock(html, pattern) {
 for (const file of requiredFiles) {
   if (!fs.existsSync(path.join(publicDir, file))) {
     fail(`missing required file public/${file}`);
+  }
+}
+
+for (const [source, destination] of requiredRedirects) {
+  const hasRedirect = (vercelConfig.redirects ?? []).some(
+    (redirect) =>
+      redirect.source === source &&
+      redirect.destination === destination &&
+      redirect.permanent === true,
+  );
+
+  if (!hasRedirect) {
+    fail(`vercel.json is missing permanent redirect ${source} -> ${destination}`);
   }
 }
 

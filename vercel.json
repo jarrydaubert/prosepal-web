@@ -6,10 +6,85 @@
     { "source": "/blog/index.html", "destination": "/blog/", "permanent": true },
     { "source": "/messages", "destination": "/messages/", "permanent": true },
     { "source": "/messages/index.html", "destination": "/messages/", "permanent": true },
+    { "source": "/messages/:slug", "destination": "/messages/", "permanent": true },
+    { "source": "/messages/:slug/", "destination": "/messages/", "permanent": true },
     { "source": "/messages/:slug.html", "destination": "/messages/", "permanent": true },
+    {
+      "source": "/blog/what-to-write-in-sympathy-card",
+      "destination": "/blog/what-to-write-in-sympathy-card.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/what-to-write-in-sympathy-card/",
+      "destination": "/blog/what-to-write-in-sympathy-card.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/birthday-card-messages",
+      "destination": "/blog/birthday-card-messages.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/birthday-card-messages/",
+      "destination": "/blog/birthday-card-messages.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/thank-you-card-wording",
+      "destination": "/blog/thank-you-card-wording.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/thank-you-card-wording/",
+      "destination": "/blog/thank-you-card-wording.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/wedding-card-message",
+      "destination": "/blog/wedding-card-message.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/wedding-card-message/",
+      "destination": "/blog/wedding-card-message.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/graduation-card-messages",
+      "destination": "/blog/graduation-card-messages.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/graduation-card-messages/",
+      "destination": "/blog/graduation-card-messages.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/prosepal-vs-chatgpt-greeting-cards",
+      "destination": "/blog/prosepal-vs-chatgpt-greeting-cards.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/prosepal-vs-chatgpt-greeting-cards/",
+      "destination": "/blog/prosepal-vs-chatgpt-greeting-cards.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/is-prosepal-pro-worth-it",
+      "destination": "/blog/is-prosepal-pro-worth-it.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/is-prosepal-pro-worth-it/",
+      "destination": "/blog/is-prosepal-pro-worth-it.html",
+      "permanent": true
+    },
     { "source": "/privacy.html", "destination": "/privacy", "permanent": true },
+    { "source": "/privacy/", "destination": "/privacy", "permanent": true },
     { "source": "/terms.html", "destination": "/terms", "permanent": true },
-    { "source": "/support.html", "destination": "/support", "permanent": true }
+    { "source": "/terms/", "destination": "/terms", "permanent": true },
+    { "source": "/support.html", "destination": "/support", "permanent": true },
+    { "source": "/support/", "destination": "/support", "permanent": true }
   ],
   "rewrites": [
     { "source": "/privacy", "destination": "/privacy.html" },
