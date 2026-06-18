@@ -6,10 +6,12 @@ Static marketing site for [Prosepal](https://prosepal.app), the iOS greeting-car
 
 - `public/index.html` - app marketing homepage
 - `public/messages/index.html` - SEO-friendly card message examples hub
-- `public/blog/` - seven high-intent card writing guides
+- `public/blog/` - eleven high-intent card writing guides
 - `public/privacy.html`, `public/terms.html`, `public/support.html` - app/legal support pages
 - `public/.well-known/` - mobile app association files
 - `scripts/validate-site.js` - lightweight static route and asset validator
+- `BACKLOG.md` - working list of SEO/AEO and homepage design improvements
+- `GUIDE-COVERAGE.md` - canonical guide coverage map
 
 The site intentionally stays static. There is no framework, no generated page pipeline, and no browser test dependency.
 
