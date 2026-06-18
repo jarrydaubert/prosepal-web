@@ -26,8 +26,8 @@
   --panel: #1f2a38;
   --panel-strong: #263546;
   --text: #fffaf5;
-  --muted: #b9c3cf;
-  --soft: #8f9aaa;
+  --muted: #d0d8e2;
+  --soft: #aeb8c6;
   --line: rgba(255, 255, 255, 0.13);
   --coral: #d4736b;
   --coral-strong: #f08b82;
@@ -435,6 +435,7 @@ ol {
 .cta-box,
 .contact-card,
 .faq-item,
+.example-card,
 .message-example,
 .conversion-assist,
 .toc-card {
@@ -454,11 +455,11 @@ ol {
 }
 
 .section {
-  padding: clamp(3rem, 7vw, 5rem) 0;
+  padding: clamp(2.35rem, 5.5vw, 4rem) 0;
 }
 
 .section-header {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.35rem;
 }
 
 .section-header h2,
@@ -471,6 +472,7 @@ ol {
 
 .feature-metrics,
 .steps,
+.example-grid,
 .posts-grid,
 .occasion-grid {
   display: grid;
@@ -484,11 +486,12 @@ ol {
 }
 
 .feature-metrics {
-  margin: 1.5rem 0;
+  margin: 1.35rem 0;
 }
 
 .feature-metrics div,
 .step,
+.example-card,
 .message-example,
 .faq-item {
   padding: 1.25rem;
@@ -511,6 +514,38 @@ ol {
 .post-excerpt,
 .message-example p {
   color: var(--muted);
+}
+
+.example-card {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.example-context {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.example-context span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.7rem;
+  border: 1px solid rgba(251, 191, 36, 0.27);
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+  color: var(--gold);
+  background: rgba(251, 191, 36, 0.08);
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.example-card p {
+  color: var(--text);
+  font-size: 1.04rem;
+  line-height: 1.6;
 }
 
 .step h3,
@@ -559,10 +594,34 @@ details {
 }
 
 summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  list-style: none;
   min-height: 2.75rem;
   cursor: pointer;
   color: var(--text);
   font-weight: 800;
+}
+
+summary::marker,
+summary::-webkit-details-marker {
+  display: none;
+  content: "";
+}
+
+summary::after {
+  content: "+";
+  flex: 0 0 auto;
+  color: var(--gold);
+  font-family: var(--font-body);
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+details[open] summary::after {
+  content: "-";
 }
 
 details p {
@@ -911,6 +970,7 @@ footer {
 
   .feature-metrics,
   .steps,
+  .example-grid,
   .posts-grid,
   .occasion-grid {
     grid-template-columns: 1fr;

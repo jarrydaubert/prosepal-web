@@ -2,7 +2,7 @@
 
 > iOS app for generating thoughtful greeting card messages from occasion, relationship, tone, length, and optional personal details.
 
-Last updated: 2026-06-11
+Last updated: 2026-06-18
 
 ## Main Pages
 
@@ -24,7 +24,7 @@ Last updated: 2026-06-11
 ## SEO Surface
 
 - Message examples hub: one consolidated page
-- Blog guides: 7
+- Blog guides: 11
 - Removed generated long-tail message detail pages redirect to `/messages/`
 
 ## Blog Guides
@@ -34,6 +34,10 @@ Last updated: 2026-06-11
 - [Thank You Card Wording](https://prosepal.app/blog/thank-you-card-wording.html)
 - [Wedding Card Messages](https://prosepal.app/blog/wedding-card-message.html)
 - [Graduation Card Messages](https://prosepal.app/blog/graduation-card-messages.html)
+- [What to Write in a Get Well Card](https://prosepal.app/blog/what-to-write-in-a-get-well-card.html)
+- [Anniversary Card Messages](https://prosepal.app/blog/anniversary-card-messages.html)
+- [What to Write in a New Baby Card](https://prosepal.app/blog/what-to-write-in-a-new-baby-card.html)
+- [Retirement Card Messages](https://prosepal.app/blog/retirement-card-messages.html)
 - [Prosepal vs ChatGPT for Greeting Cards](https://prosepal.app/blog/prosepal-vs-chatgpt-greeting-cards.html)
 - [Is Prosepal Pro Worth It?](https://prosepal.app/blog/is-prosepal-pro-worth-it.html)
 

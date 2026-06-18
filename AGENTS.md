@@ -16,6 +16,9 @@ Operating guide for contributors and coding agents in `prosepal-web`.
 - Vercel domain config (project `prosepal-web`): apex attached to Production, `www` configured as a 308 Permanent Redirect to apex. Do not flip the canonical to `www`, remove either domain, or redirect apex to `www`.
 - Every page must load `/_vercel/insights/script.js` (Vercel Web Analytics); the validator fails CI if it is missing. The script is platform-injected at runtime, so it has no file in `public/`.
 - Blog URLs keep their `.html` extension (they are indexed); legal pages stay extensionless via `vercel.json` rewrites. Do not migrate URL styles.
+- Keep one canonical URL per guide topic. Existing `/blog/*.html` guides stay canonical; do not publish competing `/guides/*` pages for the same topic.
+- Third-party tools such as PloyAI may inform content ideas, but do not route DNS, publish `/guides/*`, or proxy paths through third parties unless explicitly re-approved. New occasion guides should ship first-party as `/blog/*.html`.
+- Check `GUIDE-COVERAGE.md` before adding or importing occasion guides.
 - Keep the site simple: no framework unless there is a clear product reason.
 - Preserve SEO basics when removing pages: update `public/sitemap.xml`, `public/llms.txt`, and redirects in `vercel.json`.
 - Use real mobile-app claims from the sibling `prosepal` repo or verified app metadata.

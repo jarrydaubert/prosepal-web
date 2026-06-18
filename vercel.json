@@ -60,6 +60,46 @@
       "permanent": true
     },
     {
+      "source": "/blog/what-to-write-in-a-get-well-card",
+      "destination": "/blog/what-to-write-in-a-get-well-card.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/what-to-write-in-a-get-well-card/",
+      "destination": "/blog/what-to-write-in-a-get-well-card.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/anniversary-card-messages",
+      "destination": "/blog/anniversary-card-messages.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/anniversary-card-messages/",
+      "destination": "/blog/anniversary-card-messages.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/what-to-write-in-a-new-baby-card",
+      "destination": "/blog/what-to-write-in-a-new-baby-card.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/what-to-write-in-a-new-baby-card/",
+      "destination": "/blog/what-to-write-in-a-new-baby-card.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/retirement-card-messages",
+      "destination": "/blog/retirement-card-messages.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/retirement-card-messages/",
+      "destination": "/blog/retirement-card-messages.html",
+      "permanent": true
+    },
+    {
       "source": "/blog/prosepal-vs-chatgpt-greeting-cards",
       "destination": "/blog/prosepal-vs-chatgpt-greeting-cards.html",
       "permanent": true
